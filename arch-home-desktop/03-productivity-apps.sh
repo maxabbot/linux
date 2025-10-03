@@ -1,95 +1,13 @@
-#!/bin/bash
-# Productivity applications and office tools
-# Windows replacements and standard work programs
+#!/usr/bin/env bash
+set -euo pipefail
 
-set -e
+SCRIPT_DIR=$(cd -- "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)
+ROOT_DIR=$(cd -- "${SCRIPT_DIR}/.." >/dev/null 2>&1 && pwd)
+TARGET="${ROOT_DIR}/arch-work-laptop/03-productivity-apps.sh"
 
-echo "=========================================="
-echo "Installing Productivity Applications"
-echo "=========================================="
+if [[ ! -f "${TARGET}" ]]; then
+  echo "Missing shared setup script: ${TARGET}" >&2
+  exit 1
+fi
 
-# Office Suite (LibreOffice as MS Office replacement)
-echo "Installing office suite..."
-sudo pacman -S --noconfirm --needed \
-    libreoffice-fresh \
-    libreoffice-fresh-en-us
-
-# PDF Tools
-echo "Installing PDF tools..."
-sudo pacman -S --noconfirm --needed \
-    okular \
-    pdfarranger \
-    ghostscript
-
-# Web Browsers
-echo "Installing web browsers..."
-sudo pacman -S --noconfirm --needed \
-    firefox \
-    chromium
-
-yay -S --noconfirm --needed \
-    google-chrome
-
-# Communication Tools
-echo "Installing communication tools..."
-yay -S --noconfirm --needed \
-    slack-desktop \
-    discord \
-    zoom \
-    teams-for-linux
-
-# Email Client
-echo "Installing email client..."
-sudo pacman -S --noconfirm --needed \
-    thunderbird
-
-# File Management & Cloud Storage
-echo "Installing file management and cloud tools..."
-sudo pacman -S --noconfirm --needed \
-    thunar \
-    dolphin \
-    ark
-
-yay -S --noconfirm --needed \
-    dropbox \
-    google-drive-ocamlfuse
-
-# Image Editing & Graphics (GIMP as Photoshop replacement)
-echo "Installing image editing tools..."
-sudo pacman -S --noconfirm --needed \
-    gimp \
-    inkscape \
-    imagemagick
-
-# Screenshot & Screen Recording
-echo "Installing screenshot and recording tools..."
-sudo pacman -S --noconfirm --needed \
-    flameshot \
-    obs-studio
-
-# Password Manager
-echo "Installing password manager..."
-sudo pacman -S --noconfirm --needed \
-    keepassxc
-
-# Note-taking & Documentation
-echo "Installing note-taking tools..."
-yay -S --noconfirm --needed \
-    obsidian \
-    joplin-appimage
-
-# Video Conferencing & Media
-echo "Installing media players..."
-sudo pacman -S --noconfirm --needed \
-    vlc \
-    mpv
-
-# System Monitoring
-echo "Installing system monitoring tools..."
-sudo pacman -S --noconfirm --needed \
-    htop \
-    btop \
-    iotop \
-    nethogs
-
-echo "Productivity applications installation complete!"
+exec bash "${TARGET}" "$@"

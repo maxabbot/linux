@@ -1,6 +1,6 @@
 # Arch Linux Work Laptop Setup
 
-This folder contains setup scripts for configuring an Arch Linux work laptop focused on data/software engineering development with standard productivity applications.
+This folder contains scripts for provisioning a data/software engineering workstation on Arch Linux.
 
 ## Prerequisites
 
@@ -8,85 +8,50 @@ This folder contains setup scripts for configuring an Arch Linux work laptop foc
 - Internet connection
 - User account with sudo privileges
 
-## Scripts Overview
+## Scripts overview
 
-### 01-base-system.sh
-Installs essential system utilities and sets up the AUR helper (yay).
-
-**Includes:**
-- System utilities (git, wget, curl, htop, etc.)
-- Compression tools
-- Network tools
-- Yay AUR helper
-
-### 02-development-tools.sh
-Installs comprehensive development environment for data and software engineering.
-
-**Includes:**
-- **Programming Languages:** Python, Node.js, Go, Rust, Java, C/C++
-- **Data Science Tools:** NumPy, Pandas, Matplotlib, Scikit-learn, TensorFlow, PyTorch, Jupyter
-- **Databases:** PostgreSQL, MariaDB, Redis, SQLite
-- **Container Tools:** Docker, Docker Compose, kubectl
-- **IDEs:** VS Code, PyCharm Community, IntelliJ IDEA Community
-- **Version Control:** Git, Git LFS, GitHub CLI
-- **Development Tools:** Postman, DBeaver
-
-### 03-productivity-apps.sh
-Installs productivity applications and Windows program replacements.
-
-**Includes:**
-- **Office Suite:** LibreOffice (MS Office replacement)
-- **Browsers:** Firefox, Chromium, Google Chrome
-- **Communication:** Slack, Discord, Zoom, Teams
-- **Email:** Thunderbird
-- **Cloud Storage:** Dropbox, Google Drive
-- **Image Editing:** GIMP (Photoshop replacement), Inkscape
-- **Screen Tools:** Flameshot, OBS Studio
-- **Password Manager:** KeePassXC
-- **Note-taking:** Obsidian, Joplin
-- **Media Players:** VLC, MPV
-- **System Monitoring:** htop, btop, iotop
+- `01-base-system.sh` — installs essential utilities, networking tools, and bootstraps the `yay` AUR helper.
+- `02-development-tools.sh` — sets up programming languages, data stores, Docker/k8s tooling, IDEs, and development utilities.
+- `03-productivity-apps.sh` — installs office replacements, communication apps, media tools, and general productivity software.
 
 ## Usage
 
-Run the scripts in order:
-
 ```bash
-# Make scripts executable
 chmod +x *.sh
-
-# 1. Install base system and AUR helper
 ./01-base-system.sh
-
-# 2. Install development tools
 ./02-development-tools.sh
-
-# 3. Install productivity applications
 ./03-productivity-apps.sh
 ```
 
 ## Notes
 
-- Scripts use `--noconfirm` flag to avoid interactive prompts
-- You may need to log out and back in after running the development tools script for Docker group changes to take effect
-- Some AUR packages may take time to build
-- Customize the scripts to add or remove packages based on your needs
+- Scripts use `--noconfirm` to minimise interactive prompts; review them before running in production environments.
+- Log out and back in after `02-development-tools.sh` so Docker group membership takes effect.
+- Some AUR packages may take time to build or require manual intervention.
+- Adjust package lists to suit your workflow.
+- The `arch-home-desktop` setup reuses these scripts via thin wrappers; keep shared tooling authoritative here.
 
-## Post-Installation
+## Post-installation
 
-After running all scripts:
-1. Configure Git with your credentials: `git config --global user.name "Your Name"` and `git config --global user.email "your.email@example.com"`
-2. Set up SSH keys for GitHub/GitLab
-3. Configure your IDE preferences
-4. Set up database passwords and configurations
-5. Sign in to cloud storage services
-6. Configure browser sync and extensions
+### Development setup
+
+1. Configure Git: `git config --global user.name "Your Name"` and `git config --global user.email "you@example.com"`.
+2. Generate SSH keys and add them to GitHub/GitLab.
+3. Sign in to container registries or package registries if required.
+4. Configure IDEs (VS Code, JetBrains) and install extensions/plugins.
+5. Secure databases and set passwords for PostgreSQL, MariaDB, and Redis.
+
+### Productivity setup
+
+1. Sign into communication tools (Slack, Teams, Zoom, Discord).
+2. Configure email accounts in Thunderbird.
+3. Connect cloud storage clients (Dropbox, Google Drive, etc.).
+4. Sync browser profiles and extensions.
+5. Import or unlock your password manager vault (KeePassXC, Bitwarden, etc.).
 
 ## Troubleshooting
 
-If you encounter issues:
-- Check internet connection
-- Ensure sufficient disk space
-- Review error messages for specific package failures
-- Some AUR packages may require manual intervention
-- Consult Arch Wiki for specific package issues
+- Verify network connectivity and disk space if package installs fail.
+- Review build logs for AUR packages that error out.
+- Consult the Arch Wiki for package-specific guidance.
+- Re-run scripts as needed; they are idempotent thanks to `--needed` flags.

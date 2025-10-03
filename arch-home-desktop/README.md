@@ -1,183 +1,123 @@
 # Arch Linux Home Desktop Setup
 
-This folder contains setup scripts for configuring an Arch Linux home desktop PC with development tools, productivity applications, gaming support (Steam/Proton, Apollo streaming), and NVIDIA RTX 4070 drivers.
+This folder extends the `arch-work-laptop` automation with home-desktop extras for dedicated GPUs, gaming, and streaming.
 
 ## Prerequisites
 
 - Fresh Arch Linux installation
 - Internet connection
 - User account with sudo privileges
-- NVIDIA RTX 4070 graphics card
+- NVIDIA RTX 4070 (or similar) GPU
 
-## Scripts Overview
+## Relationship to `arch-work-laptop`
 
-### 01-base-system.sh
-Installs essential system utilities and sets up the AUR helper (yay).
+- Scripts `01`–`03` are thin wrappers that execute their counterparts in `../arch-work-laptop`.
+- Run the laptop scripts first to provision the shared base, development, and productivity tooling.
+- Home-desktop scripts focus on GPU drivers, gaming packages, and streaming utilities layered on top of the shared baseline.
 
-**Includes:**
-- System utilities (git, wget, curl, htop, etc.)
-- Compression tools
-- Network tools
-- Yay AUR helper
+## Scripts overview
 
-### 02-development-tools.sh
-Installs comprehensive development environment for data and software engineering.
+### Shared wrappers (01–03)
 
-**Includes:**
-- **Programming Languages:** Python, Node.js, Go, Rust, Java, C/C++
-- **Data Science Tools:** NumPy, Pandas, Matplotlib, Scikit-learn, TensorFlow, PyTorch, Jupyter
-- **Databases:** PostgreSQL, MariaDB, Redis, SQLite
-- **Container Tools:** Docker, Docker Compose, kubectl
-- **IDEs:** VS Code, PyCharm Community, IntelliJ IDEA Community
-- **Version Control:** Git, Git LFS, GitHub CLI
-- **Development Tools:** Postman, DBeaver
+- `01-base-system.sh` → calls `../arch-work-laptop/01-base-system.sh`.
+- `02-development-tools.sh` → calls `../arch-work-laptop/02-development-tools.sh`.
+- `03-productivity-apps.sh` → calls `../arch-work-laptop/03-productivity-apps.sh`.
 
-### 03-productivity-apps.sh
-Installs productivity applications and Windows program replacements.
+### Desktop-only scripts
 
-**Includes:**
-- **Office Suite:** LibreOffice (MS Office replacement)
-- **Browsers:** Firefox, Chromium, Google Chrome
-- **Communication:** Slack, Discord, Zoom, Teams
-- **Email:** Thunderbird
-- **Cloud Storage:** Dropbox, Google Drive
-- **Image Editing:** GIMP (Photoshop replacement), Inkscape
-- **Screen Tools:** Flameshot, OBS Studio
-- **Password Manager:** KeePassXC
-- **Note-taking:** Obsidian, Joplin
-- **Media Players:** VLC, MPV
-- **System Monitoring:** htop, btop, iotop
-
-### 04-nvidia-drivers.sh
-Installs NVIDIA RTX 4070 proprietary drivers and GPU computing support.
-
-**Includes:**
-- **NVIDIA Drivers:** nvidia, nvidia-utils, nvidia-settings
-- **GPU Computing:** CUDA toolkit, cuDNN
-- **Graphics APIs:** Vulkan, OpenCL (with 32-bit support)
-- **Kernel Configuration:** Enables nvidia-drm modeset for Wayland
-- **Monitoring Tools:** nvtop, gpu-screen-recorder
-- **Performance:** NVIDIA persistence daemon
-
-### 05-gaming.sh
-Installs gaming platform with Steam, Proton, and game streaming tools.
-
-**Includes:**
-- **Gaming Platforms:** Steam with Proton, Lutris, Heroic Games Launcher
-- **Proton Tools:** Wine, Winetricks, ProtonUp-Qt (for Proton-GE)
-- **Game Streaming:** Moonlight-Qt (Apollo streaming client)
-- **Game Optimization:** GameMode, Gamescope, MangoHud, GOverlay
-- **Windows Apps:** Bottles (Windows app manager)
-- **Streaming:** OBS Studio for broadcasting
-- **32-bit Support:** Multilib repository enabled
+- `04-nvidia-drivers.sh` — installs proprietary NVIDIA drivers, CUDA/cuDNN, Vulkan/OpenCL support, monitoring tools, and enables DRM modesetting.
+- `05-gaming.sh` — installs Steam, Proton helpers, Lutris, Heroic, Apollo/Moonlight, GameMode, Gamescope, MangoHud, and other gaming utilities.
 
 ## Usage
 
-Run the scripts in order:
+Run the shared scripts first, then the desktop extras:
 
 ```bash
-# Make scripts executable
+# Shared baseline
+pushd ../arch-work-laptop
 chmod +x *.sh
-
-# 1. Install base system and AUR helper
 ./01-base-system.sh
-
-# 2. Install development tools
 ./02-development-tools.sh
-
-# 3. Install productivity applications
 ./03-productivity-apps.sh
+popd
 
-# 4. Install NVIDIA RTX 4070 drivers
+# Desktop enhancements
+chmod +x *.sh
 ./04-nvidia-drivers.sh
-
-# 5. Install gaming software
 ./05-gaming.sh
 ```
 
-## Important Notes
+## Important notes
 
-### NVIDIA Driver Installation
-- **REBOOT REQUIRED** after running script 04 (NVIDIA drivers)
-- The script configures kernel parameters and initramfs for optimal NVIDIA support
-- Wayland support is enabled via nvidia-drm.modeset=1
+### NVIDIA driver installation
 
-### Gaming Setup
-- Multilib repository is automatically enabled for 32-bit game support
-- Enable Steam Play (Proton) in Steam Settings after installation
-- Use ProtonUp-Qt to install Proton-GE for better game compatibility
-- Launch games with MangoHud using: `mangohud %command%` in Steam launch options
+- Reboot after running `04-nvidia-drivers.sh`.
+- The script configures kernel parameters and initramfs for smooth Wayland support (`nvidia-drm.modeset=1`).
+- NVIDIA persistence daemon and monitoring utilities (e.g., `nvtop`) are installed.
 
-### Apollo Streaming (Moonlight)
-- Moonlight-Qt is the open-source client for NVIDIA GameStream/Sunshine
-- Requires a gaming PC with GeForce Experience or Sunshine server
-- Configure the host PC IP in Moonlight settings
+### Gaming setup notes
 
-## Post-Installation
+- Multilib repository is enabled automatically for 32-bit compatibility.
+- Enable Steam Play (Proton) for all titles in Steam settings.
+- Use ProtonUp-Qt to install Proton-GE builds.
+- Add `mangohud %command%` to Steam launch options to display the overlay.
 
-After running all scripts:
+### Apollo streaming (Moonlight)
 
-### Development Setup
-1. Configure Git credentials
-2. Set up SSH keys
-3. Configure IDE preferences
-4. Set up database passwords
+- Moonlight-Qt requires a host PC running GeForce Experience or the Sunshine server.
+- Pair the client with the host and adjust bitrate/resolution to match your network.
 
-### Gaming Setup
-1. **Steam:**
-   - Launch Steam and log in
-   - Enable Proton: Settings → Steam Play → Enable Steam Play for all other titles
-   - Install Proton-GE via ProtonUp-Qt for better compatibility
+## Post-installation
 
-2. **Moonlight Streaming:**
-   - Configure host PC with NVIDIA GameStream or Sunshine
-   - Add host PC in Moonlight-Qt
-   - Test connection and optimize settings
+### Development setup
 
-3. **MangoHud:**
-   - Configure via GOverlay GUI
-   - Add `mangohud %command%` to Steam game launch options
-   - Customize overlay position and metrics
+Follow the post-install checklist in `../arch-work-laptop/README.md` (Git config, SSH keys, IDE personalization, database credentials).
 
-4. **Game Controllers:**
-   - Controllers should work automatically with Steam Input
-   - Configure in Steam Settings → Controller
+### Gaming setup
 
-### NVIDIA Configuration
-1. Run `nvidia-settings` to configure displays and GPU settings
-2. Enable G-SYNC if supported by your monitor
-3. Monitor GPU with `nvtop` command
+1. Launch Steam and sign in.
+2. Enable Proton for all titles and install a Proton-GE build via ProtonUp-Qt.
+3. Configure Moonlight-Qt or Apollo to connect to your host machine.
+4. Tune MangoHud through GOverlay and add it to launch options.
+5. Verify controller mappings in Steam → Settings → Controller.
 
-## Performance Tips
+### NVIDIA configuration
 
-- Use GameMode for optimized game performance: Games launched through Steam/Lutris use it automatically
-- Use MangoHud to monitor FPS and performance metrics
-- For maximum performance, close unnecessary background applications
-- Use Gamescope for custom resolutions and frame rate limiting
-- Enable NVIDIA power management in nvidia-settings
+1. Run `nvidia-settings` to configure displays, G-SYNC, and power management.
+2. Monitor GPU usage with `nvtop` or `nvidia-smi`.
+3. Re-run the driver script if a kernel update breaks the DKMS module.
+
+## Performance tips
+
+- Use GameMode for automatic CPU governor and I/O tuning.
+- Gamescope offers upscaling, frame limiting, and HDR toggles.
+- Close unnecessary background applications before gaming sessions.
+- Persist favorite MangoHud profiles to `~/.config/MangoHud/MangoHud.conf`.
 
 ## Troubleshooting
 
-### NVIDIA Issues
-- If screen is black after driver installation, boot into recovery and check logs
-- Verify driver loaded: `lsmod | grep nvidia`
-- Check NVIDIA GPU: `nvidia-smi`
+### NVIDIA issues
 
-### Gaming Issues
-- Proton compatibility: Check [ProtonDB](https://www.protondb.com/) for game-specific fixes
-- For stubborn games, try different Proton versions (GE versions often work better)
-- Enable debug logs in Steam: `PROTON_LOG=1 %command%`
+- Check `lsmod | grep nvidia` to ensure modules are loaded.
+- Review `journalctl -b -1` after a failed boot for driver errors.
+- If the display manager fails, boot into a TTY and rerun the driver script.
 
-### General Issues
-- Check logs: `journalctl -xe`
-- Ensure sufficient disk space
-- Consult Arch Wiki for specific package issues
-- Some AUR packages may require manual intervention
+### Gaming issues
+
+- Consult [ProtonDB](https://www.protondb.com/) for per-title tweaks.
+- Test alternative Proton versions (GE, Experimental) when games fail to launch.
+- Use `PROTON_LOG=1 %command%` in Steam launch options to capture logs.
+
+### General issues
+
+- Verify network connectivity and disk space before rerunning scripts.
+- Some AUR packages may require manual intervention; follow the build output.
+- Reference the Arch Wiki for package-specific guidance.
 
 ## Resources
 
-- [Arch Wiki - NVIDIA](https://wiki.archlinux.org/title/NVIDIA)
-- [Arch Wiki - Steam](https://wiki.archlinux.org/title/Steam)
-- [ProtonDB](https://www.protondb.com/) - Game compatibility database
-- [Moonlight Docs](https://moonlight-stream.org/) - Game streaming setup
-- [MangoHud](https://github.com/flightlessmango/MangoHud) - Performance overlay
+- [Arch Wiki – NVIDIA](https://wiki.archlinux.org/title/NVIDIA)
+- [Arch Wiki – Steam](https://wiki.archlinux.org/title/Steam)
+- [ProtonDB](https://www.protondb.com/)
+- [Moonlight Documentation](https://moonlight-stream.org/)
+- [MangoHud](https://github.com/flightlessmango/MangoHud)

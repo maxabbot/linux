@@ -1,50 +1,13 @@
-#!/bin/bash
-# Base system setup for Arch Linux home desktop
-# This script should be run after initial Arch installation
+#!/usr/bin/env bash
+set -euo pipefail
 
-set -e
+SCRIPT_DIR=$(cd -- "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)
+ROOT_DIR=$(cd -- "${SCRIPT_DIR}/.." >/dev/null 2>&1 && pwd)
+TARGET="${ROOT_DIR}/arch-work-laptop/01-base-system.sh"
 
-echo "=========================================="
-echo "Arch Linux Home Desktop - Base System Setup"
-echo "=========================================="
-
-# Update system
-echo "Updating system packages..."
-sudo pacman -Syu --noconfirm
-
-# Install essential system utilities
-echo "Installing essential system utilities..."
-sudo pacman -S --noconfirm --needed \
-    base-devel \
-    git \
-    wget \
-    curl \
-    htop \
-    neofetch \
-    tmux \
-    vim \
-    nano \
-    unzip \
-    zip \
-    p7zip \
-    tar \
-    rsync \
-    openssh \
-    man-db \
-    man-pages \
-    bash-completion \
-    networkmanager \
-    network-manager-applet
-
-# Install AUR helper (yay)
-echo "Installing yay AUR helper..."
-if ! command -v yay &> /dev/null; then
-    cd /tmp
-    git clone https://aur.archlinux.org/yay.git
-    cd yay
-    makepkg -si --noconfirm
-    cd ..
-    rm -rf yay
+if [[ ! -f "${TARGET}" ]]; then
+    echo "Missing shared setup script: ${TARGET}" >&2
+    exit 1
 fi
 
-echo "Base system setup complete!"
+exec bash "${TARGET}" "$@"

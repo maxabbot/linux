@@ -101,7 +101,7 @@ get_gaming_aur_packages() {
     ferret
   )
 
-  if [[ "${INSTALL_APOLLO}" == "1" ]]; then
+  if is_truthy "${INSTALL_APOLLO}"; then
     aur_packages+=(apollo-bin)
   fi
 

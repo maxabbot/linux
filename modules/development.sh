@@ -102,15 +102,15 @@ get_development_pacman_packages() {
     "${api_tooling_packages[@]}"
   )
 
-  if [[ "${ENABLE_DATABASE_SERVERS}" == "1" ]]; then
+  if is_truthy "${ENABLE_DATABASE_SERVERS}"; then
     packages+=("${database_server_packages[@]}")
   fi
 
-  if [[ "${ENABLE_DATA_PLATFORMS}" == "1" ]]; then
+  if is_truthy "${ENABLE_DATA_PLATFORMS}"; then
     packages+=("${data_platform_packages[@]}")
   fi
 
-  if [[ "${ENABLE_GUI_DB_CLIENTS}" == "1" ]]; then
+  if is_truthy "${ENABLE_GUI_DB_CLIENTS}"; then
     packages+=("${cli_database_helpers[@]}")
   fi
 

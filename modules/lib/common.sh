@@ -14,6 +14,14 @@ log_success() {
   printf '\033[1;32m[SUCCESS]\033[0m %s\n' "$*"
 }
 
+is_truthy() {
+  local value="${1:-}"
+  case "${value,,}" in
+    1|true|yes|on) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
 update_system() {
   log_info "Updating system packages"
   sudo pacman -Syu --noconfirm

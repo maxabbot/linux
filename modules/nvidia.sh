@@ -39,7 +39,7 @@ get_nvidia_pacman_packages() {
 
   local packages=("${base_packages[@]}")
 
-  if [[ "${ENABLE_CUDA_STACK}" == "1" ]]; then
+  if is_truthy "${ENABLE_CUDA_STACK}"; then
     packages+=("${cuda_packages[@]}")
   fi
 

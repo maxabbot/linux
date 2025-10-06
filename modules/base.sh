@@ -124,7 +124,7 @@ get_base_pacman_packages() {
     base_packages+=(gufw)
   fi
 
-  printf '%s\n' "${base_packages[@]}"
+  printf '%s\n' "${base_packages[@]}" | sort
 }
 
 install_base() {

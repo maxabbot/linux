@@ -1,5 +1,31 @@
 #!/usr/bin/env bash
 
+fail() {
+  local message="${1:-Test failed}"
+  printf '%s\n' "${message}" >&2
+  return 1
+}
+
+assert_success() {
+  if [[ ${status:-0} -ne 0 ]]; then
+    fail "Expected command to succeed (status=${status:-unset})."
+  fi
+}
+
+assert_output() {
+  if [[ "$1" == "--partial" ]]; then
+    local needle="$2"
+    if [[ "${output}" != *"${needle}"* ]]; then
+      fail "Expected output to include substring '${needle}', but got: ${output}"
+    fi
+  else
+    local expected="$1"
+    if [[ "${output}" != "${expected}" ]]; then
+      fail "Expected output '${expected}', but got: ${output}"
+    fi
+  fi
+}
+
 assert_unique_sorted() {
   local -n array_ref="$1"
   local joined sorted sorted_unique

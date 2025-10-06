@@ -22,12 +22,18 @@ setup() {
 }
 
 @test "development packages respond to flags" {
-  ENABLE_DATA_PLATFORMS=0 ENABLE_DATABASE_SERVERS=0 ENABLE_GUI_DB_CLIENTS=0 mapfile -t pkgs < <(get_development_pacman_packages)
+  export ENABLE_DATA_PLATFORMS=0
+  export ENABLE_DATABASE_SERVERS=0
+  export ENABLE_GUI_DB_CLIENTS=0
+  mapfile -t pkgs < <(get_development_pacman_packages)
   refute_array pkgs apache-airflow
   refute_array pkgs postgresql
   refute_array pkgs pgcli
 
-  ENABLE_DATA_PLATFORMS=1 ENABLE_DATABASE_SERVERS=1 ENABLE_GUI_DB_CLIENTS=1 mapfile -t pkgs < <(get_development_pacman_packages)
+  export ENABLE_DATA_PLATFORMS=1
+  export ENABLE_DATABASE_SERVERS=1
+  export ENABLE_GUI_DB_CLIENTS=1
+  mapfile -t pkgs < <(get_development_pacman_packages)
   assert_array pkgs apache-airflow
   assert_array pkgs postgresql
   assert_array pkgs pgcli
@@ -39,15 +45,19 @@ setup() {
 }
 
 @test "nvidia package flag gates cuda" {
-  ENABLE_CUDA_STACK=0 mapfile -t pkgs < <(get_nvidia_pacman_packages)
+  export ENABLE_CUDA_STACK=0
+  mapfile -t pkgs < <(get_nvidia_pacman_packages)
   refute_array pkgs cuda
-  ENABLE_CUDA_STACK=1 mapfile -t pkgs < <(get_nvidia_pacman_packages)
+  export ENABLE_CUDA_STACK=1
+  mapfile -t pkgs < <(get_nvidia_pacman_packages)
   assert_array pkgs cuda
 }
 
 @test "gaming aur list respects apollo flag" {
-  INSTALL_APOLLO=0 mapfile -t pkgs < <(get_gaming_aur_packages)
+  export INSTALL_APOLLO=0
+  mapfile -t pkgs < <(get_gaming_aur_packages)
   refute_array pkgs apollo-bin
-  INSTALL_APOLLO=1 mapfile -t pkgs < <(get_gaming_aur_packages)
+  export INSTALL_APOLLO=1
+  mapfile -t pkgs < <(get_gaming_aur_packages)
   assert_array pkgs apollo-bin
 }

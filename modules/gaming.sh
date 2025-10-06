@@ -20,8 +20,6 @@ _enable_multilib_repo() {
   sudo pacman -Sy
 }
 get_gaming_pacman_packages() {
-  _enable_multilib_repo
-
   local steam_packages=(
     steam
     lib32-mesa
@@ -109,6 +107,8 @@ get_gaming_aur_packages() {
 }
 
 install_gaming_stack() {
+  _enable_multilib_repo
+
   mapfile -t pacman_packages < <(get_gaming_pacman_packages)
   pacman_install "${pacman_packages[@]}"
 

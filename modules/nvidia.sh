@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC1091 # dynamic module includes resolved at runtime
 # NVIDIA driver stack configuration.
 
 SCRIPT_DIR=$(cd -- "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)
@@ -47,17 +48,17 @@ get_nvidia_pacman_packages() {
 
 _install_prime_helper() {
   local helper_path=/usr/local/bin/nvidia-prime-run
-  local content="#!/usr/bin/env bash
+  write_file_if_changed "$helper_path" <<'EOF'
+#!/usr/bin/env bash
 if [[ $# -eq 0 ]]; then
-  echo \"Usage: nvidia-prime-run <command>\"
+  echo "Usage: nvidia-prime-run <command>"
   exit 1
 fi
-__NV_PRIME_RENDER_OFFLOAD=1 \\
-__GLX_VENDOR_LIBRARY_NAME=nvidia \\
-__VK_LAYER_NV_optimus=NVIDIA_only \\
-prime-run \"$@\"
-"
-  write_file_if_changed "$helper_path" <<<"${content}"
+__NV_PRIME_RENDER_OFFLOAD=1 \
+__GLX_VENDOR_LIBRARY_NAME=nvidia \
+__VK_LAYER_NV_optimus=NVIDIA_only \
+prime-run "$@"
+EOF
   sudo chmod +x "$helper_path"
 }
 

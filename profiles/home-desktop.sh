@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC1091 # dynamic module includes resolved at runtime
 # Opinionated profile for the Arch home desktop (RTX 40-series, gaming focus).
 
 set -euo pipefail

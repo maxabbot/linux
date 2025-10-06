@@ -63,8 +63,8 @@ write_manifest() {
   printf '%s\n' "$@" >"${path}"
 }
 
-unique_pacman=$(printf '%s\n' "${pacman_packages[@]}" | sort -u)
-unique_aur=$(printf '%s\n' "${aur_packages[@]}" | sort -u)
+mapfile -t unique_pacman < <(printf '%s\n' "${pacman_packages[@]}" | sort -u)
+mapfile -t unique_aur < <(printf '%s\n' "${aur_packages[@]}" | sort -u)
 
 duplicate_count() {
   local total="$1"
@@ -91,8 +91,8 @@ if printf '%s\n' "${unique_aur}" | grep -qx 'spotify'; then
   conflicts+=('Drop spotify in favour of spotify-launcher')
 fi
 
-write_manifest "${PACMAN_OUTPUT}" ${unique_pacman}
-write_manifest "${AUR_OUTPUT}" ${unique_aur}
+write_manifest "${PACMAN_OUTPUT}" "${unique_pacman[@]}"
+write_manifest "${AUR_OUTPUT}" "${unique_aur[@]}"
 
 echo "Wrote $(wc -l <"${PACMAN_OUTPUT}") pacman entries to ${PACMAN_OUTPUT}"
 echo "Wrote $(wc -l <"${AUR_OUTPUT}") AUR entries to ${AUR_OUTPUT}"

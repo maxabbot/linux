@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC1091 # dynamic module includes resolved at runtime
 # Shared helper functions for linux-setup-scripts modules.
 
 log_info() {
@@ -33,11 +34,15 @@ ensure_yay() {
   fi
 
   log_info "Installing yay AUR helper"
+  local tmpdir
   tmpdir=$(mktemp -d)
   git clone https://aur.archlinux.org/yay.git "$tmpdir/yay"
-  pushd "$tmpdir/yay" >/dev/null
+  if ! pushd "$tmpdir/yay" >/dev/null; then
+    rm -rf "$tmpdir"
+    return 1
+  fi
   makepkg -si --noconfirm
-  popd >/dev/null
+  popd >/dev/null || return 1
   rm -rf "$tmpdir"
 }
 

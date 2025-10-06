@@ -102,15 +102,15 @@ get_development_pacman_packages() {
     "${api_tooling_packages[@]}"
   )
 
-  if is_truthy "${ENABLE_DATABASE_SERVERS}"; then
+  if flag_enabled ENABLE_DATABASE_SERVERS 1; then
     packages+=("${database_server_packages[@]}")
   fi
 
-  if is_truthy "${ENABLE_DATA_PLATFORMS}"; then
+  if flag_enabled ENABLE_DATA_PLATFORMS 1; then
     packages+=("${data_platform_packages[@]}")
   fi
 
-  if is_truthy "${ENABLE_GUI_DB_CLIENTS}"; then
+  if flag_enabled ENABLE_GUI_DB_CLIENTS 1; then
     packages+=("${cli_database_helpers[@]}")
   fi
 
@@ -134,8 +134,13 @@ get_development_aur_packages() {
 
   local filtered=()
 
+  local gui_clients_enabled=0
+  if flag_enabled ENABLE_GUI_DB_CLIENTS 1; then
+    gui_clients_enabled=1
+  fi
+
   for pkg in "${aur_packages[@]}"; do
-    if [[ "${ENABLE_GUI_DB_CLIENTS}" != "1" ]] && [[ "$pkg" =~ ^(litecli|dbeaver)$ ]]; then
+    if [[ ${gui_clients_enabled} -eq 0 ]] && [[ "$pkg" =~ ^(litecli|dbeaver)$ ]]; then
       continue
     fi
     filtered+=("$pkg")
@@ -174,7 +179,7 @@ install_development() {
 
   pip_install_user "${pip_packages[@]}"
 
-  if [[ "${ENABLE_DOCKER}" == "1" ]]; then
+  if flag_enabled ENABLE_DOCKER 0; then
     enable_service_now docker.service
     log_info "Adding ${USER} to docker group"
     sudo usermod -aG docker "${USER}"
@@ -182,7 +187,7 @@ install_development() {
     log_warn "Docker service not enabled (set ENABLE_DOCKER=1 to auto-enable)."
   fi
 
-  if [[ "${ENABLE_LIBVIRT}" == "1" ]]; then
+  if flag_enabled ENABLE_LIBVIRT 0; then
     enable_service_now libvirtd.service
     log_info "Add ${USER} to libvirt group: sudo usermod -aG libvirt ${USER}"
   else

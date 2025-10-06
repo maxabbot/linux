@@ -22,6 +22,27 @@ is_truthy() {
   esac
 }
 
+flag_enabled() {
+  local var_name="$1"
+  local default_value="${2:-0}"
+  local value
+
+  value=$(printenv "$var_name" 2>/dev/null || true)
+  value=${value%$'\n'}
+
+  local indirect_value="${!var_name-}"
+
+  if [[ -z "$value" && -n "$indirect_value" ]]; then
+    value="$indirect_value"
+  fi
+
+  if [[ -z "$value" ]]; then
+    value="$default_value"
+  fi
+
+  is_truthy "$value"
+}
+
 update_system() {
   log_info "Updating system packages"
   sudo pacman -Syu --noconfirm

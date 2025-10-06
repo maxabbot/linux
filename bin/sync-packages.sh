@@ -81,13 +81,13 @@ pacman_duplicates=$(duplicate_count "${pacman_total}" "${pacman_unique_count}")
 aur_duplicates=$(duplicate_count "${aur_total}" "${aur_unique_count}")
 
 conflicts=()
-if printf '%s\n' "${unique_pacman}" | grep -qx 'code'; then
+if printf '%s\n' "${unique_pacman[@]}" | grep -qx 'code'; then
   conflicts+=('Remove repo code in favour of visual-studio-code-bin')
 fi
-if printf '%s\n' "${unique_pacman}" | grep -qx 'rust'; then
+if printf '%s\n' "${unique_pacman[@]}" | grep -qx 'rust'; then
   conflicts+=('Remove repo rust in favour of rustup')
 fi
-if printf '%s\n' "${unique_aur}" | grep -qx 'spotify'; then
+if printf '%s\n' "${unique_aur[@]}" | grep -qx 'spotify'; then
   conflicts+=('Drop spotify in favour of spotify-launcher')
 fi
 

@@ -6,14 +6,21 @@ REPO_ROOT=$(cd -- "${SCRIPT_DIR}/.." >/dev/null 2>&1 && pwd)
 
 cd "${REPO_ROOT}"
 
+# shellcheck source=modules/base.sh
 source modules/base.sh
+# shellcheck source=modules/development.sh
 source modules/development.sh
+# shellcheck source=modules/productivity.sh
 source modules/productivity.sh
+# shellcheck source=modules/nvidia.sh
 source modules/nvidia.sh
+# shellcheck source=modules/gaming.sh
 source modules/gaming.sh
 
-PACMAN_OUTPUT=${REPO_ROOT}/arch-setup/packages/pacman-packages.txt
-AUR_OUTPUT=${REPO_ROOT}/arch-setup/packages/aur-packages.txt
+: "${PACMAN_OUTPUT:=${REPO_ROOT}/arch-setup/packages/pacman-packages.txt}"
+: "${AUR_OUTPUT:=${REPO_ROOT}/arch-setup/packages/aur-packages.txt}"
+: "${EXTRA_PACMAN_PACKAGES:=}"
+: "${EXTRA_AUR_PACKAGES:=}"
 
 collect_packages() {
   local collector_function="$1"
@@ -39,6 +46,16 @@ collect_packages get_gaming_pacman_packages pacman_packages
 collect_packages get_development_aur_packages aur_packages
 collect_packages get_productivity_aur_packages aur_packages
 collect_packages get_gaming_aur_packages aur_packages
+
+if [[ -n "${EXTRA_PACMAN_PACKAGES}" ]]; then
+  read -r -a extra_pacman <<<"${EXTRA_PACMAN_PACKAGES}"
+  pacman_packages+=("${extra_pacman[@]}")
+fi
+
+if [[ -n "${EXTRA_AUR_PACKAGES}" ]]; then
+  read -r -a extra_aur <<<"${EXTRA_AUR_PACKAGES}"
+  aur_packages+=("${extra_aur[@]}")
+fi
 
 write_manifest() {
   local path="$1"

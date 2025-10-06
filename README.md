@@ -80,6 +80,23 @@ ENABLE_DATA_PLATFORMS=0 ENABLE_STREAMING_TOOLS=0 ./profiles/work-laptop.sh
 
 - `bin/sync-packages.sh` – regenerate `arch-setup/packages/*.txt`, lint duplicates, and surface common conflicts. Run this after editing package arrays so the staged manifests stay aligned.
 
+## Testing & CI
+
+- Run unit-style checks locally with:
+
+	```bash
+	bats tests
+	```
+
+- Lint all shell scripts:
+
+	```bash
+	git ls-files '*.sh' | xargs -r shellcheck
+	shellcheck tests/test_helpers
+	```
+
+GitHub Actions (`.github/workflows/ci.yml`) executes both shellcheck and the Bats suite on every push and pull request targeting `main`.
+
 ## Contributing
 
 - File an issue or PR with package/content changes.

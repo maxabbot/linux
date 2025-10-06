@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck bats
+
+      - name: Shellcheck scripts
+        run: |
+          git ls-files '*.sh' | xargs -r shellcheck
+          shellcheck tests/test_helpers
+
+      - name: Run Bats tests
+        run: bats tests

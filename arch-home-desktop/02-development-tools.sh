@@ -2,12 +2,12 @@
 set -euo pipefail
 
 SCRIPT_DIR=$(cd -- "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)
-ROOT_DIR=$(cd -- "${SCRIPT_DIR}/.." >/dev/null 2>&1 && pwd)
-TARGET="${ROOT_DIR}/arch-work-laptop/02-development-tools.sh"
+REPO_ROOT=$(cd -- "${SCRIPT_DIR}/.." >/dev/null 2>&1 && pwd)
 
-if [[ ! -f "${TARGET}" ]]; then
-  echo "Missing shared setup script: ${TARGET}" >&2
-  exit 1
-fi
+# shellcheck source=../modules/development.sh
+source "${REPO_ROOT}/modules/development.sh"
 
-exec bash "${TARGET}" "$@"
+export ENABLE_DOCKER="${ENABLE_DOCKER:-1}"
+export ENABLE_LIBVIRT="${ENABLE_LIBVIRT:-0}"
+
+install_development

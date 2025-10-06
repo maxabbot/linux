@@ -2,12 +2,9 @@
 set -euo pipefail
 
 SCRIPT_DIR=$(cd -- "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)
-ROOT_DIR=$(cd -- "${SCRIPT_DIR}/.." >/dev/null 2>&1 && pwd)
-TARGET="${ROOT_DIR}/arch-work-laptop/03-productivity-apps.sh"
+REPO_ROOT=$(cd -- "${SCRIPT_DIR}/.." >/dev/null 2>&1 && pwd)
 
-if [[ ! -f "${TARGET}" ]]; then
-  echo "Missing shared setup script: ${TARGET}" >&2
-  exit 1
-fi
+# shellcheck source=../modules/productivity.sh
+source "${REPO_ROOT}/modules/productivity.sh"
 
-exec bash "${TARGET}" "$@"
+install_productivity

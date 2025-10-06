@@ -31,7 +31,7 @@
 - git, gnupg — version control and signing
 - ripgrep, fd, bat — enhanced search and file viewing
 - helix or neovim — terminal text editors
-- VS Code — primary IDE
+- Visual Studio Code (binary build) — primary IDE
 - alacritty or kitty — GPU-accelerated terminal emulators
 - direnv — per-project environment management
 - python-pip, nodejs/npm, go, rustup — language toolchains
@@ -45,7 +45,7 @@
 - swww — wallpaper setter
 - mpvpaper — animated wallpaper setter
 - rofi — application launcher
-- Spotify
+- Spotify (via `spotify-launcher`)
 - Discord
 - Calibre
 - Fonts:
@@ -65,16 +65,17 @@
 - tmux — terminal multiplexer
 - obsidian or logseq — knowledge management
 - bitwarden or keepassxc — password management
-- Firefox, Brave, Zen Browser — web browsers
+- Firefox, Google Chrome (default), optional Brave/Zen browsers
 
 ## Bonus: Gaming & Graphics
 
 ### Gaming Stack
 
 - Steam
-- Proton
-- Lutris — multi-store game launcher
+- Proton (via Steam + ProtonUp-Qt)
 - Heroic Games Launcher — Epic/GOG integration
+- Legendary CLI — Epic Games helper
+- Moonlight, Sunshine, Parsec — streaming/remote play
 - protontricks — per-title compatibility tweaks
 - gamemode — performance tuning daemon
 - mangohud — in-game performance overlay
@@ -105,6 +106,7 @@
 
 - Element-desktop — Matrix client
 - Slack
+- Microsoft Teams (Flatpak)
 - Zoom
 
 ### Media & Creativity
@@ -122,7 +124,7 @@
 
 ### System Monitoring & Utilities
 
-- btop, htop, glances — system monitoring dashboards
+- btop, htop, iotop, nethogs — system monitoring dashboards
 - nvtop — NVIDIA GPU monitoring
 - reflector timer — keep pacman mirrors fresh
 

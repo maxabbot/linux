@@ -7,21 +7,27 @@ fail() {
 }
 
 assert_success() {
-  if [[ ${status:-0} -ne 0 ]]; then
-    fail "Expected command to succeed (status=${status:-unset})."
+  local current_status
+  current_status=${status:-0}
+  if [[ ${current_status} -ne 0 ]]; then
+    fail "Expected command to succeed (status=${current_status})."
   fi
 }
 
 assert_output() {
   if [[ "$1" == "--partial" ]]; then
     local needle="$2"
-    if [[ "${output}" != *"${needle}"* ]]; then
-      fail "Expected output to include substring '${needle}', but got: ${output}"
+    local current_output
+    current_output=${output:-}
+    if [[ "${current_output}" != *"${needle}"* ]]; then
+      fail "Expected output to include substring '${needle}', but got: ${current_output}"
     fi
   else
     local expected="$1"
-    if [[ "${output}" != "${expected}" ]]; then
-      fail "Expected output '${expected}', but got: ${output}"
+    local current_output
+    current_output=${output:-}
+    if [[ "${current_output}" != "${expected}" ]]; then
+      fail "Expected output '${expected}', but got: ${current_output}"
     fi
   fi
 }

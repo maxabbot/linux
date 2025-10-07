@@ -206,7 +206,25 @@ After the profile completes:
 | `bats` missing | `sudo pacman -S bats`. |
 | Running gaming/NVIDIA modules | VirtualBox doesn’t expose a real NVIDIA GPU; set `ENABLE_CUDA_STACK=0` to skip heavy CUDA installs inside the VM. |
 
-## 9. Next steps
+## 9. Copy the VM to a USB drive
+
+Once you have a golden VM image, you can back it up or share it by writing it directly to a mounted USB drive. The repository ships with a helper script that supports two workflows:
+
+```bash
+# Export the powered-off VM to an OVA appliance on the USB drive
+bin/copy-vm-to-usb.sh --vm-name arch-vbox --usb-path /run/media/$USER/BACKUP
+
+# Mirror the VM directory structure onto the USB drive (rsync-based copy)
+bin/copy-vm-to-usb.sh --mode mirror --vm-name arch-vbox --usb-path /run/media/$USER/BACKUP
+```
+
+Key behavior:
+
+- Default mode exports the VM via `VBoxManage export`, producing an `.ova` archive in the target directory. Add `--include-manifest` to generate VirtualBox checksums.
+- `--mode mirror` copies the VM directory (by default `~/VirtualBox VMs/<name>`) using `rsync`. Provide `--vm-path` if the VM lives elsewhere.
+- The script verifies free space (when it can estimate VM size), ensures the VM is powered off before exporting, and writes to a temporary `.partial` path before swapping it into place. Use `--force` to overwrite an existing export.
+
+## 10. Next steps
 
 - Review `.github/workflows/ci.yml` to replicate the CI jobs locally if desired.
 - Use `bin/sync-packages.sh` to regenerate package manifests after tweaking module arrays.

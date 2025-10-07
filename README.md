@@ -81,6 +81,7 @@ ENABLE_DATA_PLATFORMS=0 ENABLE_STREAMING_TOOLS=0 ./profiles/work-laptop.sh
 ## Maintenance helpers
 
 - `bin/sync-packages.sh` – regenerate `arch-setup/packages/*.txt`, lint duplicates, and surface common conflicts. Run this after editing package arrays so the staged manifests stay aligned.
+- `bin/copy-vm-to-usb.sh` – export or mirror a VirtualBox VM onto a mounted USB drive (supports `.ova` exports or `rsync` directory copies).
 
 ## Testing & CI
 

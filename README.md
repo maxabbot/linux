@@ -7,7 +7,6 @@ Automation for rebuilding Arch Linux workstations with repeatable, modular scrip
 modules/      # Reusable install modules (base, development, productivity, NVIDIA, gaming)
 profiles/     # Orchestrators that chain modules for common hosts
 arch-setup/   # Legacy stage-by-stage installer (kept for manual runs)
-arch-work-laptop/ & arch-home-desktop/  # Wrappers around the shared modules
 what i need.md  # Human-readable checklist of requirements
 ```
 

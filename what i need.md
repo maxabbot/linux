@@ -83,7 +83,7 @@
 
 ### NVIDIA Enhancements
 
-- NVIDIA drivers (see `arch-home-desktop/04-nvidia-drivers.sh`)
+- NVIDIA drivers (provided by `modules/nvidia.sh` via `profiles/home-desktop.sh`)
 - nvidia-settings, nvidia-utils, lib32-nvidia-utils — control panel and 32-bit libraries
 - vulkan-icd-loader, lib32-vulkan-icd-loader — Vulkan support
 - nvidia-prime or envycontrol — GPU switching on hybrid systems

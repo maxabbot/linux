@@ -4,10 +4,11 @@ Automation for rebuilding Arch Linux workstations with repeatable, modular scrip
 ## Repository layout
 
 ```text
-modules/      # Reusable install modules (base, development, productivity, NVIDIA, gaming)
-profiles/     # Orchestrators that chain modules for common hosts
-arch-setup/   # Legacy stage-by-stage installer (kept for manual runs)
-what i need.md  # Human-readable checklist of requirements
+modules/             # Reusable install modules (base, development, productivity, NVIDIA, gaming)
+profiles/            # Orchestrators that chain modules for common hosts
+arch-setup/          # Legacy stage-by-stage installer (kept for manual runs)
+docs/guides/         # Scenario guides (e.g., portable USB installs, VirtualBox)
+docs/reference/      # Checklists and planning notes (requirements, package rationales)
 ```
 
 ## Quick start
@@ -71,7 +72,7 @@ Combine them just like other profiles, e.g.:
 ENABLE_DATA_PLATFORMS=0 ENABLE_STREAMING_TOOLS=0 ./profiles/work-laptop.sh
 ```
 
-🖥️ Prefer to practice inside a VM first? Follow the [VirtualBox walkthrough](docs/virtualbox.md) for step-by-step instructions on installing Arch in VirtualBox (including an advanced option for installing onto a real disk partition) before running these profiles safely.
+🖥️ Prefer to practice inside a VM first? Follow the [VirtualBox walkthrough](docs/virtualbox.md) for step-by-step instructions on installing Arch in VirtualBox (including an advanced option for installing onto a real disk partition) before running these profiles safely. Planning a portable install? Check the [USB deployment guide](docs/guides/portable-usb.md).
 
 ## Legacy installers
 

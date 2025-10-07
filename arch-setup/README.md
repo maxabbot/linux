@@ -1,6 +1,6 @@
 # Arch Setup Automation
 
-This directory turns the checklist in `what i need.md` into a reproducible Arch Linux bootstrap flow. It contains package lists, installation scripts, and placeholders for dotfiles so you can rebuild a workstation with one repo.
+This directory turns the checklist in `docs/reference/requirements-checklist.md` into a reproducible Arch Linux bootstrap flow. It contains package lists, installation scripts, and placeholders for dotfiles so you can rebuild a workstation with one repo.
 
 ## Layout
 

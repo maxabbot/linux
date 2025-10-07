@@ -72,6 +72,8 @@ Combine them just like other profiles, e.g.:
 ENABLE_DATA_PLATFORMS=0 ENABLE_STREAMING_TOOLS=0 ./profiles/work-laptop.sh
 ```
 
+🖥️ Prefer to practice inside a VM first? Follow the [VirtualBox walkthrough](docs/virtualbox.md) for step-by-step instructions on installing Arch in VirtualBox (including an advanced option for installing onto a real disk partition) before running these profiles safely.
+
 ## Legacy installers
 
 `arch-setup/install/*.sh` continue to exist for staged installs or fine-grained usage. They now consume the shared modules internally so there’s a single source of truth for package lists.
@@ -84,16 +86,16 @@ ENABLE_DATA_PLATFORMS=0 ENABLE_STREAMING_TOOLS=0 ./profiles/work-laptop.sh
 
 - Run unit-style checks locally with:
 
-	```bash
-	bats tests
-	```
+    ```bash
+    bats tests
+    ```
 
 - Lint all shell scripts:
 
-	```bash
-	git ls-files '*.sh' | xargs -r shellcheck
-	shellcheck tests/test_helpers
-	```
+    ```bash
+    git ls-files '*.sh' | xargs -r shellcheck
+    shellcheck tests/test_helpers
+    ```
 
 GitHub Actions (`.github/workflows/ci.yml`) executes both shellcheck and the Bats suite on every push and pull request targeting `main`.
 

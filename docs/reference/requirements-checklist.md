@@ -113,6 +113,8 @@
 
 - VLC
 - mpv
+- Stremio
+- SmartTube
 - gthumb or shotwell — photo management
 
 ### Backup & Sync

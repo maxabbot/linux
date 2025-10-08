@@ -172,6 +172,8 @@ get_productivity_aur_packages() {
     shotcut
     anydesk-bin
     rustdesk-bin
+    stremio
+    smarttube-stable-bin
   )
 
   local packages=("${core_apps[@]}")

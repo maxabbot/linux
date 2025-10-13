@@ -1,4 +1,6 @@
 anydesk-bin
+apache-airflow
+apache-spark
 bottles
 brave-bin
 cliphist
@@ -7,6 +9,7 @@ discord
 dropbox
 ds4drv
 dxvk-bin
+duckdb-bin
 ferret
 google-chrome
 google-drive-ocamlfuse
@@ -22,6 +25,7 @@ legendary
 litecli
 logseq-desktop-bin
 masterpdfeditor-free
+mycli
 mongodb-bin
 moonlight-qt
 mpvpaper
@@ -37,12 +41,14 @@ postman-bin
 protontricks
 protonup-qt
 rapidsai
+smarttube-beta-bin
 rustdesk-bin
 sdkman-cli
 shotcut
 slack-desktop
 spotify-launcher
 standardnotes
+stremio
 sunshine-bin
 swww
 ttf-nerd-fonts-symbols

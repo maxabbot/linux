@@ -26,7 +26,9 @@ setup() {
   export ENABLE_DATABASE_SERVERS=0
   export ENABLE_GUI_DB_CLIENTS=0
   mapfile -t pkgs < <(get_development_pacman_packages)
+  mapfile -t aur_pkgs < <(get_development_aur_packages)
   refute_array pkgs apache-airflow
+  refute_array aur_pkgs apache-airflow
   refute_array pkgs postgresql
   refute_array pkgs pgcli
 
@@ -34,9 +36,14 @@ setup() {
   export ENABLE_DATABASE_SERVERS=1
   export ENABLE_GUI_DB_CLIENTS=1
   mapfile -t pkgs < <(get_development_pacman_packages)
-  assert_array pkgs apache-airflow
+  mapfile -t aur_pkgs < <(get_development_aur_packages)
+  refute_array pkgs apache-airflow
+  assert_array aur_pkgs apache-airflow
+  assert_array aur_pkgs duckdb-bin
+  assert_array aur_pkgs apache-spark
   assert_array pkgs postgresql
   assert_array pkgs pgcli
+  assert_array aur_pkgs mycli
 }
 
 @test "productivity flatpaks include teams" {

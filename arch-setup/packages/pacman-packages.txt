@@ -3,8 +3,6 @@ alacritty
 amd-ucode
 antimicrox
 ansible
-apache-airflow
-apache-spark
 ark
 aws-cli-v2
 azure-cli
@@ -38,7 +36,6 @@ docker
 docker-compose
 doctl
 dosfstools
-duckdb
 egl-wayland
 element-desktop
 eza
@@ -60,7 +57,7 @@ glmark2
 gnome-keyring
 gnupg
 go
-google-cloud-sdk
+google-cloud-cli
 gparted
 grim
 grpcurl
@@ -117,9 +114,8 @@ man-pages
 mesa-utils
 minikube
 mpv
-mycli
 nano
-neofetch
+fastfetch
 neovim
 nethogs
 network-manager-applet

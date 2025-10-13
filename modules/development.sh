@@ -56,15 +56,10 @@ get_development_pacman_packages() {
     sqlite
   )
 
-  local data_platform_packages=(
-    duckdb
-    apache-airflow
-    apache-spark
-  )
+  local data_platform_packages=()
 
   local cli_database_helpers=(
     pgcli
-    mycli
   )
 
   local container_packages=(
@@ -85,7 +80,7 @@ get_development_pacman_packages() {
   local cloud_cli_packages=(
     aws-cli-v2
     azure-cli
-    google-cloud-sdk
+    google-cloud-cli
     doctl
   )
 
@@ -132,6 +127,16 @@ get_development_aur_packages() {
     oh-my-zsh-git
   )
 
+  local aur_data_platform_packages=(
+    duckdb-bin
+    apache-airflow
+    apache-spark
+  )
+
+  local aur_cli_helpers=(
+    mycli
+  )
+
   local filtered=()
 
   local gui_clients_enabled=0
@@ -145,6 +150,14 @@ get_development_aur_packages() {
     fi
     filtered+=("$pkg")
   done
+
+  if flag_enabled ENABLE_DATA_PLATFORMS 1; then
+    filtered+=("${aur_data_platform_packages[@]}")
+  fi
+
+  if [[ ${gui_clients_enabled} -eq 1 ]]; then
+    filtered+=("${aur_cli_helpers[@]}")
+  fi
 
   if ((${#filtered[@]})); then
     printf '%s\n' "${filtered[@]}"

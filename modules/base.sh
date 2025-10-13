@@ -55,9 +55,8 @@ get_base_pacman_packages() {
     xdg-utils
     xdg-user-dirs
     gvfs
-    gvfs-smb
-    rar
-    unrar
+  gvfs-smb
+  unrar
     btrfs-progs
     snapper
     exfatprogs
@@ -69,7 +68,6 @@ get_base_pacman_packages() {
     system-config-printer
     networkmanager
     network-manager-applet
-    systemd-timesyncd
     ufw
     bluez
     bluez-utils
@@ -99,7 +97,7 @@ get_base_pacman_packages() {
     keychain
     htop
     btop
-    neofetch
+  fastfetch
   )
 
   base_packages+=("$(_detect_microcode_package)")

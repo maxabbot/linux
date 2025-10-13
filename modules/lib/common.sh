@@ -121,7 +121,15 @@ pip_install_user() {
   # Handle externally-managed Python environments by using --break-system-packages
   # This is needed for PEP 668 compliance in modern Python installations
   log_info "Installing Python packages with pip --user: $*"
-  pip install --user --break-system-packages "$@"
+  
+  # Try with custom cache dir to avoid disk quota issues
+  local pip_cache_dir="${HOME}/.cache/pip"
+  mkdir -p "$pip_cache_dir"
+  
+  if ! pip install --user --break-system-packages --cache-dir "$pip_cache_dir" "$@"; then
+    log_warn "pip install failed, trying with --no-cache-dir"
+    pip install --user --break-system-packages --no-cache-dir "$@"
+  fi
 }
 
 append_kernel_param_once() {

@@ -172,14 +172,8 @@ install_development() {
   yay_install "${aur_packages[@]}"
 
   local pip_packages=(
-    pandas
-    numpy
-    matplotlib
-    seaborn
-    scikit-learn
     tensorflow
     torch
-    jupyter
     jupyterlab
     sqlalchemy
     psycopg2-binary

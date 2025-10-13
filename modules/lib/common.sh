@@ -118,8 +118,10 @@ pip_install_user() {
     return
   fi
 
+  # Handle externally-managed Python environments by using --break-system-packages
+  # This is needed for PEP 668 compliance in modern Python installations
   log_info "Installing Python packages with pip --user: $*"
-  pip install --user "$@"
+  pip install --user --break-system-packages "$@"
 }
 
 append_kernel_param_once() {

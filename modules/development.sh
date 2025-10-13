@@ -70,7 +70,6 @@ get_development_pacman_packages() {
     kubectl
     minikube
     helm
-    kind
     ansible
     terraform
     opentofu
@@ -80,13 +79,11 @@ get_development_pacman_packages() {
   local cloud_cli_packages=(
     aws-cli-v2
     azure-cli
-    google-cloud-cli
     doctl
   )
 
   local api_tooling_packages=(
     httpie
-    grpcurl
   )
 
   local packages=(
@@ -125,6 +122,9 @@ get_development_aur_packages() {
     wiremock-standalone
     dbeaver
     oh-my-zsh-git
+    kind-bin
+    google-cloud-cli
+    grpcurl-bin
   )
 
   local aur_data_platform_packages=(

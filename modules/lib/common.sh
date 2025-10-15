@@ -122,14 +122,32 @@ pip_install_user() {
   # This is needed for PEP 668 compliance in modern Python installations
   log_info "Installing Python packages with pip --user: $*"
   
-  # Try with custom cache dir to avoid disk quota issues
-  local pip_cache_dir="${HOME}/.cache/pip"
-  mkdir -p "$pip_cache_dir"
-  
-  if ! pip install --user --break-system-packages --cache-dir "$pip_cache_dir" "$@"; then
-    log_warn "pip install failed, trying with --no-cache-dir"
-    pip install --user --break-system-packages --no-cache-dir "$@"
-  fi
+  # For large packages like tensorflow, install one at a time with error handling
+  for package in "$@"; do
+    log_info "Installing Python package: $package"
+    
+    # Try with no cache first to avoid disk space issues
+    if pip install --user --break-system-packages --no-cache-dir "$package"; then
+      log_info "Successfully installed $package"
+    else
+      log_warn "Failed to install $package, trying with different temp directory"
+      
+      # Try with custom temp directory in user home
+      local custom_tmp="${HOME}/.pip_tmp"
+      mkdir -p "$custom_tmp"
+      export TMPDIR="$custom_tmp"
+      
+      if pip install --user --break-system-packages --no-cache-dir "$package"; then
+        log_info "Successfully installed $package with custom temp dir"
+      else
+        log_error "Failed to install $package - skipping"
+      fi
+      
+      # Clean up custom temp directory
+      rm -rf "$custom_tmp"
+      unset TMPDIR
+    fi
+  done
 }
 
 append_kernel_param_once() {

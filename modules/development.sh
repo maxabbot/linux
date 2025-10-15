@@ -172,8 +172,6 @@ install_development() {
   yay_install "${aur_packages[@]}"
 
   local pip_packages=(
-    tensorflow
-    torch
     jupyterlab
     sqlalchemy
     psycopg2-binary
@@ -184,7 +182,20 @@ install_development() {
     onnxruntime
   )
 
+  # Install TensorFlow and PyTorch separately as they are very large
+  local heavy_ml_packages=()
+  if flag_enabled ENABLE_HEAVY_ML_PACKAGES 1; then
+    heavy_ml_packages+=(tensorflow torch)
+  else
+    log_info "Skipping heavy ML packages (tensorflow, torch). Set ENABLE_HEAVY_ML_PACKAGES=1 to install."
+  fi
+
   pip_install_user "${pip_packages[@]}"
+  
+  if [[ ${#heavy_ml_packages[@]} -gt 0 ]]; then
+    log_info "Installing heavy ML packages separately..."
+    pip_install_user "${heavy_ml_packages[@]}"
+  fi
 
   if flag_enabled ENABLE_DOCKER 0; then
     enable_service_now docker.service

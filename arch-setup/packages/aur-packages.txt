@@ -36,7 +36,6 @@ obsidian
 oh-my-zsh-git
 onlyoffice-bin
 parsec-bin
-plex-media-server
 postman-bin
 protontricks
 protonup-qt

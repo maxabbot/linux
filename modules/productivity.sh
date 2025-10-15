@@ -157,7 +157,6 @@ get_productivity_aur_packages() {
     zen-browser-bin
     ttf-nerd-fonts-symbols
     spotify-launcher
-    plex-media-server
     kvantum-qt6
   )
 

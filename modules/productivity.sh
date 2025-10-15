@@ -25,7 +25,6 @@ get_productivity_pacman_packages() {
     qt6ct
     kvantum
     kvantum-qt5
-    kvantum-qt6
     ttf-jetbrains-mono
     ttf-jetbrains-mono-nerd
     noto-fonts-emoji
@@ -34,7 +33,6 @@ get_productivity_pacman_packages() {
 
   local office_packages=(
     libreoffice-fresh
-    libreoffice-fresh-en-us
     zathura
     zathura-pdf-mupdf
     okular
@@ -90,7 +88,6 @@ get_productivity_pacman_packages() {
   local media_packages=(
     vlc
     mpv
-    jellyfin
     calibre
   )
 
@@ -161,6 +158,7 @@ get_productivity_aur_packages() {
     ttf-nerd-fonts-symbols
     spotify-launcher
     plex-media-server
+    kvantum-qt6
   )
 
   local optional_sync=(
@@ -174,6 +172,7 @@ get_productivity_aur_packages() {
     rustdesk-bin
     stremio
     smarttube-stable-bin
+    jellyfin-bin
   )
 
   local packages=("${core_apps[@]}")

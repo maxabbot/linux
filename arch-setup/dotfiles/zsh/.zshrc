@@ -1,0 +1,360 @@
+# ============================================================================
+# ZSH Configuration - Feature-Rich Setup
+# ============================================================================
+
+# Path to oh-my-zsh installation
+export ZSH="$HOME/.oh-my-zsh"
+
+# Set theme (powerlevel10k recommended for feature-rich setup)
+# Install: git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
+# Enable Powerlevel10k instant prompt
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# ============================================================================
+# Oh-My-Zsh Plugins
+# ============================================================================
+plugins=(
+  git
+  docker
+  docker-compose
+  npm
+  node
+  yarn
+  rust
+  python
+  pip
+  virtualenv
+  kubectl
+  terraform
+  systemd
+  colored-man-pages
+  command-not-found
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+  history-substring-search
+  z
+  sudo
+  extract
+  copypath
+  copyfile
+)
+
+# Load oh-my-zsh
+source $ZSH/oh-my-zsh.sh
+
+# ============================================================================
+# Environment Variables
+# ============================================================================
+
+# Set default editor
+export EDITOR='nvim'
+export VISUAL='nvim'
+
+# Language environment
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
+# Compilation flags
+export ARCHFLAGS="-arch x86_64"
+
+# ============================================================================
+# Language-Specific Configurations
+# ============================================================================
+
+# Python
+export PYTHONPATH="$HOME/.local/lib/python3.11/site-packages:$PYTHONPATH"
+export PIP_REQUIRE_VIRTUALENV=false
+
+# Rust
+export CARGO_HOME="$HOME/.cargo"
+export RUSTUP_HOME="$HOME/.rustup"
+[[ -f "$CARGO_HOME/env" ]] && source "$CARGO_HOME/env"
+
+# Node.js (nvm)
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# Go (if installed)
+export GOPATH="$HOME/go"
+export PATH="$PATH:$GOPATH/bin"
+
+# ============================================================================
+# Path Modifications
+# ============================================================================
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
+export PATH="$CARGO_HOME/bin:$PATH"
+
+# ============================================================================
+# Aliases - General
+# ============================================================================
+
+# System & Navigation
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias l='ls -lah'
+alias la='ls -lAh'
+alias ll='ls -lh'
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias df='df -h'
+alias du='du -h'
+alias free='free -h'
+
+# Editor shortcuts
+alias v='nvim'
+alias vi='nvim'
+alias vim='nvim'
+
+# Safety nets
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+# Package management (Arch)
+alias pacup='sudo pacman -Syu'
+alias pacin='sudo pacman -S'
+alias pacrem='sudo pacman -Rns'
+alias pacsearch='pacman -Ss'
+alias pacinfo='pacman -Qi'
+alias pacclean='sudo pacman -Sc'
+alias yayup='yay -Syu'
+alias yayin='yay -S'
+
+# System management
+alias srestart='sudo systemctl restart'
+alias sstatus='sudo systemctl status'
+alias senable='sudo systemctl enable'
+alias sdisable='sudo systemctl disable'
+alias jctl='journalctl -xe'
+
+# ============================================================================
+# Aliases - Development
+# ============================================================================
+
+# Git shortcuts
+alias g='git'
+alias gs='git status'
+alias ga='git add'
+alias gaa='git add --all'
+alias gc='git commit -v'
+alias gcm='git commit -m'
+alias gp='git push'
+alias gpl='git pull'
+alias gd='git diff'
+alias gl='git log --oneline --graph --decorate'
+alias gco='git checkout'
+alias gb='git branch'
+alias gba='git branch -a'
+
+# Docker
+alias d='docker'
+alias dc='docker-compose'
+alias dps='docker ps'
+alias dpsa='docker ps -a'
+alias dim='docker images'
+alias dex='docker exec -it'
+alias dlog='docker logs -f'
+alias dstop='docker stop $(docker ps -q)'
+alias drm='docker rm $(docker ps -aq)'
+alias drmi='docker rmi $(docker images -q)'
+
+# Podman (alternative to Docker)
+alias p='podman'
+alias pps='podman ps'
+alias pim='podman images'
+
+# Python
+alias py='python'
+alias py3='python3'
+alias pip='pip3'
+alias venv='python -m venv'
+alias activate='source venv/bin/activate'
+
+# Rust
+alias c='cargo'
+alias cb='cargo build'
+alias cr='cargo run'
+alias ct='cargo test'
+alias cc='cargo check'
+alias cu='cargo update'
+
+# Node/NPM
+alias nr='npm run'
+alias ni='npm install'
+alias nid='npm install --save-dev'
+alias nig='npm install -g'
+alias nt='npm test'
+alias nb='npm run build'
+alias ns='npm start'
+
+# Yarn
+alias y='yarn'
+alias yi='yarn install'
+alias ya='yarn add'
+alias yad='yarn add --dev'
+alias yr='yarn run'
+alias yt='yarn test'
+alias yb='yarn build'
+
+# ============================================================================
+# Custom Functions
+# ============================================================================
+
+# Create and enter directory
+mkcd() {
+  mkdir -p "$1" && cd "$1"
+}
+
+# Extract archives
+extract() {
+  if [ -f "$1" ]; then
+    case "$1" in
+      *.tar.bz2)   tar xjf "$1"     ;;
+      *.tar.gz)    tar xzf "$1"     ;;
+      *.bz2)       bunzip2 "$1"     ;;
+      *.rar)       unrar x "$1"     ;;
+      *.gz)        gunzip "$1"      ;;
+      *.tar)       tar xf "$1"      ;;
+      *.tbz2)      tar xjf "$1"     ;;
+      *.tgz)       tar xzf "$1"     ;;
+      *.zip)       unzip "$1"       ;;
+      *.Z)         uncompress "$1"  ;;
+      *.7z)        7z x "$1"        ;;
+      *)           echo "'$1' cannot be extracted via extract()" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
+
+# Quick find
+qfind() {
+  find . -iname "*$1*"
+}
+
+# Process search
+psgrep() {
+  ps aux | grep -v grep | grep -i -e VSZ -e "$1"
+}
+
+# Git clone and enter
+gcl() {
+  git clone "$1" && cd "$(basename "$1" .git)"
+}
+
+# Create Python virtual environment and activate
+mkvenv() {
+  python -m venv "${1:-.venv}" && source "${1:-.venv}/bin/activate"
+}
+
+# Quick HTTP server
+serve() {
+  python -m http.server "${1:-8000}"
+}
+
+# System update function
+sysup() {
+  echo "Updating system packages..."
+  sudo pacman -Syu
+  if command -v yay &> /dev/null; then
+    echo "Updating AUR packages..."
+    yay -Syu
+  fi
+  if command -v cargo &> /dev/null; then
+    echo "Updating Rust toolchain..."
+    rustup update
+  fi
+  echo "Update complete!"
+}
+
+# Docker cleanup
+dclean() {
+  echo "Cleaning Docker containers, images, volumes..."
+  docker system prune -af --volumes
+}
+
+# Fast directory navigation with fzf (if installed)
+if command -v fzf &> /dev/null; then
+  fd() {
+    local dir
+    dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
+  }
+fi
+
+# ============================================================================
+# History Configuration
+# ============================================================================
+HISTFILE=~/.zsh_history
+HISTSIZE=50000
+SAVEHIST=50000
+setopt EXTENDED_HISTORY          # Write the history file in the ':start:elapsed;command' format
+setopt HIST_EXPIRE_DUPS_FIRST    # Expire a duplicate event first when trimming history
+setopt HIST_FIND_NO_DUPS         # Do not display duplicates of a line previously found
+setopt HIST_IGNORE_ALL_DUPS      # Delete an old recorded event if a new event is a duplicate
+setopt HIST_IGNORE_DUPS          # Do not record an event that was just recorded again
+setopt HIST_IGNORE_SPACE         # Do not record an event starting with a space
+setopt HIST_SAVE_NO_DUPS         # Do not write a duplicate event to the history file
+setopt SHARE_HISTORY             # Share history between all sessions
+
+# ============================================================================
+# Key Bindings
+# ============================================================================
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+bindkey '^[[H' beginning-of-line
+bindkey '^[[F' end-of-line
+bindkey '^[[3~' delete-char
+
+# ============================================================================
+# Auto-completion Enhancements
+# ============================================================================
+zstyle ':completion:*' menu select
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*:descriptions' format '%U%B%d%b%u'
+zstyle ':completion:*:warnings' format '%BSorry, no matches for: %d%b'
+
+# Case-insensitive completion
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
+
+# ============================================================================
+# Additional Tools
+# ============================================================================
+
+# Enable zoxide (better cd) if installed
+if command -v zoxide &> /dev/null; then
+  eval "$(zoxide init zsh)"
+  alias cd='z'
+fi
+
+# Enable direnv if installed
+if command -v direnv &> /dev/null; then
+  eval "$(direnv hook zsh)"
+fi
+
+# Enable fzf if installed
+if [ -f /usr/share/fzf/key-bindings.zsh ]; then
+  source /usr/share/fzf/key-bindings.zsh
+fi
+if [ -f /usr/share/fzf/completion.zsh ]; then
+  source /usr/share/fzf/completion.zsh
+fi
+
+# ============================================================================
+# Powerlevel10k Configuration
+# ============================================================================
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# ============================================================================
+# Local Overrides
+# ============================================================================
+# Load local zsh config if it exists (for machine-specific settings)
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local

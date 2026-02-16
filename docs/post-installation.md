@@ -71,22 +71,59 @@ chsh -s /usr/bin/zsh
 
 ## 5. Apply Dotfiles/Configurations
 
-Dotfiles are included in this repository under `arch-setup/dotfiles/` (organized by shell/DE: `bash`, `hyprland`, `nvim`, `sway`, `zsh`).
+Dotfiles are included in this repository under `arch-setup/dotfiles/` with automated installers.
 
-If not already applied by the install scripts:
+### Automated Installation (Recommended)
+
+From the repository root:
+
 ```bash
-# Copy dotfiles to your home directory
-# Example: Apply Hyprland config
-cp -r arch-setup/dotfiles/hyprland ~/.config/hypr
-
-# Example: Apply Zsh config
-cp arch-setup/dotfiles/zsh/.zshrc ~/
-
-# Example: Apply Nvim config
-cp -r arch-setup/dotfiles/nvim ~/.config/nvim
+# Interactive menu to choose what to install
+bash arch-setup/dotfiles/install.sh
 ```
 
-See `arch-setup/dotfiles/README.md` for detailed documentation on which dotfiles apply to your setup.
+Or install specific components directly:
+
+```bash
+bash arch-setup/dotfiles/install-bash.sh      # Lightweight shell config
+bash arch-setup/dotfiles/install-zsh.sh       # Feature-rich Zsh + Oh-My-Zsh
+bash arch-setup/dotfiles/install-nvim.sh      # Neovim IDE setup
+bash arch-setup/dotfiles/install-hyprland.sh  # Hyprland window manager
+bash arch-setup/dotfiles/install-sway.sh      # Sway window manager
+```
+
+**What the scripts do:**
+- Automatically back up existing configurations
+- Copy dotfiles to correct locations
+- Install missing dependencies (Oh-My-Zsh, language servers, etc.)
+- Provide post-install instructions
+
+### Manual Installation
+
+If you prefer to copy files manually:
+
+```bash
+# Shell configuration - choose one
+cp arch-setup/dotfiles/bash/.bashrc ~/.bashrc
+# OR
+cp arch-setup/dotfiles/zsh/.zshrc ~/.zshrc
+
+# Neovim
+mkdir -p ~/.config/nvim
+cp -r arch-setup/dotfiles/nvim/* ~/.config/nvim/
+
+# Hyprland
+mkdir -p ~/.config/hypr ~/.config/waybar
+cp arch-setup/dotfiles/hyprland/hyprland.conf ~/.config/hypr/
+cp arch-setup/dotfiles/hyprland/waybar-* ~/.config/waybar/
+
+# Sway
+mkdir -p ~/.config/sway ~/.config/waybar
+cp arch-setup/dotfiles/sway/config ~/.config/sway/
+cp arch-setup/dotfiles/sway/waybar-* ~/.config/waybar/
+```
+
+**See `arch-setup/dotfiles/README.md` for full documentation on installation, prerequisites, customization, and troubleshooting.**
 
 ## 6. Configure Applications
 

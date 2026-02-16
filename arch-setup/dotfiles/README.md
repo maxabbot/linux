@@ -9,8 +9,35 @@ This directory contains configuration files (dotfiles) for various applications 
 - **nvim/** - Neovim IDE-like configuration with LSP support
 - **hyprland/** - Hyprland window manager configuration
 - **sway/** - Sway window manager configuration
+- **install.sh** - Interactive menu to install all dotfiles
+- **install-*.sh** - Individual installers for each component
 
 ## Quick Start
+
+### Automated Installation (Recommended)
+
+Run the main installer script for an interactive menu:
+
+```bash
+bash install.sh
+```
+
+Or run individual installers directly:
+
+```bash
+# Shell (choose one)
+bash install-bash.sh      # Lightweight (no dependencies)
+bash install-zsh.sh       # Feature-rich with Oh-My-Zsh
+
+# Editor
+bash install-nvim.sh      # Modern IDE-like Neovim setup
+
+# Desktop Environment (choose one)
+bash install-hyprland.sh  # Hyprland WM
+bash install-sway.sh      # Sway WM
+```
+
+### Manual Installation
 
 ### Shell Configurations
 

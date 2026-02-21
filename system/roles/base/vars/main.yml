@@ -74,6 +74,7 @@ base_cli_packages:
   - tree
   - nano
   - vim
+  - zsh
   - tmux
   - fastfetch
   - stow

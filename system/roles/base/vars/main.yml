@@ -44,7 +44,6 @@ base_filesystem_packages:
   - p7zip
   - unzip
   - unrar
-  - rar
   - zip
   - gparted
   - parted

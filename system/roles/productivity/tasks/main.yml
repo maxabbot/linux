@@ -137,12 +137,35 @@
     state: present
   become: false
 
-- name: Install AUR media packages
+- name: Install Spotify launcher
   kewlfft.aur.aur:
-    name: "{{ prod_aur_media_packages }}"
+    name: spotify-launcher
     use: "{{ aur_helper }}"
     state: present
+    skip_installed: true
   become: false
+  timeout: 600
+  failed_when: false
+
+- name: Install Stremio
+  kewlfft.aur.aur:
+    name: stremio
+    use: "{{ aur_helper }}"
+    state: present
+    skip_installed: true
+  become: false
+  timeout: 600
+  failed_when: false
+
+- name: Install SmartTube Beta
+  kewlfft.aur.aur:
+    name: smarttube-beta-bin
+    use: "{{ aur_helper }}"
+    state: present
+    skip_installed: true
+  become: false
+  timeout: 600
+  failed_when: false
 
 - name: Install AUR misc packages
   kewlfft.aur.aur:

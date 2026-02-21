@@ -37,8 +37,8 @@
 
 - name: Install AUR helper package
   ansible.builtin.shell:
-    cmd: "cd /tmp/{{ aur_helper }} && sudo pacman -U --noconfirm *.pkg.tar.zst"
-  become: false
+    cmd: "cd /tmp/{{ aur_helper }} && pacman -U --noconfirm *.pkg.tar.zst"
+  become: true
   when: aur_check.rc != 0
 
 - name: Clean up AUR helper build directory

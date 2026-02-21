@@ -148,23 +148,35 @@
   failed_when: false
 
 - name: Install Stremio
-  kewlfft.aur.aur:
-    name: stremio
-    use: "{{ aur_helper }}"
-    state: present
-    skip_installed: true
+  block:
+    - name: Attempt Stremio installation
+      kewlfft.aur.aur:
+        name: stremio
+        use: "{{ aur_helper }}"
+        state: present
+        skip_installed: true
+      become: false
+      timeout: 600
+  rescue:
+    - ansible.builtin.debug:
+        msg: "Stremio installation failed - may require manual intervention or be incompatible"
   become: false
-  timeout: 600
   failed_when: false
 
 - name: Install SmartTube Beta
-  kewlfft.aur.aur:
-    name: smarttube-beta-bin
-    use: "{{ aur_helper }}"
-    state: present
-    skip_installed: true
+  block:
+    - name: Attempt SmartTube Beta installation
+      kewlfft.aur.aur:
+        name: smarttube-beta-bin
+        use: "{{ aur_helper }}"
+        state: present
+        skip_installed: true
+      become: false
+      timeout: 600
+  rescue:
+    - ansible.builtin.debug:
+        msg: "SmartTube Beta installation failed - may require manual intervention or be incompatible"
   become: false
-  timeout: 600
   failed_when: false
 
 - name: Clean stale AUR cache for parsec-bin

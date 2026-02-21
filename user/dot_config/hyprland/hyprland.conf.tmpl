@@ -14,12 +14,16 @@ monitor={{ .monitors.secondary }}
 {{- end }}
 
 # Startup applications
+exec-once = hyprpaper
 exec-once = waybar
 exec-once = dunst
 exec-once = /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec-once = hyprpaper
 exec-once = wl-paste --type text --watch cliphist store
 exec-once = wl-paste --type image --watch cliphist store
+exec-once = copyq --start-server
+exec-once = swaync
+exec-once = nm-applet --indicator
+exec-once = syncthingtray
 
 # Environment variables
 env = XCURSOR_SIZE,24

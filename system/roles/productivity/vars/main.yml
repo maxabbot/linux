@@ -74,6 +74,7 @@ prod_monitoring_packages:
   - openrgb
   - corectrl
   - glances
+  - pacman-contrib
 
 # Security / backup
 prod_security_packages:
@@ -88,6 +89,9 @@ prod_helper_packages:
   - redshift
   - flameshot
   - alacritty
+  - keepassxc
+  - blueman
+  - network-manager-applet
 
 # AUR — always installed
 prod_aur_packages:
@@ -146,6 +150,7 @@ prod_aur_media_packages:
 # AUR — misc
 prod_aur_misc_packages:
   - parsec-bin
+  - syncthingtray
 
 # Flatpak apps
 prod_flatpak_apps:

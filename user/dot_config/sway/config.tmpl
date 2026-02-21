@@ -23,6 +23,14 @@ output {{ .monitors.primary }}
 output {{ .monitors.secondary }}
 {{- end }}
 
+# Startup applications
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+exec dunst &
+exec waybar &
+exec copyq --start-server &
+exec nm-applet --indicator &
+exec syncthingtray &
+
 # Idle configuration
 exec swayidle -w \
     timeout 300 'swaylock -f' \

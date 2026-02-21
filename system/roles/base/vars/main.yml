@@ -49,8 +49,10 @@ base_filesystem_packages:
   - parted
   - snapper
 
-# Wayland / display
+# Wayland / display / login
 base_display_packages:
+  - sddm
+  - sddm-kcm
   - qt5-wayland
   - qt6-wayland
   - qt5ct
@@ -124,6 +126,7 @@ gufw_packages:
 
 # Services to enable
 base_services:
+  - sddm.service
   - NetworkManager.service
   - bluetooth.service
   - cups.service

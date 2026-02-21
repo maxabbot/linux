@@ -142,7 +142,6 @@
     name: spotify-launcher
     use: "{{ aur_helper }}"
     state: present
-    skip_installed: true
   become: false
   timeout: 600
   failed_when: false
@@ -154,7 +153,6 @@
         name: stremio
         use: "{{ aur_helper }}"
         state: present
-        skip_installed: true
       become: false
       timeout: 600
   rescue:
@@ -168,7 +166,6 @@
         name: smarttube-beta-bin
         use: "{{ aur_helper }}"
         state: present
-        skip_installed: true
       become: false
       timeout: 600
   rescue:
@@ -188,7 +185,6 @@
     use: "{{ aur_helper }}"
     state: present
     aur_only: true
-    skip_installed: true
   become: false
   timeout: 600
   failed_when: false
@@ -198,7 +194,6 @@
     name: "{{ prod_aur_misc_packages | reject('equalto', 'parsec-bin') | list }}"
     use: "{{ aur_helper }}"
     state: present
-    skip_installed: true
   become: false
   timeout: 600
   failed_when: false

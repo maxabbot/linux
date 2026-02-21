@@ -167,12 +167,22 @@
   timeout: 600
   failed_when: false
 
+- name: Clean stale AUR cache for parsec-bin
+  ansible.builtin.file:
+    path: "~/.cache/{{ aur_helper }}/parsec-bin"
+    state: absent
+  become: false
+  failed_when: false
+
 - name: Install AUR misc packages
   kewlfft.aur.aur:
     name: "{{ prod_aur_misc_packages }}"
     use: "{{ aur_helper }}"
     state: present
+    skip_installed: true
   become: false
+  timeout: 600
+  failed_when: false
 
 # --- Flatpak ---
 

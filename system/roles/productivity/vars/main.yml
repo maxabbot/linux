@@ -19,7 +19,6 @@ prod_desktop_packages:
 # Office / documents
 prod_office_packages:
   - libreoffice-fresh
-  - libreoffice-fresh-en-us
   - xournalpp
   - zathura
   - zathura-pdf-mupdf

@@ -81,4 +81,4 @@
     use: "{{ aur_helper }}"
     state: present
   become: false
-  when: install_apollo | bool
+  when: install_apollo | default(false) | bool

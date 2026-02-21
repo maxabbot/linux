@@ -144,7 +144,7 @@
     use: "{{ aur_helper }}"
     state: present
   become: false
-  when: enable_data_platforms | bool
+  when: enable_data_platforms | default(false) | bool
 
 - name: Enable SSH service
   ansible.builtin.systemd:

@@ -85,7 +85,7 @@
     name: "{{ gufw_packages }}"
     state: present
   become: true
-  when: enable_gufw | bool
+  when: enable_gufw | default(false) | bool
 
 - name: Enable base services
   ansible.builtin.systemd:

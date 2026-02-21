@@ -26,7 +26,7 @@
     name: "{{ nvidia_cuda_packages }}"
     state: present
   become: true
-  when: enable_cuda_stack | bool
+  when: enable_cuda_stack | default(false) | bool
 
 - name: Install NVIDIA AUR packages
   kewlfft.aur.aur:

@@ -13,13 +13,13 @@ set -euo pipefail
 SCRIPT_DIR=$(cd -- "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)
 
 # Colors
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-BLUE='\033[0;34m'
-CYAN='\033[0;36m'
-BOLD='\033[1m'
-RESET='\033[0m'
+RED=$'\033[0;31m'
+GREEN=$'\033[0;32m'
+YELLOW=$'\033[0;33m'
+BLUE=$'\033[0;34m'
+CYAN=$'\033[0;36m'
+BOLD=$'\033[1m'
+RESET=$'\033[0m'
 
 log_info()    { printf "${BLUE}[INFO]${RESET}    %s\n" "$*"; }
 log_success() { printf "${GREEN}[OK]${RESET}      %s\n" "$*"; }
@@ -95,27 +95,27 @@ run_system_playbook() {
   log_header "System Configuration (Ansible)"
 
   local playbook_dir="${SCRIPT_DIR}/system"
-  local inventory="${playbook_dir}/inventory/hosts.yml"
+  cd "$playbook_dir"
 
   case "$PROFILE" in
     home_desktop)
       log_info "Running full Home Desktop playbook..."
-      ansible-playbook "${playbook_dir}/playbooks/site.yml" \
-        -i "$inventory" \
+      ansible-playbook "playbooks/site.yml" \
+        -i "inventory/hosts.yml" \
         -l home_desktop \
         --ask-become-pass
       ;;
     work_laptop)
       log_info "Running Work Laptop playbook..."
-      ansible-playbook "${playbook_dir}/playbooks/site.yml" \
-        -i "$inventory" \
+      ansible-playbook "playbooks/site.yml" \
+        -i "inventory/hosts.yml" \
         -l work_laptop \
         --ask-become-pass
       ;;
     minimal)
       log_info "Running Base-only playbook..."
-      ansible-playbook "${playbook_dir}/playbooks/base.yml" \
-        -i "$inventory" \
+      ansible-playbook "playbooks/base.yml" \
+        -i "inventory/hosts.yml" \
         -l localhost \
         --ask-become-pass
       ;;
@@ -143,14 +143,15 @@ run_system_playbook() {
       fi
 
       log_info "Running playbook with tags: $tags"
-      ansible-playbook "${playbook_dir}/playbooks/site.yml" \
-        -i "$inventory" \
+      ansible-playbook "playbooks/site.yml" \
+        -i "inventory/hosts.yml" \
         -l localhost \
         --tags "$tags" \
         --ask-become-pass
       ;;
   esac
 
+  cd "$SCRIPT_DIR"
   log_success "System configuration complete."
 }
 

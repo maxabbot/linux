@@ -84,8 +84,6 @@ prod_security_packages:
 # Desktop helpers
 prod_helper_packages:
   - kvantum
-  - kvantum-qt5
-  - kvantum-qt6
   - papirus-icon-theme
   - kwalletmanager
   - redshift

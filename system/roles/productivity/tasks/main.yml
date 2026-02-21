@@ -168,15 +168,26 @@
   failed_when: false
 
 - name: Clean stale AUR cache for parsec-bin
-  ansible.builtin.file:
-    path: "~/.cache/{{ aur_helper }}/parsec-bin"
-    state: absent
+  ansible.builtin.shell: |
+    rm -rf ~/.cache/yay/parsec-bin
+    rm -rf ~/yay-parsec-bin
   become: false
+  failed_when: false
+
+- name: Install parsec-bin with aur_only flag
+  kewlfft.aur.aur:
+    name: parsec-bin
+    use: "{{ aur_helper }}"
+    state: present
+    aur_only: true
+    skip_installed: true
+  become: false
+  timeout: 600
   failed_when: false
 
 - name: Install AUR misc packages
   kewlfft.aur.aur:
-    name: "{{ prod_aur_misc_packages }}"
+    name: "{{ prod_aur_misc_packages | reject('equalto', 'parsec-bin') | list }}"
     use: "{{ aur_helper }}"
     state: present
     skip_installed: true

@@ -28,10 +28,16 @@
   become: false
   when: aur_check.rc != 0
 
-- name: Build and install AUR helper
+- name: Build AUR helper
   ansible.builtin.command:
-    cmd: makepkg -si --noconfirm
+    cmd: makepkg -s --noconfirm
     chdir: "/tmp/{{ aur_helper }}"
+  become: false
+  when: aur_check.rc != 0
+
+- name: Install AUR helper package
+  ansible.builtin.shell:
+    cmd: "cd /tmp/{{ aur_helper }} && sudo pacman -U --noconfirm *.pkg.tar.zst"
   become: false
   when: aur_check.rc != 0
 

@@ -32,7 +32,7 @@
   ansible.builtin.command:
     cmd: makepkg -s --noconfirm
     chdir: "/tmp/{{ aur_helper }}"
-  become: false
+  become: true
   when: aur_check.rc != 0
 
 - name: Install AUR helper package

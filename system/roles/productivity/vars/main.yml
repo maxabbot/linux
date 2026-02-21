@@ -27,8 +27,7 @@ prod_office_packages:
   - pdfarranger
 
 # Browsers
-prod_browser_packages:
-  - firefox
+prod_browser_packages: []
 
 # Communication
 prod_communication_packages:

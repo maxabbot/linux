@@ -73,7 +73,6 @@ base_cli_packages:
   - jq
   - tree
   - nano
-  - vim
   - zsh
   - tmux
   - fastfetch

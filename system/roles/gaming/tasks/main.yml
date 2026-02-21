@@ -3,6 +3,12 @@
 # Gaming Role — Tasks
 # =============================================================================
 
+- name: Check if multilib is already enabled
+  ansible.builtin.command: grep -E '^\[multilib\]' /etc/pacman.conf
+  register: multilib_check
+  changed_when: false
+  failed_when: false
+
 - name: Enable multilib repository
   ansible.builtin.blockinfile:
     path: /etc/pacman.conf
@@ -13,6 +19,7 @@
     insertafter: EOF
   become: true
   notify: Update pacman database
+  when: multilib_check.rc != 0
 
 - name: Install Steam & Wine
   community.general.pacman:

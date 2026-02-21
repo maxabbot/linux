@@ -3,6 +3,18 @@
 # NVIDIA Role — Tasks
 # =============================================================================
 
+- name: Blacklist nouveau driver
+  ansible.builtin.copy:
+    dest: /etc/modprobe.d/blacklist-nouveau.conf
+    content: |
+      blacklist nouveau
+      options nouveau modeset=0
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+  notify: Regenerate initramfs
+
 - name: Install NVIDIA driver packages
   community.general.pacman:
     name: "{{ nvidia_driver_packages }}"

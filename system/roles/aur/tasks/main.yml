@@ -15,17 +15,8 @@
     name:
       - base-devel
       - git
+      - go
     state: present
-  become: true
-  when: aur_check.rc != 0
-
-- name: Configure sudo to allow makepkg dependencies without password
-  ansible.builtin.lineinfile:
-    path: /etc/sudoers.d/makepkg
-    line: "{{ ansible_user_id }} ALL=(ALL) NOPASSWD: /usr/bin/pacman"
-    create: true
-    mode: '0440'
-    validate: 'visudo -cf %s'
   become: true
   when: aur_check.rc != 0
 
@@ -47,7 +38,7 @@
 
 - name: Install AUR helper package
   ansible.builtin.shell:
-    cmd: "cd /tmp/{{ aur_helper }} && pacman -U --noconfirm *.pkg.tar.zst"
+    cmd: "cd /tmp/{{ aur_helper }} && pacman -U --noconfirm $(ls *.pkg.tar.zst | grep -v '\-debug-')"
   become: true
   when: aur_check.rc != 0
 

@@ -104,6 +104,20 @@
   become: true
   when: power_management == 'power-profiles-daemon' or power_management == 'tlp'
 
+- name: Configure reflector for NZ mirrors
+  ansible.builtin.copy:
+    dest: /etc/xdg/reflector/reflector.conf
+    content: |
+      --country 'New Zealand,Australia'
+      --protocol https
+      --latest 10
+      --sort rate
+      --save /etc/pacman.d/mirrorlist
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+
 - name: Generate user directories
   ansible.builtin.command: xdg-user-dirs-update
   changed_when: false

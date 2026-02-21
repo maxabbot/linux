@@ -75,10 +75,10 @@
 
 - name: Install power management packages
   community.general.pacman:
-    name: "{{ power_management_packages[power_management] }}"
+    name: "{{ power_management_packages[power_management | default('power-profiles-daemon')] }}"
     state: present
   become: true
-  when: power_management in power_management_packages
+  when: (power_management | default('power-profiles-daemon')) in power_management_packages
 
 - name: Install GUFW
   community.general.pacman:
@@ -98,11 +98,11 @@
 
 - name: Enable power management service
   ansible.builtin.systemd:
-    name: "{{ power_management }}.service"
+    name: "{{ (power_management | default('power-profiles-daemon')) }}.service"
     enabled: true
     state: started
   become: true
-  when: power_management == 'power-profiles-daemon' or power_management == 'tlp'
+  when: (power_management | default('power-profiles-daemon')) in ['power-profiles-daemon', 'tlp']
 
 - name: Configure reflector for NZ mirrors
   ansible.builtin.copy:

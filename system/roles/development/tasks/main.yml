@@ -122,6 +122,13 @@
     state: present
   become: false
 
+- name: Install AUR cloud / infrastructure packages
+  kewlfft.aur.aur:
+    name: "{{ dev_aur_cloud_packages }}"
+    use: "{{ aur_helper }}"
+    state: present
+  become: false
+
 - name: Install AUR database packages
   kewlfft.aur.aur:
     name: "{{ dev_aur_database_packages }}"

@@ -59,20 +59,14 @@ dev_libvirt_packages:
   - virt-manager
   - dnsmasq
 
-# Cloud / infrastructure
+# Cloud / infrastructure (official repos only)
 dev_cloud_packages:
   - kubectl
   - kubectx
   - helm
-  - kind
-  - minikube
-  - ansible
   - terraform
   - opentofu
-  - aws-cli-v2
-  - azure-cli
-  - google-cloud-cli
-  - doctl
+  - ansible
 
 # API tools
 dev_api_packages:
@@ -101,6 +95,15 @@ dev_aur_packages:
   - postman-bin
   - wiremock-standalone
   - oh-my-zsh-git
+
+# AUR — cloud / infrastructure tools
+dev_aur_cloud_packages:
+  - kind
+  - minikube
+  - aws-cli-v2
+  - azure-cli
+  - google-cloud-sdk
+  - doctl
 
 # AUR — database tools (gated by enable_database_servers)
 dev_aur_database_packages:

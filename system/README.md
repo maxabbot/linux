@@ -10,15 +10,12 @@ cd system
 # 1. Install Ansible Galaxy dependencies
 ansible-galaxy install -r requirements.yml
 
-# 2. Set your profile in inventory/hosts.yml
-#    (uncomment home_desktop or work_laptop)
+# 2. Run the full playbook for your profile
+ansible-playbook playbooks/site.yml -l work_laptop --ask-become-pass
+ansible-playbook playbooks/site.yml -l home_desktop --ask-become-pass
 
-# 3. Run the full playbook
-ansible-playbook playbooks/site.yml --ask-become-pass
-
-# Or run a specific layer
-ansible-playbook playbooks/base.yml --ask-become-pass
-ansible-playbook playbooks/development.yml --ask-become-pass
+# Or base-only (minimal)
+ansible-playbook playbooks/site.yml -l minimal --ask-become-pass
 ```
 
 ## Directory Structure
@@ -28,11 +25,12 @@ system/
 ├── ansible.cfg                 # Ansible configuration
 ├── requirements.yml            # Galaxy dependencies
 ├── inventory/
-│   └── hosts.yml               # Inventory (localhost)
-├── group_vars/
-│   ├── all.yml                 # Default variables & feature toggles
-│   ├── home_desktop.yml        # Home desktop profile overrides
-│   └── work_laptop.yml         # Work laptop profile overrides
+│   ├── hosts.yml               # Inventory (profile host aliases)
+│   └── group_vars/
+│       ├── all.yml             # Default variables & feature toggles
+│       ├── home_desktop.yml    # Home desktop profile overrides
+│       ├── work_laptop.yml     # Work laptop profile overrides
+│       └── minimal.yml         # Minimal (base-only) profile
 ├── playbooks/
 │   ├── site.yml                # Full system playbook
 │   ├── base.yml                # Base packages only
@@ -51,12 +49,14 @@ system/
 
 ## Profiles
 
-Edit `inventory/hosts.yml` to select your profile. Each profile sets different variable overrides in `group_vars/`:
+Select a profile with the `-l` (limit) flag. Each profile maps to a group in
+`inventory/hosts.yml` with its own `group_vars/` overrides:
 
-| Profile | File | Roles | Notes |
-|---------|------|-------|-------|
-| Home Desktop | `home_desktop.yml` | base, dev, prod, nvidia, gaming | RTX 40-series, CUDA enabled |
-| Work Laptop | `work_laptop.yml` | base, dev, prod | TLP power management, no gaming |
+| Profile (`-l`) | Roles applied | Notes |
+|----------------|--------------|-------|
+| `home_desktop` | base, dev, prod, nvidia, gaming | RTX 40-series, CUDA enabled |
+| `work_laptop` | base, dev, prod | TLP power management, no gaming |
+| `minimal` | base | Core packages and services only |
 
 ## Feature Toggles
 
@@ -79,12 +79,18 @@ Override in `group_vars/all.yml` or per-profile:
 
 ## Running Specific Tags
 
-```bash
-# Only base + development
-ansible-playbook playbooks/site.yml --tags base,development --ask-become-pass
+Roles are gated by `profile_roles`, so always specify a limit or pass `profile_roles` explicitly:
 
-# Skip gaming
-ansible-playbook playbooks/site.yml --skip-tags gaming --ask-become-pass
+```bash
+# Only base + development (work_laptop profile already includes both)
+ansible-playbook playbooks/site.yml -l work_laptop --tags base,development --ask-become-pass
+
+# Override profile_roles ad-hoc
+ansible-playbook playbooks/site.yml -l minimal \
+  -e 'profile_roles=["base","development"]' --ask-become-pass
+
+# Skip gaming on home_desktop
+ansible-playbook playbooks/site.yml -l home_desktop --skip-tags gaming --ask-become-pass
 ```
 
 ## Idempotency

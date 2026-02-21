@@ -114,13 +114,13 @@ run_system_playbook() {
       ;;
     minimal)
       log_info "Running Base-only playbook..."
-      ansible-playbook "playbooks/base.yml" \
+      ansible-playbook "playbooks/site.yml" \
         -i "inventory/hosts.yml" \
-        -l localhost \
+        -l minimal \
         --ask-become-pass
       ;;
     custom)
-      local tags=""
+      local selected_roles=()
       echo ""
       echo "Select roles to install (space-separated numbers):"
       echo "  1) base   2) development   3) productivity   4) nvidia   5) gaming"
@@ -129,24 +129,29 @@ run_system_playbook() {
 
       for r in $roles_input; do
         case "$r" in
-          1) tags="${tags:+$tags,}base" ;;
-          2) tags="${tags:+$tags,}development" ;;
-          3) tags="${tags:+$tags,}productivity" ;;
-          4) tags="${tags:+$tags,}nvidia" ;;
-          5) tags="${tags:+$tags,}gaming" ;;
+          1) selected_roles+=("base") ;;
+          2) selected_roles+=("development") ;;
+          3) selected_roles+=("productivity") ;;
+          4) selected_roles+=("nvidia") ;;
+          5) selected_roles+=("gaming") ;;
         esac
       done
 
-      if [[ -z "$tags" ]]; then
+      if [[ ${#selected_roles[@]} -eq 0 ]]; then
         log_warn "No roles selected, running base only."
-        tags="base"
+        selected_roles=("base")
       fi
 
-      log_info "Running playbook with tags: $tags"
+      # Build JSON array for profile_roles extra var: ["base","development",...]
+      local roles_json joined
+      printf -v joined '"%s",' "${selected_roles[@]}"
+      roles_json="[${joined%,}]"
+
+      log_info "Running playbook with roles: ${selected_roles[*]}"
       ansible-playbook "playbooks/site.yml" \
         -i "inventory/hosts.yml" \
-        -l localhost \
-        --tags "$tags" \
+        -l minimal \
+        -e "profile_roles=${roles_json}" \
         --ask-become-pass
       ;;
   esac

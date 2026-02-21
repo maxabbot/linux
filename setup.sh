@@ -116,6 +116,7 @@ run_system_playbook() {
       log_info "Running Base-only playbook..."
       ansible-playbook "${playbook_dir}/playbooks/base.yml" \
         -i "$inventory" \
+        -l localhost \
         --ask-become-pass
       ;;
     custom)
@@ -144,6 +145,7 @@ run_system_playbook() {
       log_info "Running playbook with tags: $tags"
       ansible-playbook "${playbook_dir}/playbooks/site.yml" \
         -i "$inventory" \
+        -l localhost \
         --tags "$tags" \
         --ask-become-pass
       ;;

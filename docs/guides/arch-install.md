@@ -57,13 +57,18 @@ cd linux-setup-scripts/bootstrap/archinstall
 
 Open the config before running — at minimum check these fields:
 
-**Disk device** — the config defaults to `/dev/sda`. Confirm your target disk:
+**Disk configuration** — the config is set to auto-detect your disk. When you run archinstall, you will be prompted interactively:
+1. archinstall will list available disks
+2. Select your target disk (e.g., `/dev/sda`)
+3. Choose your partition scheme (the default `default_layout` uses Btrfs with subvolumes)
+4. Review and confirm
+
+Confirm your target disk before archinstall starts:
 ```bash
 lsblk
 ```
-Then edit `disk_config.device_modifications[0].device` to match (e.g. `/dev/nvme0n1`).
 
-> **Warning**: `"wipe": true` will erase the entire target disk.
+> **Warning**: archinstall will prompt you to confirm disk wipe operations. Review carefully as this will erase data.
 
 **Graphics driver** — change `profile_config.gfx_driver` to match your GPU:
 
@@ -76,7 +81,9 @@ Then edit `disk_config.device_modifications[0].device` to match (e.g. `/dev/nvme
 
 **Desktop** — `profile_config.profile.details` defaults to `["Hyprland"]`. Change to `["Sway"]` if preferred.
 
-**Timezone** — defaults to `"America/New_York"`. Update to your zone, e.g. `"Europe/London"`.
+**Timezone** — defaults to `"Pacific/Auckland"`. Update to your zone, e.g. `"Europe/London"`.
+
+**Locale** — defaults to `"en_NZ"`. Update `locale_config.sys_lang` for your region, e.g. `"en_US"` or `"en_GB"`.
 
 **Mirror region** — update `mirror_config.mirror_regions` to a region near you to improve download speeds.
 

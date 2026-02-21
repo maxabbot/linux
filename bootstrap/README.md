@@ -43,7 +43,15 @@ archinstall --config user-configuration.json --creds user-credentials.json
 
 ### Customisation
 
-**Disk layout**: The default config uses a single disk (`/dev/sda`) with Btrfs subvolumes (`@`, `@home`, `@log`, `@pkg`, `@snapshots`). Adjust `disk_config` for your hardware (NVMe devices are typically `/dev/nvme0n1`).
+**Disk layout**: The config uses auto-detection for disks. When you run archinstall, you will be prompted interactively to:
+1. Select your target disk (e.g. `/dev/sda` or `/dev/nvme0n1`)
+2. Choose a partition scheme (default is Btrfs with subvolumes)
+3. Review and confirm the layout
+
+Before running archinstall, confirm your available disks:
+```bash
+lsblk
+```
 
 **Graphics driver**: Change `profile_config.gfx_driver` to match your GPU:
 - `"Nvidia (proprietary)"` — NVIDIA
@@ -53,9 +61,11 @@ archinstall --config user-configuration.json --creds user-credentials.json
 
 **Desktop**: Change `profile_config.profile.details` to `["Sway"]`, `["Hyprland"]`, or `["Minimal"]`.
 
+**Locale**: Update `locale_config.sys_lang` for your region (e.g. `"en_US"`, `"en_GB"`, `"en_NZ"`).
+
 **Mirror region**: Update `mirror_config.mirror_regions` for your country.
 
-**Timezone**: Update `timezone` to your local timezone (e.g., `Europe/London`, `America/Chicago`).
+**Timezone**: Update `timezone` to your local timezone (e.g., `Europe/London`, `America/Chicago`, `Pacific/Auckland`).
 
 ## After archinstall
 

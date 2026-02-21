@@ -9,63 +9,7 @@
   "config_version": "2.8.1",
   "debug": false,
   "disk_config": {
-    "config_type": "default_layout",
-    "device_modifications": [
-      {
-        "device": "/dev/sda",
-        "wipe": true,
-        "partitions": [
-          {
-            "btrfs": [],
-            "dev_path": null,
-            "flags": ["Boot"],
-            "fs_type": "fat32",
-            "mount_options": [],
-            "mountpoint": "/boot",
-            "obj_id": "boot",
-            "size": {
-              "sector_size": null,
-              "unit": "GiB",
-              "value": 1
-            },
-            "start": {
-              "sector_size": null,
-              "unit": "MiB",
-              "value": 1
-            },
-            "status": "create",
-            "type": "primary"
-          },
-          {
-            "btrfs": [
-              {"mountpoint": "@", "name": "@"},
-              {"mountpoint": "@home", "name": "@home"},
-              {"mountpoint": "@log", "name": "@log"},
-              {"mountpoint": "@pkg", "name": "@pkg"},
-              {"mountpoint": "@snapshots", "name": "@snapshots"}
-            ],
-            "dev_path": null,
-            "flags": [],
-            "fs_type": "btrfs",
-            "mount_options": ["compress=zstd", "noatime"],
-            "mountpoint": "/",
-            "obj_id": "root",
-            "size": {
-              "sector_size": null,
-              "unit": "Remainder",
-              "value": 0
-            },
-            "start": {
-              "sector_size": null,
-              "unit": "GiB",
-              "value": 1
-            },
-            "status": "create",
-            "type": "primary"
-          }
-        ]
-      }
-    ]
+    "config_type": "default_layout"
   },
   "hostname": "archlinux",
   "kernels": ["linux", "linux-lts"],

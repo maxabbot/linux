@@ -38,7 +38,7 @@
 
 - name: Install AUR helper package
   ansible.builtin.shell:
-    cmd: "cd /tmp/{{ aur_helper }} && pacman -U --noconfirm $(ls *.pkg.tar.zst | grep -v '\-debug-')"
+    cmd: "cd /tmp/{{ aur_helper }} && pacman -U --noconfirm $(ls *.pkg.tar.zst | grep -v 'debug')"
   become: true
   when: aur_check.rc != 0
 

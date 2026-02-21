@@ -96,6 +96,24 @@
   become: true
   failed_when: false
 
+- name: Disable conflicting power-profiles-daemon if TLP selected
+  ansible.builtin.systemd:
+    name: power-profiles-daemon.service
+    enabled: false
+    state: stopped
+  become: true
+  when: (power_management | default('power-profiles-daemon')) == 'tlp'
+  failed_when: false
+
+- name: Disable conflicting TLP if power-profiles-daemon selected
+  ansible.builtin.systemd:
+    name: tlp.service
+    enabled: false
+    state: stopped
+  become: true
+  when: (power_management | default('power-profiles-daemon')) == 'power-profiles-daemon'
+  failed_when: false
+
 - name: Enable power management service
   ansible.builtin.systemd:
     name: "{{ (power_management | default('power-profiles-daemon')) }}.service"
@@ -103,6 +121,7 @@
     state: started
   become: true
   when: (power_management | default('power-profiles-daemon')) in ['power-profiles-daemon', 'tlp']
+  failed_when: false
 
 - name: Configure reflector for NZ mirrors
   ansible.builtin.copy:

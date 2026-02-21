@@ -47,3 +47,18 @@
     path: "/tmp/{{ aur_helper }}"
     state: absent
   when: aur_check.rc != 0
+
+- name: Get current user for sudoers configuration
+  ansible.builtin.command: whoami
+  register: current_user
+  changed_when: false
+  become: false
+
+- name: Configure sudoers for AUR helper (allow pacman without password)
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers.d/aur_helper
+    line: "{{ current_user.stdout }} ALL=(ALL) NOPASSWD: /usr/bin/pacman"
+    create: true
+    mode: "0440"
+    validate: /usr/bin/visudo -cf %s
+  become: true

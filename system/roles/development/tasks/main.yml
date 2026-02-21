@@ -110,7 +110,7 @@
 - name: Initialise Rust toolchain via rustup
   ansible.builtin.command: rustup default stable
   args:
-    creates: "{{ ansible_env.HOME }}/.rustup/toolchains/stable-x86_64-unknown-linux-gnu"
+    creates: "{{ ansible_facts['env']['HOME'] }}/.rustup/toolchains/stable-x86_64-unknown-linux-gnu"
   become: false
 
 # --- AUR packages (requires aur role to have installed helper) ---

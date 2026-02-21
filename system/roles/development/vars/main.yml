@@ -103,7 +103,6 @@ dev_aur_cloud_packages:
   - azure-cli
   - google-cloud-sdk
   - doctl
-  - grpcurl
 
 # AUR — database tools (gated by enable_database_servers)
 dev_aur_database_packages:

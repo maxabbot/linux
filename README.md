@@ -1,110 +1,168 @@
 # linux-setup-scripts
-Automation for rebuilding Arch Linux workstations with repeatable, modular scripts.
+
+Infrastructure-as-Code automation for rebuilding Arch Linux workstations — from bare metal to a fully configured desktop in three layers.
+
+## Architecture
+
+```text
++---------------------------------------------------+
+|  Layer 1 — Bootstrap (archinstall)                |
+|  Partition disks, install base system, reboot     |
++---------------------------------------------------+
+|  Layer 2 — System Configuration (Ansible)         |
+|  Packages, services, drivers, system tweaks       |
++---------------------------------------------------+
+|  Layer 3 — User Environment (Chezmoi)             |
+|  Dotfiles, shell config, editor, WM themes        |
++---------------------------------------------------+
+```
+
+| Layer | Tool | Directory | Purpose |
+|-------|------|-----------|---------|
+| Bootstrap | archinstall | `bootstrap/` | Automated Arch installation from ISO |
+| System | Ansible | `system/` | Package management, services, drivers |
+| User | Chezmoi | `user/` | Dotfiles and user-space configuration |
 
 ## Repository layout
 
 ```text
-modules/             # Reusable install modules (base, development, productivity, NVIDIA, gaming)
-profiles/            # Orchestrators that chain modules for common hosts
-arch-setup/          # Legacy stage-by-stage installer (kept for manual runs)
-docs/guides/         # Scenario guides (e.g., portable USB installs, VirtualBox)
-docs/reference/      # Checklists and planning notes (requirements, package rationales)
+setup.sh              # Single entry point — runs everything
+bootstrap/            # archinstall JSON configs (Layer 1)
+system/               # Ansible playbooks, roles, and inventory (Layer 2)
+  ├─ playbooks/      #   site.yml + per-role playbooks
+  ├─ roles/          #   aur, base, development, productivity, nvidia, gaming
+  ├─ inventory/      #   hosts.yml (localhost)
+  └─ group_vars/     #   Profile variables (home_desktop, work_laptop)
+user/                 # Chezmoi source directory (Layer 3)
+  ├─ dot_zshrc       #   Shell configs
+  ├─ dot_config/     #   nvim, hyprland, sway, waybar
+  └─ run_onchange_*  #   Auto-install scripts for shell deps
+docs/                 # Guides and reference material
 ```
 
 ## Quick start
 
-Profiles deliver the fastest path from bare metal to a configured machine:
+### Full setup (post-install)
+
+After a fresh Arch install (via archinstall or manually):
 
 ```bash
 git clone https://github.com/maxabbot/linux-setup-scripts.git
 cd linux-setup-scripts
-
-# Work laptop (development + productivity)
-chmod +x profiles/work-laptop.sh
-./profiles/work-laptop.sh
-
-# Home desktop (adds NVIDIA + gaming stack)
-chmod +x profiles/home-desktop.sh
-./profiles/home-desktop.sh
+chmod +x setup.sh
+./setup.sh
 ```
 
-Tweak behaviour via environment variables before running a profile, e.g.
+The script will:
+1. Install prerequisites (git, ansible, chezmoi)
+2. Install Ansible Galaxy collections
+3. Let you pick a profile (Home Desktop, Work Laptop, Minimal, Custom)
+4. Run the system playbook with `--ask-become-pass`
+5. Optionally apply Chezmoi dotfiles
+
+### From the Arch ISO (Layer 1)
 
 ```bash
-POWER_MANAGEMENT=tlp ENABLE_LIBVIRT=1 ./profiles/work-laptop.sh
+archinstall --config bootstrap/archinstall/user-configuration.json \
+            --creds bootstrap/archinstall/user-credentials.json
 ```
 
-## Modules at a glance
+See [bootstrap/README.md](bootstrap/README.md) for customisation details.
 
-- `modules/base.sh` – core system utilities, networking, power management, printing, yay bootstrap.
-- `modules/development.sh` – languages, databases, containers, IaC tooling, IDEs, cloud CLIs.
-- `modules/productivity.sh` – desktop environment, office suite, communication, media, sync.
-- `modules/nvidia.sh` – proprietary driver stack, CUDA/cuDNN, Coolbits, LTS kernel fallback.
-- `modules/gaming.sh` – Steam/Proton, auxiliary launchers, controllers, streaming, benchmarking.
+### Running Ansible directly (Layer 2)
 
-Each module is idempotent and safe to rerun.
+```bash
+cd system
 
-📦 Maintaining package lists? See [`packages/README.md`](packages/README.md) for duplication hotspots, conflict notes, and suggested opt-in flags.
+# Full home desktop
+ansible-playbook playbooks/site.yml -i inventory/hosts.yml -l home_desktop --ask-become-pass
 
-## Environment switches
+# Work laptop
+ansible-playbook playbooks/site.yml -i inventory/hosts.yml -l work_laptop --ask-become-pass
 
-Modules respect a handful of environment toggles so you can opt in to heavier stacks only when needed:
+# Single role
+ansible-playbook playbooks/development.yml -i inventory/hosts.yml --ask-become-pass
+
+# Specific tags
+ansible-playbook playbooks/site.yml -i inventory/hosts.yml --tags "base,development" --ask-become-pass
+```
+
+### Applying dotfiles directly (Layer 3)
+
+```bash
+chezmoi init --source ./user --apply
+```
+
+See [user/README.md](user/README.md) for template variables and customisation.
+
+## Profiles
+
+| Profile | Roles | Use case |
+|---------|-------|----------|
+| `home_desktop` | base, development, productivity, nvidia, gaming | RTX 40-series desktop with full stack |
+| `work_laptop` | base, development, productivity | Dev-focused laptop (no GPU/gaming) |
+| Minimal | base | Bare essentials only |
+| Custom | pick and choose | Interactive role selection |
+
+## Feature toggles
+
+Override defaults in `system/group_vars/all.yml` or per-profile in `system/group_vars/home_desktop.yml` / `work_laptop.yml`:
 
 | Variable | Default | Effect |
 |----------|---------|--------|
-| `POWER_MANAGEMENT` | `tlp` (laptops) | Choose `tlp` or `power-profiles-daemon`. Unknown values fall back to `power-profiles-daemon`. |
-| `ENABLE_GUFW` | `1` | Install the GUFW firewall UI. Set to `0` for headless systems. |
-| `ENABLE_DOCKER` | `0` | Enable Docker service after install. |
-| `ENABLE_LIBVIRT` | `0` | Enable libvirtd/KVM. |
-| `ENABLE_DATA_PLATFORMS` | `1` | Install Apache Airflow, Spark, and DuckDB. |
-| `ENABLE_DATABASE_SERVERS` | `1` | Install PostgreSQL, MariaDB, Redis, and SQLite. |
-| `ENABLE_GUI_DB_CLIENTS` | `1` | Install DBeaver, litecli, and CLI DB helpers. |
-| `ENABLE_SYNC_CLIENTS` | `1` | Include Syncthing, Nextcloud client, Dropbox, and Google Drive. |
-| `ENABLE_CREATIVE_SUITE` | `1` | Install creative apps (GIMP, Krita, Kdenlive, etc.). |
-| `ENABLE_STREAMING_TOOLS` | `1` | Install Shotcut, remote desktop helpers, and gaming streaming extras. |
-| `ENABLE_SECONDARY_BROWSERS` | `1` | Keep Brave and Zen browser alongside Google Chrome. |
-| `ENABLE_CUDA_STACK` | `1` | Install CUDA/cuDNN alongside the NVIDIA driver stack. |
-| `INSTALL_APOLLO` | `0` | Include the Apollo streaming client when set to `1`. |
+| `enable_docker` | `false` | Enable Docker daemon and add user to docker group |
+| `enable_libvirt` | `false` | Enable libvirtd/KVM virtualisation |
+| `enable_database_servers` | `false` | Install PostgreSQL, MariaDB, Redis, SQLite |
+| `enable_gui_db_clients` | `false` | Install DBeaver, pgAdmin, litecli |
+| `enable_data_platforms` | `false` | Install Airflow, Spark, DuckDB |
+| `enable_cuda_stack` | `false` | Install CUDA/cuDNN alongside NVIDIA drivers |
+| `enable_creative_suite` | `false` | Install GIMP, Krita, Inkscape, Kdenlive |
+| `enable_streaming_tools` | `false` | Install streaming/remote desktop tools |
+| `enable_secondary_browsers` | `false` | Install Brave, Zen alongside Firefox |
+| `enable_sync_clients` | `false` | Install Syncthing, Nextcloud, Dropbox |
+| `enable_gufw` | `false` | Install the GUFW firewall UI |
+| `install_apollo` | `false` | Install Apollo streaming client |
+| `power_management` | `power-profiles-daemon` | Choose `tlp` or `power-profiles-daemon` |
 
-Combine them just like other profiles, e.g.:
+## Ansible roles
 
-```bash
-ENABLE_DATA_PLATFORMS=0 ENABLE_STREAMING_TOOLS=0 ./profiles/work-laptop.sh
-```
+| Role | Tag | Description |
+|------|-----|-------------|
+| `aur` | `aur` | Bootstrap yay/paru AUR helper (always runs first) |
+| `base` | `base` | Core packages, networking, filesystems, fonts, services |
+| `development` | `development` | Languages, editors, containers, cloud CLIs, databases |
+| `productivity` | `productivity` | Desktop apps, browsers, office, media, communication |
+| `nvidia` | `nvidia` | Proprietary drivers, CUDA, Coolbits, mkinitcpio hooks |
+| `gaming` | `gaming` | Steam, Wine, Proton, controllers, performance tools |
 
-🖥️ Prefer to practice inside a VM first? Follow the [VirtualBox walkthrough](docs/virtualbox.md) for step-by-step instructions on installing Arch in VirtualBox (including an advanced option for installing onto a real disk partition) before running these profiles safely. Planning a portable install? Check the [USB deployment guide](docs/guides/portable-usb.md).
+## User environment
 
-## Legacy installers
+Dotfiles are managed with [Chezmoi](https://www.chezmoi.io/) and include:
 
-`arch-setup/install/*.sh` continue to exist for staged installs or fine-grained usage. They now consume the shared modules internally so there’s a single source of truth for package lists.
+- **Shell** — Zsh (oh-my-zsh + Powerlevel10k) with Bash fallback
+- **Editor** — Neovim (lazy.nvim, LSP, Mason, Treesitter, Telescope)
+- **WMs** — Hyprland + Sway (with templated monitor configs)
+- **Theme** — Catppuccin Mocha everywhere
+- **Bar** — Waybar with unified styling
 
-## Maintenance helpers
+## Documentation
 
-- `bin/sync-packages.sh` – regenerate `arch-setup/packages/*.txt`, lint duplicates, and surface common conflicts. Run this after editing package arrays so the staged manifests stay aligned.
-- `bin/copy-vm-to-usb.sh` – export or mirror a VirtualBox VM onto a mounted USB drive (supports `.ova` exports or `rsync` directory copies).
-
-## Testing & CI
-
-- Run unit-style checks locally with:
-
-    ```bash
-    bats tests
-    ```
-
-- Lint all shell scripts:
-
-    ```bash
-    git ls-files '*.sh' | xargs -r shellcheck
-    shellcheck tests/test_helpers
-    ```
-
-GitHub Actions (`.github/workflows/ci.yml`) executes both shellcheck and the Bats suite on every push and pull request targeting `main`.
+| Document | Description |
+|----------|-------------|
+| [bootstrap/README.md](bootstrap/README.md) | Layer 1 — archinstall configuration |
+| [system/README.md](system/README.md) | Layer 2 — Ansible roles and playbooks |
+| [user/README.md](user/README.md) | Layer 3 — Chezmoi dotfiles |
+| [docs/post-installation.md](docs/post-installation.md) | Post-install checklist |
+| [docs/virtualbox.md](docs/virtualbox.md) | VirtualBox walkthrough |
+| [docs/guides/portable-usb.md](docs/guides/portable-usb.md) | Portable USB deployment |
 
 ## Contributing
 
-- File an issue or PR with package/content changes.
-- Keep additions modular where possible—extend modules or add new profiles.
-- Run `shellcheck` (or similar linters) on modified scripts.
+1. Fork and create a feature branch
+2. Keep changes modular — extend roles or add new ones
+3. Test with `ansible-playbook --check` (dry run)
+4. Lint shell scripts with `shellcheck`
+5. Open a PR against `main`
 
 ## License
 

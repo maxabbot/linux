@@ -1,0 +1,77 @@
+---
+# =============================================================================
+# Gaming Role — Tasks
+# =============================================================================
+
+- name: Enable multilib repository
+  ansible.builtin.blockinfile:
+    path: /etc/pacman.conf
+    marker: "# {mark} ANSIBLE MANAGED — multilib"
+    block: |
+      [multilib]
+      Include = /etc/pacman.d/mirrorlist
+    insertafter: EOF
+  become: true
+  notify: Update pacman database
+
+- name: Install Steam & Wine
+  community.general.pacman:
+    name: "{{ gaming_core_packages }}"
+    state: present
+    update_cache: true
+  become: true
+
+- name: Install controller packages
+  community.general.pacman:
+    name: "{{ gaming_controller_packages }}"
+    state: present
+  become: true
+
+- name: Install performance packages
+  community.general.pacman:
+    name: "{{ gaming_performance_packages }}"
+    state: present
+  become: true
+
+- name: Install Vulkan / GPU tools
+  community.general.pacman:
+    name: "{{ gaming_vulkan_packages }}"
+    state: present
+  become: true
+
+- name: Install streaming / recording packages
+  community.general.pacman:
+    name: "{{ gaming_media_packages }}"
+    state: present
+  become: true
+
+# --- AUR packages ---
+
+- name: Install AUR core gaming packages
+  kewlfft.aur.aur:
+    name: "{{ gaming_aur_packages }}"
+    use: "{{ aur_helper }}"
+    state: present
+  become: false
+
+- name: Install AUR controller packages
+  kewlfft.aur.aur:
+    name: "{{ gaming_aur_controller_packages }}"
+    use: "{{ aur_helper }}"
+    state: present
+  become: false
+
+- name: Install AUR media / streaming packages
+  kewlfft.aur.aur:
+    name: "{{ gaming_aur_media_packages }}"
+    use: "{{ aur_helper }}"
+    state: present
+  become: false
+
+- name: Install Apollo
+  kewlfft.aur.aur:
+    name: "{{ gaming_aur_apollo_packages }}"
+    use: "{{ aur_helper }}"
+    state: present
+  become: false
+  when: install_apollo | bool

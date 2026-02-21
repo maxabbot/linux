@@ -1,0 +1,22 @@
+---
+# =============================================================================
+# Base Role — Handlers
+# =============================================================================
+
+- name: Restart NetworkManager
+  ansible.builtin.systemd:
+    name: NetworkManager.service
+    state: restarted
+  become: true
+
+- name: Restart bluetooth
+  ansible.builtin.systemd:
+    name: bluetooth.service
+    state: restarted
+  become: true
+
+- name: Restart ufw
+  ansible.builtin.systemd:
+    name: ufw.service
+    state: restarted
+  become: true

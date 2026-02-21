@@ -1,0 +1,192 @@
+---
+# =============================================================================
+# Productivity Role — Tasks
+# =============================================================================
+
+- name: Install desktop / Wayland packages
+  community.general.pacman:
+    name: "{{ prod_desktop_packages }}"
+    state: present
+  become: true
+
+- name: Install office packages
+  community.general.pacman:
+    name: "{{ prod_office_packages }}"
+    state: present
+  become: true
+
+- name: Install browser packages
+  community.general.pacman:
+    name: "{{ prod_browser_packages }}"
+    state: present
+  become: true
+
+- name: Install communication packages
+  community.general.pacman:
+    name: "{{ prod_communication_packages }}"
+    state: present
+  become: true
+
+- name: Install file managers
+  community.general.pacman:
+    name: "{{ prod_filemanager_packages }}"
+    state: present
+  become: true
+
+- name: Install cloud / sync packages
+  community.general.pacman:
+    name: "{{ prod_sync_packages }}"
+    state: present
+  become: true
+
+- name: Install creative suite
+  community.general.pacman:
+    name: "{{ prod_creative_packages }}"
+    state: present
+  become: true
+  when: enable_creative_suite | bool
+
+- name: Install password / notes packages
+  community.general.pacman:
+    name: "{{ prod_notes_packages }}"
+    state: present
+  become: true
+
+- name: Install media players
+  community.general.pacman:
+    name: "{{ prod_media_packages }}"
+    state: present
+  become: true
+
+- name: Install monitoring tools
+  community.general.pacman:
+    name: "{{ prod_monitoring_packages }}"
+    state: present
+  become: true
+
+- name: Install security / backup tools
+  community.general.pacman:
+    name: "{{ prod_security_packages }}"
+    state: present
+  become: true
+
+- name: Install desktop helpers
+  community.general.pacman:
+    name: "{{ prod_helper_packages }}"
+    state: present
+  become: true
+
+# --- AUR packages ---
+
+- name: Install core AUR productivity packages
+  kewlfft.aur.aur:
+    name: "{{ prod_aur_packages }}"
+    use: "{{ aur_helper }}"
+    state: present
+  become: false
+
+- name: Install AUR office packages
+  kewlfft.aur.aur:
+    name: "{{ prod_aur_office_packages }}"
+    use: "{{ aur_helper }}"
+    state: present
+  become: false
+
+- name: Install AUR browser packages
+  kewlfft.aur.aur:
+    name: "{{ prod_aur_browser_packages }}"
+    use: "{{ aur_helper }}"
+    state: present
+  become: false
+
+- name: Install AUR secondary browsers
+  kewlfft.aur.aur:
+    name: "{{ prod_aur_secondary_browser_packages }}"
+    use: "{{ aur_helper }}"
+    state: present
+  become: false
+  when: enable_secondary_browsers | bool
+
+- name: Install AUR communication packages
+  kewlfft.aur.aur:
+    name: "{{ prod_aur_comm_packages }}"
+    use: "{{ aur_helper }}"
+    state: present
+  become: false
+
+- name: Install AUR sync packages
+  kewlfft.aur.aur:
+    name: "{{ prod_aur_sync_packages }}"
+    use: "{{ aur_helper }}"
+    state: present
+  become: false
+  when: enable_sync_clients | bool
+
+- name: Install AUR streaming packages
+  kewlfft.aur.aur:
+    name: "{{ prod_aur_streaming_packages }}"
+    use: "{{ aur_helper }}"
+    state: present
+  become: false
+  when: enable_streaming_tools | bool
+
+- name: Install AUR notes packages
+  kewlfft.aur.aur:
+    name: "{{ prod_aur_notes_packages }}"
+    use: "{{ aur_helper }}"
+    state: present
+  become: false
+
+- name: Install AUR media packages
+  kewlfft.aur.aur:
+    name: "{{ prod_aur_media_packages }}"
+    use: "{{ aur_helper }}"
+    state: present
+  become: false
+
+- name: Install AUR misc packages
+  kewlfft.aur.aur:
+    name: "{{ prod_aur_misc_packages }}"
+    use: "{{ aur_helper }}"
+    state: present
+  become: false
+
+# --- Flatpak ---
+
+- name: Ensure flatpak is installed
+  community.general.pacman:
+    name: flatpak
+    state: present
+  become: true
+
+- name: Add Flathub remote
+  community.general.flatpak_remote:
+    name: flathub
+    flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
+    method: system
+    state: present
+  become: true
+
+- name: Install Flatpak apps
+  community.general.flatpak:
+    name: "{{ item }}"
+    remote: flathub
+    method: system
+    state: present
+  loop: "{{ prod_flatpak_apps }}"
+  become: true
+
+# --- PipeWire (user-level) ---
+
+- name: Enable PipeWire user services
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    scope: user
+    enabled: true
+    state: started
+  loop:
+    - pipewire.service
+    - pipewire-pulse.service
+    - wireplumber.service
+  become: false
+  failed_when: false

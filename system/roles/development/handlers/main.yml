@@ -1,0 +1,22 @@
+---
+# =============================================================================
+# Development Role — Handlers
+# =============================================================================
+
+- name: Restart docker
+  ansible.builtin.systemd:
+    name: docker.service
+    state: restarted
+  become: true
+
+- name: Restart libvirtd
+  ansible.builtin.systemd:
+    name: libvirtd.service
+    state: restarted
+  become: true
+
+- name: Restart sshd
+  ansible.builtin.systemd:
+    name: sshd.service
+    state: restarted
+  become: true

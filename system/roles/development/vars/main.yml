@@ -1,0 +1,131 @@
+---
+# =============================================================================
+# Development Role — Variables
+# Package lists derived from modules/development.sh
+# =============================================================================
+
+# Language runtimes & compilers
+dev_language_packages:
+  - python
+  - python-pip
+  - python-virtualenv
+  - nodejs
+  - npm
+  - go
+  - rustup
+  - jdk-openjdk
+  - gcc
+  - clang
+  - cmake
+  - make
+
+# Development utilities
+dev_utility_packages:
+  - neovim
+  - kitty
+  - direnv
+  - starship
+  - zsh
+  - helix
+  - shellcheck
+  - tig
+  - imagemagick
+
+# Database servers (gated by enable_database_servers)
+dev_database_packages:
+  - postgresql
+  - mariadb
+  - redis
+  - sqlite
+
+# Database CLI clients (gated by enable_gui_db_clients)
+dev_db_cli_packages:
+  - pgcli
+
+# Container tools
+dev_container_packages:
+  - podman
+  - podman-compose
+
+# Docker tools (gated by enable_docker)
+dev_docker_packages:
+  - docker
+  - docker-compose
+
+# Virtualisation (gated by enable_libvirt)
+dev_libvirt_packages:
+  - libvirt
+  - qemu-full
+  - virt-manager
+  - dnsmasq
+
+# Cloud / infrastructure
+dev_cloud_packages:
+  - kubectl
+  - kubectx
+  - helm
+  - kind
+  - minikube
+  - ansible
+  - terraform
+  - opentofu
+  - aws-cli-v2
+  - azure-cli
+  - google-cloud-cli
+  - doctl
+
+# API tools
+dev_api_packages:
+  - httpie
+  - grpcurl
+  - jq
+
+# Jupyter
+dev_jupyter_packages:
+  - jupyter-notebook
+
+# Mathematics / data science (pip packages, installed --user)
+dev_pip_packages:
+  - python-matplotlib
+  - python-numpy
+  - python-pandas
+  - python-scipy
+  - python-scikit-learn
+
+# AUR packages — always installed
+dev_aur_packages:
+  - visual-studio-code-bin
+  - nvm
+  - sdkman-cli
+  - insomnia-bin
+  - postman-bin
+  - wiremock-standalone
+  - oh-my-zsh-git
+
+# AUR — database tools (gated by enable_database_servers)
+dev_aur_database_packages:
+  - mongodb-bin
+
+# AUR — GUI database clients (gated by enable_gui_db_clients)
+dev_aur_db_client_packages:
+  - dbeaver
+  - mycli
+  - litecli
+
+# AUR — data platform tools (gated by enable_data_platforms)
+dev_aur_data_platform_packages:
+  - apache-airflow
+  - apache-spark
+  - duckdb-bin
+  - rapidsai
+  - ferret
+
+# Services to enable
+dev_services:
+  - sshd.service
+
+dev_docker_services:
+  - docker.service
+
+dev_libvirt_services:
+  - libvirtd.service

@@ -1,0 +1,45 @@
+---
+# =============================================================================
+# Site Playbook — main entry point
+# Applies roles based on the active profile (home_desktop / work_laptop)
+# =============================================================================
+# Usage:
+#   ansible-playbook playbooks/site.yml
+#   ansible-playbook playbooks/site.yml --tags base,development
+#   ansible-playbook playbooks/site.yml --skip-tags gaming
+
+- name: Arch Linux system configuration
+  hosts: all
+  gather_facts: true
+
+  pre_tasks:
+    - name: Update system packages
+      community.general.pacman:
+        update_cache: true
+        upgrade: true
+      become: true
+      tags: [always]
+
+  roles:
+    - role: aur
+      tags: [aur, always]
+
+    - role: base
+      tags: [base]
+      when: "'base' in (profile_roles | default(['base']))"
+
+    - role: development
+      tags: [development]
+      when: "'development' in (profile_roles | default([]))"
+
+    - role: productivity
+      tags: [productivity]
+      when: "'productivity' in (profile_roles | default([]))"
+
+    - role: nvidia
+      tags: [nvidia]
+      when: "'nvidia' in (profile_roles | default([]))"
+
+    - role: gaming
+      tags: [gaming]
+      when: "'gaming' in (profile_roles | default([]))"

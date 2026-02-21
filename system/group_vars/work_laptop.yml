@@ -1,0 +1,15 @@
+---
+# =============================================================================
+# Work Laptop Profile — development focus, no gaming/nvidia
+# =============================================================================
+
+power_management: tlp
+
+enable_docker: true
+enable_libvirt: false
+
+# Roles applied for this profile
+profile_roles:
+  - base
+  - development
+  - productivity

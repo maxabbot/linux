@@ -1,0 +1,110 @@
+---
+# =============================================================================
+# Base Role — Tasks
+# =============================================================================
+
+- name: Detect CPU vendor for microcode
+  ansible.builtin.command: grep -m1 vendor_id /proc/cpuinfo
+  register: cpu_vendor
+  changed_when: false
+  failed_when: false
+
+- name: Set microcode package
+  ansible.builtin.set_fact:
+    microcode_package: "{{ 'amd-ucode' if 'AuthenticAMD' in cpu_vendor.stdout else 'intel-ucode' }}"
+
+- name: Install microcode package
+  community.general.pacman:
+    name: "{{ microcode_package }}"
+    state: present
+  become: true
+
+- name: Install core system packages
+  community.general.pacman:
+    name: "{{ base_core_packages }}"
+    state: present
+  become: true
+
+- name: Install networking packages
+  community.general.pacman:
+    name: "{{ base_network_packages }}"
+    state: present
+  become: true
+
+- name: Install filesystem tools
+  community.general.pacman:
+    name: "{{ base_filesystem_packages }}"
+    state: present
+  become: true
+
+- name: Install Wayland / display packages
+  community.general.pacman:
+    name: "{{ base_display_packages }}"
+    state: present
+  become: true
+
+- name: Install CLI tools
+  community.general.pacman:
+    name: "{{ base_cli_packages }}"
+    state: present
+  become: true
+
+- name: Install fonts
+  community.general.pacman:
+    name: "{{ base_font_packages }}"
+    state: present
+  become: true
+
+- name: Install desktop service packages
+  community.general.pacman:
+    name: "{{ base_service_packages }}"
+    state: present
+  become: true
+
+- name: Install security packages
+  community.general.pacman:
+    name: "{{ base_security_packages }}"
+    state: present
+  become: true
+
+- name: Install kernel packages
+  community.general.pacman:
+    name: "{{ base_kernel_packages }}"
+    state: present
+  become: true
+
+- name: Install power management packages
+  community.general.pacman:
+    name: "{{ power_management_packages[power_management] }}"
+    state: present
+  become: true
+  when: power_management in power_management_packages
+
+- name: Install GUFW
+  community.general.pacman:
+    name: "{{ gufw_packages }}"
+    state: present
+  become: true
+  when: enable_gufw | bool
+
+- name: Enable base services
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  loop: "{{ base_services }}"
+  become: true
+  failed_when: false
+
+- name: Enable power management service
+  ansible.builtin.systemd:
+    name: "{{ power_management }}.service"
+    enabled: true
+    state: started
+  become: true
+  when: power_management == 'power-profiles-daemon' or power_management == 'tlp'
+
+- name: Generate user directories
+  ansible.builtin.command: xdg-user-dirs-update
+  changed_when: false
+  become: false

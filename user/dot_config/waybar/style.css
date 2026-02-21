@@ -1,0 +1,156 @@
+/* ============================================================================
+ * Waybar Style - Catppuccin Mocha Theme
+ * ============================================================================ */
+
+* {
+  border: none;
+  border-radius: 0;
+  font-family: "JetBrainsMono Nerd Font", "Font Awesome 6 Free", sans-serif;
+  font-size: 14px;
+  min-height: 0;
+}
+
+window#waybar {
+  background: rgba(30, 30, 46, 0.9);
+  color: #cdd6f4;
+}
+
+#workspaces {
+  background: transparent;
+  margin: 5px;
+  padding: 0px 5px;
+}
+
+#workspaces button {
+  padding: 0px 10px;
+  background: transparent;
+  color: #6c7086;
+  border-bottom: 3px solid transparent;
+}
+
+#workspaces button.focused {
+  color: #89b4fa;
+  border-bottom: 3px solid #89b4fa;
+}
+
+#workspaces button.urgent {
+  color: #f38ba8;
+  border-bottom: 3px solid #f38ba8;
+}
+
+#workspaces button:hover {
+  background: rgba(49, 50, 68, 0.5);
+  color: #cdd6f4;
+}
+
+#window {
+  padding: 0 10px;
+  color: #cdd6f4;
+  font-weight: bold;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#temperature,
+#network,
+#pulseaudio,
+#tray,
+#idle_inhibitor {
+  padding: 0 10px;
+  margin: 5px 0px;
+  background: #313244;
+  border-radius: 8px;
+}
+
+#clock {
+  color: #89b4fa;
+  font-weight: bold;
+}
+
+#battery {
+  color: #a6e3a1;
+}
+
+#battery.charging {
+  color: #a6e3a1;
+}
+
+#battery.warning:not(.charging) {
+  color: #f9e2af;
+}
+
+#battery.critical:not(.charging) {
+  color: #f38ba8;
+  animation: blink 1s linear infinite;
+}
+
+@keyframes blink {
+  to {
+    color: #1e1e2e;
+  }
+}
+
+#cpu {
+  color: #f5c2e7;
+}
+
+#memory {
+  color: #cba6f7;
+}
+
+#temperature {
+  color: #fab387;
+}
+
+#temperature.critical {
+  color: #f38ba8;
+  animation: blink 1s linear infinite;
+}
+
+#network {
+  color: #94e2d5;
+}
+
+#network.disconnected {
+  color: #f38ba8;
+}
+
+#pulseaudio {
+  color: #f9e2af;
+}
+
+#pulseaudio.muted {
+  color: #6c7086;
+}
+
+#tray {
+  background: transparent;
+}
+
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+}
+
+#idle_inhibitor {
+  color: #cdd6f4;
+}
+
+#idle_inhibitor.activated {
+  color: #a6e3a1;
+}
+
+tooltip {
+  background: #1e1e2e;
+  border: 1px solid #89b4fa;
+  border-radius: 8px;
+}
+
+tooltip label {
+  color: #cdd6f4;
+}

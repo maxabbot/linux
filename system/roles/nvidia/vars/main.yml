@@ -1,0 +1,43 @@
+---
+# =============================================================================
+# NVIDIA Role — Variables
+# Package lists derived from modules/nvidia.sh
+# =============================================================================
+
+# Core NVIDIA driver stack
+nvidia_driver_packages:
+  - nvidia
+  - nvidia-lts
+  - nvidia-utils
+  - nvidia-settings
+  - nvidia-prime
+  - egl-wayland
+  - nv-codec-headers
+  - opencl-nvidia
+  - lib32-nvidia-utils
+  - lib32-opencl-nvidia
+
+# CUDA stack (gated by enable_cuda_stack)
+nvidia_cuda_packages:
+  - cuda
+  - cuda-tools
+  - cudnn
+  - clinfo
+
+# AUR packages
+nvidia_aur_packages:
+  - goverlay
+
+# mkinitcpio NVIDIA modules
+nvidia_mkinitcpio_modules:
+  - nvidia
+  - nvidia_modeset
+  - nvidia_uvm
+  - nvidia_drm
+
+# Kernel parameter
+nvidia_kernel_param: nvidia-drm.modeset=1
+
+# Services
+nvidia_services:
+  - nvidia-persistenced.service

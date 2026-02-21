@@ -1,0 +1,80 @@
+---
+# =============================================================================
+# Gaming Role — Variables
+# Package lists derived from modules/gaming.sh
+# =============================================================================
+
+# Steam & Wine
+gaming_core_packages:
+  - steam
+  - steam-devices
+  - wine-staging
+  - wine-gecko
+  - wine-mono
+
+# Controllers
+gaming_controller_packages:
+  - joyutils
+  - xorg-xinput
+
+# Performance / compositors
+gaming_performance_packages:
+  - gamemode
+  - lib32-gamemode
+  - gamescope
+  - mangohud
+  - lib32-mangohud
+  - vkbasalt
+  - vkd3d-proton
+
+# Vulkan / GPU tools
+gaming_vulkan_packages:
+  - vulkan-icd-loader
+  - vulkan-tools
+  - vulkan-validation-layers
+  - lib32-vulkan-icd-loader
+  - lib32-vulkan-intel
+  - lib32-vulkan-radeon
+  - mesa-utils
+  - lib32-mesa
+  - glmark2
+  - vkmark
+
+# Streaming / recording
+gaming_media_packages:
+  - obs-studio
+  - jellyfin
+
+# Benchmark
+gaming_benchmark_packages:
+  - glmark2
+  - vkmark
+
+# AUR — core gaming
+gaming_aur_packages:
+  - protonup-qt
+  - protontricks
+  - winetricks-git
+  - heroic-games-launcher-bin
+  - bottles
+  - itch-bin
+  - legendary
+  - dxvk-bin
+  - goverlay
+
+# AUR — controllers
+gaming_aur_controller_packages:
+  - xpadneo-dkms
+  - ds4drv
+
+# AUR — overlay / streaming
+gaming_aur_media_packages:
+  - obs-gstreamer
+  - obs-vkcapture
+  - latencyflex
+  - moonlight-qt
+  - sunshine-bin
+
+# AUR — Apollo (gated by install_apollo)
+gaming_aur_apollo_packages:
+  - apollo-bin

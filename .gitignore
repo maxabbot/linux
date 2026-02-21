@@ -1,2 +1,12 @@
 *.iso
 github_pat
+
+# Chezmoi state (local machine only)
+.chezmoistate.boltdb
+
+# Ansible
+*.retry
+system/roles/*/files/*.bak
+
+# Credentials — never commit real passwords
+bootstrap/archinstall/user-credentials.json

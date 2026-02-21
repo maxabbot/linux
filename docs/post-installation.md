@@ -1,297 +1,223 @@
 # Post-Installation Guide
 
-This guide covers the recommended steps to take after running the linux-setup-scripts installation.
+This guide covers the recommended steps after running `setup.sh` (or after manually
+running the Ansible playbook and Chezmoi apply).
 
-## 1. Reboot the System
-
-After installation completes, reboot to ensure all kernel modules, services, and drivers are properly loaded:
+## 1. Reboot
 
 ```bash
 sudo reboot
 ```
 
-## 2. Verify Critical Services
+Ensures kernel modules, NVIDIA drivers, and system services load correctly.
 
-Check that essential services are running correctly:
+## 2. Verify Services
 
 ```bash
-# Network connectivity
+# Core
 systemctl status NetworkManager
-
-# Bluetooth (if enabled)
 systemctl status bluetooth
+systemctl --user status pipewire wireplumber
 
-# Power management (laptops)
-systemctl status tlp
+# NVIDIA (if installed)
+systemctl status nvidia-persistenced
+nvidia-smi
 
-# Printing services (if enabled)
-systemctl status cups
+# Power management
+systemctl status power-profiles-daemon   # desktop
+systemctl status tlp                     # laptop
 
-# Audio system
-systemctl --user status pipewire
-systemctl --user status wireplumber
+# Docker / libvirt (if enabled)
+systemctl status docker
+systemctl status libvirtd
 ```
 
-## 3. Configure Desktop Environment
+## 3. Configure Git & SSH
 
-### For Hyprland Users
-```bash
-# Start Hyprland
-Hyprland
-```
-
-### For Other Desktop Environments
-Configure your display manager or desktop session as needed.
-
-## 4. Set Up Development Environment
-
-### Configure Git
 ```bash
 git config --global user.name "Your Name"
 git config --global user.email "your.email@example.com"
-```
 
-### Generate SSH Keys
-```bash
 ssh-keygen -t ed25519 -C "your.email@example.com"
-
-# Add to SSH agent
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
-
-# Copy public key to clipboard
-cat ~/.ssh/id_ed25519.pub
+cat ~/.ssh/id_ed25519.pub    # add to GitHub / GitLab
 ```
 
-### Configure Shell
-If Oh My Zsh was installed, set Zsh as your default shell:
-```bash
-chsh -s /usr/bin/zsh
-```
+## 4. Shell First Launch
 
-## 5. Apply Dotfiles/Configurations
-
-Dotfiles are included in this repository under `arch-setup/dotfiles/` with automated installers.
-
-### Automated Installation (Recommended)
-
-From the repository root:
+If Chezmoi applied the dotfiles, Zsh is already your default shell. On first launch:
 
 ```bash
-# Interactive menu to choose what to install
-bash arch-setup/dotfiles/install.sh
+# Powerlevel10k will auto-run its configuration wizard
+p10k configure
+
+# Verify plugins loaded
+omz plugin list
 ```
 
-Or install specific components directly:
+If you skipped Chezmoi, apply dotfiles manually:
 
 ```bash
-bash arch-setup/dotfiles/install-bash.sh      # Lightweight shell config
-bash arch-setup/dotfiles/install-zsh.sh       # Feature-rich Zsh + Oh-My-Zsh
-bash arch-setup/dotfiles/install-nvim.sh      # Neovim IDE setup
-bash arch-setup/dotfiles/install-hyprland.sh  # Hyprland window manager
-bash arch-setup/dotfiles/install-sway.sh      # Sway window manager
+chezmoi init --source ./user --apply
 ```
 
-**What the scripts do:**
-- Automatically back up existing configurations
-- Copy dotfiles to correct locations
-- Install missing dependencies (Oh-My-Zsh, language servers, etc.)
-- Provide post-install instructions
+## 5. Neovim First Launch
 
-### Manual Installation
-
-If you prefer to copy files manually:
+Open Neovim — lazy.nvim will auto-install all plugins on first run:
 
 ```bash
-# Shell configuration - choose one
-cp arch-setup/dotfiles/bash/.bashrc ~/.bashrc
-# OR
-cp arch-setup/dotfiles/zsh/.zshrc ~/.zshrc
-
-# Neovim
-mkdir -p ~/.config/nvim
-cp -r arch-setup/dotfiles/nvim/* ~/.config/nvim/
-
-# Hyprland
-mkdir -p ~/.config/hypr ~/.config/waybar
-cp arch-setup/dotfiles/hyprland/hyprland.conf ~/.config/hypr/
-cp arch-setup/dotfiles/hyprland/waybar-* ~/.config/waybar/
-
-# Sway
-mkdir -p ~/.config/sway ~/.config/waybar
-cp arch-setup/dotfiles/sway/config ~/.config/sway/
-cp arch-setup/dotfiles/sway/waybar-* ~/.config/waybar/
+nvim
 ```
 
-**See `arch-setup/dotfiles/README.md` for full documentation on installation, prerequisites, customization, and troubleshooting.**
+Then inside Neovim:
 
-## 6. Configure Applications
+- `:Lazy` — verify all plugins installed
+- `:Mason` — verify LSP servers (pyright, rust-analyzer, ts_ls, bashls, lua_ls)
+- `:checkhealth` — diagnose any issues
 
-### VS Code
-- Install extensions
-- Sync settings if using GitHub/Microsoft account
-- Configure workspace settings
+## 6. Window Manager
 
-### Communication Apps
-- **Discord**: Log into account, configure voice settings
-- **Slack**: Join workspaces, configure notifications
+### Hyprland
+
+```bash
+Hyprland
+```
+
+Key bindings (Super = Mod key):
+- `Super + Return` — Terminal (kitty)
+- `Super + D` — App launcher (rofi)
+- `Super + Q` — Close window
+- `Super + 1-9` — Switch workspace
+
+### Sway
+
+```bash
+sway
+```
+
+Same key bindings apply (i3-style).
+
+### Monitor Configuration
+
+If you have a multi-monitor setup, edit your Chezmoi template variables:
+
+```bash
+chezmoi edit-config
+```
+
+Update the `[data.monitors]` section:
+
+```toml
+[data.monitors]
+  primary = "DP-1, preferred, 0x0, 1"
+  secondary = "HDMI-A-1, preferred, 2560x0, 1"
+```
+
+Then re-apply:
+
+```bash
+chezmoi apply
+```
+
+## 7. Application Setup
 
 ### Browsers
-- Import bookmarks and passwords
-- Install extensions
-- Configure sync if using browser accounts
+- Firefox is the default — sign in to sync bookmarks/extensions
+- If `enable_secondary_browsers` was enabled: Brave and Zen are also installed
+
+### Communication
+- Thunderbird — configure email accounts
+- Element — sign in to Matrix
 
 ### Gaming (if enabled)
-- **Steam**: Log in, enable Proton for Windows games
-- **Heroic**: Configure Epic Games and GOG accounts
-- **Controller setup**: Test gamepad functionality
+- Steam — sign in, enable Proton (Settings > Compatibility)
+- Heroic — link Epic Games / GOG accounts
+- Test controller with `evtest`
 
-### Media Applications
-- **Spotify**: Log into account
-- **VLC/MPV**: Test video/audio playback
-- **OBS**: Configure scenes and sources
+### Creative (if enabled)
+- GIMP, Krita, Inkscape, Kdenlive are ready to use
 
-## 7. Test Key Functionality
+## 8. Test Hardware
 
-### Audio/Video
 ```bash
-# Test audio output
+# Audio
 speaker-test -t wav -c 2
 
-# Test microphone (if needed)
-arecord -f cd -d 5 test.wav && aplay test.wav
-```
-
-### Graphics/GPU
-```bash
-# Test OpenGL
+# GPU
 glxinfo | grep "OpenGL renderer"
-
-# NVIDIA users - test CUDA (if installed)
-nvidia-smi
-
-# Test Vulkan
 vulkaninfo | head -20
+
+# Network
+ping -c 4 archlinux.org
 ```
 
-### Network
-```bash
-# Test connectivity
-ping -c 4 google.com
+## 9. System Backup
 
-# Test DNS resolution
-nslookup github.com
+Create a baseline Btrfs snapshot (if using the bootstrap config):
+
+```bash
+sudo btrfs subvolume snapshot / /.snapshots/post-install-$(date +%Y%m%d)
 ```
 
-### Development Tools
+Or with Timeshift:
+
 ```bash
-# Test compilers
-gcc --version
-rustc --version
-node --version
-python --version
-
-# Test containerization
-podman --version
-docker --version  # if Docker was enabled
-```
-
-## 8. Performance Optimization
-
-### Enable Services (as needed)
-```bash
-# Gaming performance
-sudo systemctl enable gamemode
-
-# NVIDIA users
-sudo systemctl enable nvidia-persistenced
-
-# Laptop users
-sudo systemctl enable tlp
-```
-
-### Configure Firewall
-```bash
-# Enable and configure UFW
-sudo ufw enable
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
-```
-
-## 9. Create System Backup
-
-Create a baseline system snapshot:
-```bash
-# Using Timeshift (if installed)
 sudo timeshift --create --comments "Post-installation baseline"
-
-# Or create a manual backup of important configs
-tar -czf ~/backup-configs-$(date +%Y%m%d).tar.gz \
-    ~/.config \
-    ~/.bashrc \
-    ~/.zshrc \
-    /etc/pacman.conf \
-    /etc/makepkg.conf
 ```
 
-## 10. Security Hardening
+## 10. Re-Running the Setup
 
-### Update System
+You can safely re-run any layer at any time:
+
 ```bash
-sudo pacman -Syu
+# Re-run full system playbook
+ansible-playbook system/playbooks/site.yml -i system/inventory/hosts.yml \
+  -l home_desktop --ask-become-pass
+
+# Re-run a single role
+ansible-playbook system/playbooks/development.yml -i system/inventory/hosts.yml \
+  --ask-become-pass
+
+# Re-apply dotfiles
+chezmoi apply
+
+# Check what changed
+chezmoi diff
 ```
 
-### Configure Automatic Updates (optional)
+## 11. Customisation
+
+### Adding Packages
+
+Edit the relevant role's `vars/main.yml`:
+
+```
+system/roles/<role>/vars/main.yml
+```
+
+### Toggling Features
+
+Edit `system/group_vars/all.yml` or your profile's group vars:
+
+```yaml
+enable_docker: true
+enable_cuda_stack: true
+```
+
+### Adding Dotfiles
+
+Add files to the `user/` Chezmoi source directory, then apply:
+
 ```bash
-# Enable automatic security updates
-sudo systemctl enable systemd-timesyncd
+chezmoi add ~/.config/some-app/config.toml
+chezmoi apply
 ```
-
-### Set Up Secure Boot (if desired)
-Follow Arch Wiki guidance for your specific setup.
-
-## 11. Troubleshooting Common Issues
-
-### Audio Not Working
-```bash
-# Restart audio services
-systemctl --user restart pipewire
-systemctl --user restart wireplumber
-```
-
-### Graphics Issues
-```bash
-# NVIDIA users - check driver status
-nvidia-smi
-dmesg | grep nvidia
-
-# General graphics troubleshooting
-lspci | grep VGA
-```
-
-### Network Issues
-```bash
-# Restart NetworkManager
-sudo systemctl restart NetworkManager
-
-# Check interface status
-ip link show
-```
-
-## 12. Next Steps
-
-- Join the Arch Linux community forums
-- Set up automated backups
-- Customize your desktop environment
-- Install additional software as needed
-- Consider learning about systemd services and timers
 
 ## Useful Resources
 
 - [Arch Wiki](https://wiki.archlinux.org/)
-- [Hyprland Documentation](https://hyprland.org/)
+- [Ansible Documentation](https://docs.ansible.com/)
+- [Chezmoi Documentation](https://www.chezmoi.io/)
+- [Hyprland Wiki](https://wiki.hyprland.org/)
 - [Repository Issues](https://github.com/maxabbot/linux-setup-scripts/issues)
-
----
-
-**Note**: This setup script configures a comprehensive development and productivity environment. Some features may be disabled by default - check the environment variables in your profile script to enable additional functionality.

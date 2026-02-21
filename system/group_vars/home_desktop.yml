@@ -1,0 +1,19 @@
+---
+# =============================================================================
+# Home Desktop Profile — RTX 40-series, gaming focus
+# =============================================================================
+
+power_management: power-profiles-daemon
+
+enable_docker: true
+enable_libvirt: false
+enable_cuda_stack: true
+install_apollo: false
+
+# Roles applied for this profile
+profile_roles:
+  - base
+  - development
+  - productivity
+  - nvidia
+  - gaming

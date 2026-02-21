@@ -1,0 +1,162 @@
+---
+# =============================================================================
+# Productivity Role — Variables
+# Package lists derived from modules/productivity.sh
+# =============================================================================
+
+# Desktop / Wayland compositors
+prod_desktop_packages:
+  - hyprland
+  - rofi
+  - waybar
+  - xdg-desktop-portal-hyprland
+  - swaync
+  - gammastep
+  - copyq
+  - grim
+  - slurp
+
+# Office / documents
+prod_office_packages:
+  - libreoffice-fresh
+  - libreoffice-fresh-en-us
+  - xournalpp
+  - zathura
+  - zathura-pdf-mupdf
+  - calibre
+  - okular
+  - pdfarranger
+
+# Browsers
+prod_browser_packages:
+  - firefox
+
+# Communication
+prod_communication_packages:
+  - thunderbird
+  - element-desktop
+  - mattermost-desktop
+
+# File managers
+prod_filemanager_packages:
+  - thunar
+  - dolphin
+  - ark
+
+# Cloud / sync
+prod_sync_packages:
+  - nextcloud-client
+  - syncthing
+  - rclone
+
+# Creative suite (gated)
+prod_creative_packages:
+  - gimp
+  - inkscape
+  - krita
+  - kdenlive
+
+# Password / notes
+prod_notes_packages:
+  - keepassxc
+  - bitwarden
+  - zim
+
+# Media players
+prod_media_packages:
+  - vlc
+  - mpv
+  - gthumb
+
+# Monitoring
+prod_monitoring_packages:
+  - btop
+  - htop
+  - nvtop
+  - plasma-systemmonitor
+  - openrgb
+  - corectrl
+  - glances
+
+# Security / backup
+prod_security_packages:
+  - veracrypt
+  - timeshift
+
+# Desktop helpers
+prod_helper_packages:
+  - kvantum
+  - kvantum-qt5
+  - kvantum-qt6
+  - papirus-icon-theme
+  - kwalletmanager
+  - redshift
+  - flameshot
+  - alacritty
+
+# AUR — always installed
+prod_aur_packages:
+  - swww
+  - cliphist
+  - grimblast-git
+  - mpvpaper
+  - waybar-hyprland-git
+
+# AUR — office
+prod_aur_office_packages:
+  - masterpdfeditor-free
+  - onlyoffice-bin
+  - logseq-desktop-bin
+  - zotero-bin
+
+# AUR — browsers
+prod_aur_browser_packages:
+  - google-chrome
+
+# AUR — secondary browsers (gated)
+prod_aur_secondary_browser_packages:
+  - brave-bin
+  - zen-browser-bin
+
+# AUR — communication
+prod_aur_comm_packages:
+  - slack-desktop
+  - discord
+  - zoom
+
+# AUR — sync (gated)
+prod_aur_sync_packages:
+  - dropbox
+  - google-drive-ocamlfuse
+  - mega-cmd-bin
+
+# AUR — streaming (gated)
+prod_aur_streaming_packages:
+  - shotcut
+  - rustdesk-bin
+  - anydesk-bin
+  - gpu-screen-recorder
+
+# AUR — notes
+prod_aur_notes_packages:
+  - obsidian
+  - joplin-appimage
+  - standardnotes
+
+# AUR — media
+prod_aur_media_packages:
+  - spotify-launcher
+  - stremio
+  - smarttube-beta-bin
+
+# AUR — misc
+prod_aur_misc_packages:
+  - parsec-bin
+
+# Flatpak apps
+prod_flatpak_apps:
+  - com.microsoft.Teams
+
+# Services
+prod_services:
+  - syncthing@{{ ansible_user_id }}.service

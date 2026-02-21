@@ -1,0 +1,10 @@
+---
+# =============================================================================
+# Productivity Role — Handlers
+# =============================================================================
+
+- name: Restart syncthing
+  ansible.builtin.systemd:
+    name: "syncthing@{{ ansible_user_id }}.service"
+    state: restarted
+  become: true

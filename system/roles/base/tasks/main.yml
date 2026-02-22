@@ -3,6 +3,29 @@
 # Base Role — Tasks
 # =============================================================================
 
+# --- Locale Configuration ---
+
+- name: Ensure en_US UTF-8 locale is generated
+  community.general.locale_gen:
+    name: "{{ item }}"
+    state: present
+  become: true
+  loop:
+    - en_US.UTF-8
+    - en_NZ.UTF-8
+  failed_when: false
+
+- name: Set system locale
+  ansible.builtin.lineinfile:
+    path: /etc/locale.conf
+    line: "LANG=en_US.UTF-8"
+    regexp: "^LANG="
+    create: true
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+
 - name: Detect CPU vendor for microcode
   ansible.builtin.command: grep -m1 vendor_id /proc/cpuinfo
   register: cpu_vendor

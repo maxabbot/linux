@@ -1,0 +1,162 @@
+/* ============================================================================
+ * SwayNC Notification Center Style — Catppuccin Mocha
+ * ============================================================================ */
+
+* {
+  font-family: "JetBrainsMono Nerd Font", sans-serif;
+  font-size: 14px;
+  color: #cdd6f4;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+/* Notification Center Window */
+.control-center {
+  background-color: rgba(30, 30, 46, 0.95);
+  border: 2px solid rgba(137, 180, 250, 0.3);
+  border-radius: 12px;
+  padding: 8px;
+  margin: 8px;
+}
+
+/* Notification row */
+.notification-row {
+  outline: none;
+  margin: 4px 0;
+}
+
+.notification-row:focus,
+.notification-row:hover {
+  opacity: 1;
+  outline: none;
+}
+
+/* Notification background */
+.notification {
+  border-radius: 10px;
+  background-color: rgba(49, 50, 68, 0.9);
+  border: 1px solid rgba(137, 180, 250, 0.2);
+  padding: 8px;
+  margin: 2px 0;
+}
+
+/* Notification actions */
+.notification .actions {
+  background: transparent;
+}
+
+.notification .actions button {
+  background-color: rgba(69, 71, 90, 0.8);
+  color: #cdd6f4;
+  border-radius: 6px;
+  border: 1px solid rgba(137, 180, 250, 0.2);
+  padding: 4px 12px;
+  margin: 2px;
+}
+
+.notification .actions button:hover {
+  background-color: rgba(137, 180, 250, 0.2);
+  border-color: rgba(137, 180, 250, 0.6);
+}
+
+/* Close button */
+.close-button {
+  background: rgba(243, 139, 168, 0.15);
+  color: #f38ba8;
+  border-radius: 50%;
+  border: none;
+  padding: 2px;
+  min-width: 20px;
+  min-height: 20px;
+}
+
+.close-button:hover {
+  background: rgba(243, 139, 168, 0.3);
+}
+
+/* Notification body text */
+.notification-content {
+  background: transparent;
+  padding: 6px 0;
+}
+
+.notification-default-action {
+  background: transparent;
+  border-radius: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+.notification-default-action:hover {
+  background-color: rgba(137, 180, 250, 0.1);
+}
+
+/* Urgency colors */
+.low {
+  border-left: 3px solid #a6e3a1;
+}
+
+.normal {
+  border-left: 3px solid #89b4fa;
+}
+
+.critical {
+  border-left: 3px solid #f38ba8;
+  background-color: rgba(243, 139, 168, 0.08);
+}
+
+/* Header / DND / CC arrows */
+.top-action-title {
+  color: #cdd6f4;
+  text-shadow: none;
+}
+
+/* Do Not Disturb toggle */
+.widget-dnd {
+  background-color: rgba(49, 50, 68, 0.8);
+  border-radius: 8px;
+  padding: 6px 10px;
+  margin: 4px 0;
+}
+
+.widget-dnd > switch {
+  background-color: rgba(69, 71, 90, 0.8);
+  border: 1px solid rgba(137, 180, 250, 0.3);
+  border-radius: 12px;
+}
+
+.widget-dnd > switch:checked {
+  background-color: rgba(137, 180, 250, 0.3);
+  border-color: #89b4fa;
+}
+
+/* Clear All button */
+.widget-buttons-grid > flowbox > flowboxchild > button,
+.notification-center > box > scrolledwindow > viewport > box > button {
+  background-color: rgba(49, 50, 68, 0.8);
+  color: #cdd6f4;
+  border: 1px solid rgba(137, 180, 250, 0.2);
+  border-radius: 8px;
+  padding: 4px 10px;
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button:hover {
+  background-color: rgba(137, 180, 250, 0.15);
+  border-color: rgba(137, 180, 250, 0.5);
+}
+
+/* Popup notification */
+.floating-notifications {
+  background: transparent;
+}
+
+.blank-window {
+  background: transparent;
+}
+
+.floating-notifications > .notification-row > .notification {
+  background-color: rgba(30, 30, 46, 0.95);
+  border: 1px solid rgba(137, 180, 250, 0.3);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}

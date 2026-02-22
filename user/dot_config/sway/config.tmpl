@@ -12,7 +12,7 @@ set $right l
 
 # Terminal and launcher
 set $term kitty
-set $menu wofi --show drun
+set $menu fuzzel
 
 # Monitor configuration
 output * bg ~/.config/sway/wallpaper.jpg fill
@@ -26,12 +26,10 @@ output {{ .monitors.secondary }}
 # Startup applications
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 exec dunst &
-exec waybar &
-exec copyq --start-server &
-exec nm-applet --indicator &
-exec syncthingtray &
-
-# Idle configuration
+# Defer heavier services to background with small delay for faster perceived boot
+exec sleep 0.5 && copyq --start-server &
+exec sleep 1 && nm-applet --indicator &
+exec sleep 1.5 && syncthingtray &
 exec swayidle -w \
     timeout 300 'swaylock -f' \
     timeout 600 'swaymsg "output * dpms off"' \
@@ -82,8 +80,7 @@ font pango:JetBrainsMono Nerd Font 10
 # Startup Applications
 # ============================================================================
 
-exec_always --no-startup-id waybar
-exec --no-startup-id dunst
+exec_always --no-startup-id true
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id wl-paste --type text --watch cliphist store
 exec --no-startup-id wl-paste --type image --watch cliphist store
@@ -234,7 +231,8 @@ bindsym $mod+r mode "resize"
 # ============================================================================
 
 # Lock screen
-bindsym $mod+l exec swaylock
+bindsym $mod+l exec swaylock -f
+bindsym $mod+Shift+e exec wlogout -p layer-shell
 
 # Screenshot
 bindsym Print exec grim -g "$(slurp)" - | wl-copy
@@ -255,14 +253,14 @@ bindsym XF86MonBrightnessUp exec brightnessctl set 5%+
 bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
 
 # Clipboard history
-bindsym $mod+c exec cliphist list | wofi --dmenu | cliphist decode | wl-copy
+bindsym $mod+c exec cliphist list | fuzzel --dmenu | cliphist decode | wl-copy
 
 # ============================================================================
 # Status Bar
 # ============================================================================
 
 bar {
-    swaybar_command waybar
+    swaybar_command waybar -c ~/.config/sway/waybar-config.json -s ~/.config/waybar/style.css
 }
 
 # ============================================================================

@@ -5,8 +5,8 @@
   "spacing": 4,
   
   "modules-left": ["sway/workspaces", "sway/window"],
-  "modules-center": [],
-  "modules-right": ["tray", "idle_inhibitor", "pulseaudio", "network", "cpu", "memory", "temperature", "battery", "clock"],
+  "modules-center": ["clock"],
+  "modules-right": ["tray", "idle_inhibitor", "pulseaudio", "network", "cpu", "memory", "temperature", "battery"],
   
   "sway/workspaces": {
     "disable-scroll": false,

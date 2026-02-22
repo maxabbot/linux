@@ -27,6 +27,58 @@ log_warn()    { printf "${YELLOW}[WARN]${RESET}    %s\n" "$*"; }
 log_error()   { printf "${RED}[ERROR]${RESET}   %s\n" "$*" >&2; }
 log_header()  { printf "\n${BOLD}${CYAN}━━━ %s ━━━${RESET}\n\n" "$*"; }
 
+# ─── Locale Configuration ───────────────────────────────────────────────────
+
+configure_locale() {
+  # Detect if locale is missing or misconfigured
+  if ! locale -a 2>/dev/null | grep -q "en_US.utf8"; then
+    log_warn "System locale en_US.UTF-8 not found. Generating..."
+    
+    # Step 1: Uncomment en_US.UTF-8 in /etc/locale.gen if not already present
+    if ! grep -q "^en_US.UTF-8" /etc/locale.gen; then
+      log_info "Uncommenting en_US.UTF-8 in /etc/locale.gen..."
+      # Use sed to uncomment it if commented, or add it if missing entirely
+      if grep -q "^#en_US.UTF-8" /etc/locale.gen; then
+        sudo sed -i 's/^#en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen
+      else
+        # Not even commented, so add it
+        echo "en_US.UTF-8 UTF-8" | sudo tee -a /etc/locale.gen >/dev/null
+      fi
+    fi
+    
+    # Step 2: Run locale-gen to generate all enabled locales
+    log_info "Running locale-gen..."
+    if command -v locale-gen &>/dev/null; then
+      sudo locale-gen 2>&1 | grep -E "(en_US|Generation)" || true
+    elif [ -x /usr/sbin/locale-gen ]; then
+      sudo /usr/sbin/locale-gen 2>&1 | grep -E "(en_US|Generation)" || true
+    else
+      log_error "locale-gen not found on system!"
+      return 1
+    fi
+    
+    # Step 3: Verify locale was created
+    if ! locale -a 2>/dev/null | grep -q "en_US.utf8"; then
+      log_error "Failed to generate en_US.UTF-8 locale. System may have issues."
+      return 1
+    fi
+  fi
+  
+  # Step 4: Set environment variables for current session AND write to /etc/locale.conf
+  export LANG=en_US.UTF-8
+  export LC_ALL=en_US.UTF-8
+  export LANGUAGE=en_US.UTF-8
+  
+  # Also write to /etc/locale.conf for system-wide persistence
+  sudo tee /etc/locale.conf >/dev/null <<EOF
+LANG=en_US.UTF-8
+LC_ALL=en_US.UTF-8
+LANGUAGE=en_US.UTF-8
+EOF
+  
+  log_success "Locale configured: $LANG"
+}
+
 # ─── Prerequisites ───────────────────────────────────────────────────────────
 
 ensure_pacman_pkg() {
@@ -58,7 +110,8 @@ install_prerequisites() {
 
   # Install Ansible Galaxy collections
   log_info "Installing Ansible Galaxy requirements..."
-  ansible-galaxy collection install -r "${SCRIPT_DIR}/system/requirements.yml" --force
+  # Explicitly set locale for ansible to avoid initialization errors
+  LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 ansible-galaxy collection install -r "${SCRIPT_DIR}/system/requirements.yml" --force
 
   log_success "Prerequisites installed."
 }
@@ -100,21 +153,21 @@ run_system_playbook() {
   case "$PROFILE" in
     home_desktop)
       log_info "Running full Home Desktop playbook..."
-      ansible-playbook "playbooks/site.yml" \
+      LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 ansible-playbook "playbooks/site.yml" \
         -i "inventory/hosts.yml" \
         -l home_desktop \
         --ask-become-pass
       ;;
     work_laptop)
       log_info "Running Work Laptop playbook..."
-      ansible-playbook "playbooks/site.yml" \
+      LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 ansible-playbook "playbooks/site.yml" \
         -i "inventory/hosts.yml" \
         -l work_laptop \
         --ask-become-pass
       ;;
     minimal)
       log_info "Running Base-only playbook..."
-      ansible-playbook "playbooks/site.yml" \
+      LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 ansible-playbook "playbooks/site.yml" \
         -i "inventory/hosts.yml" \
         -l minimal \
         --ask-become-pass
@@ -148,7 +201,7 @@ run_system_playbook() {
       roles_json="[${joined%,}]"
 
       log_info "Running playbook with roles: ${selected_roles[*]}"
-      ansible-playbook "playbooks/site.yml" \
+      LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 ansible-playbook "playbooks/site.yml" \
         -i "inventory/hosts.yml" \
         -l minimal \
         -e "profile_roles=${roles_json}" \
@@ -232,6 +285,7 @@ main() {
     exit 0
   fi
 
+  configure_locale
   install_prerequisites
   select_profile
   run_system_playbook

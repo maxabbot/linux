@@ -1,0 +1,60 @@
+/* ============================================================================
+ * Wlogout Style — Catppuccin Mocha
+ * ============================================================================ */
+
+* {
+  background-image: none;
+  box-shadow: none;
+}
+
+window {
+  background-color: rgba(30, 30, 46, 0.85);
+}
+
+button {
+  border-radius: 12px;
+  border-color: rgba(137, 180, 250, 0.3);
+  color: #cdd6f4;
+  background-color: rgba(49, 50, 68, 0.8);
+  border-style: solid;
+  border-width: 2px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 64px;
+  margin: 12px;
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 14px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+button:focus,
+button:active,
+button:hover {
+  background-color: rgba(137, 180, 250, 0.15);
+  border-color: rgba(137, 180, 250, 0.8);
+  outline-style: none;
+}
+
+#lock {
+  background-image: image(url("/usr/share/wlogout/icons/lock.png"));
+}
+
+#logout {
+  background-image: image(url("/usr/share/wlogout/icons/logout.png"));
+}
+
+#suspend {
+  background-image: image(url("/usr/share/wlogout/icons/suspend.png"));
+}
+
+#hibernate {
+  background-image: image(url("/usr/share/wlogout/icons/hibernate.png"));
+}
+
+#shutdown {
+  background-image: image(url("/usr/share/wlogout/icons/shutdown.png"));
+}
+
+#reboot {
+  background-image: image(url("/usr/share/wlogout/icons/reboot.png"));
+}

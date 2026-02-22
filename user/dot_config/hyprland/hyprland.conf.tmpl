@@ -13,21 +13,26 @@ monitor=,preferred,auto,1
 monitor={{ .monitors.secondary }}
 {{- end }}
 
-# Startup applications
-exec-once = hyprpaper
+# Startup applications (prioritized for fast boot)
+exec-once = swww-daemon
+exec-once = swww img ~/.config/hyprland/wallpaper.jpg --transition-type wipe --transition-fps 60
 exec-once = waybar
 exec-once = dunst
 exec-once = /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec-once = swayidle -w timeout 300 'hyprlock' timeout 600 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on' before-sleep 'hyprlock'
 exec-once = wl-paste --type text --watch cliphist store
 exec-once = wl-paste --type image --watch cliphist store
-exec-once = copyq --start-server
 exec-once = swaync
-exec-once = nm-applet --indicator
-exec-once = syncthingtray
+# Defer heavier services to background with small delay for faster perceived boot
+exec-once = sleep 0.5 && copyq --start-server &
+exec-once = sleep 1 && nm-applet --indicator &
+exec-once = sleep 1.5 && syncthingtray &
 
 # Environment variables
 env = XCURSOR_SIZE,24
+env = XCURSOR_THEME,catppuccin-mocha-dark-cursors
 env = WLR_NO_HARDWARE_CURSORS,1
+env = GTK_THEME,catppuccin-mocha-blue-standard+default
 
 # Gaming optimizations
 env = __GLX_VENDOR_LIBRARY_NAME,nvidia
@@ -164,7 +169,7 @@ $mainMod = SUPER
 # Application launchers
 bind = $mainMod, Return, exec, kitty
 bind = $mainMod, E, exec, thunar
-bind = $mainMod, D, exec, wofi --show drun
+bind = $mainMod, D, exec, fuzzel
 bind = $mainMod, B, exec, firefox
 
 # Window management
@@ -248,8 +253,9 @@ bind = $mainMod, S, togglespecialworkspace, magic
 bind = $mainMod SHIFT, S, movetoworkspace, special:magic
 
 # System controls
-bind = $mainMod, L, exec, swaylock
+bind = $mainMod, L, exec, hyprlock
 bind = $mainMod SHIFT, L, exec, systemctl suspend
+bind = $mainMod SHIFT, E, exec, wlogout -p layer-shell
 
 # Screenshot
 bind = , Print, exec, grim -g "$(slurp)" - | wl-copy
@@ -270,7 +276,7 @@ bind = , XF86MonBrightnessUp, exec, brightnessctl set 5%+
 bind = , XF86MonBrightnessDown, exec, brightnessctl set 5%-
 
 # Clipboard history
-bind = $mainMod, C, exec, cliphist list | wofi --dmenu | cliphist decode | wl-copy
+bind = $mainMod, C, exec, cliphist list | fuzzel --dmenu | cliphist decode | wl-copy
 
 # ============================================================================
 # Gaming Mode

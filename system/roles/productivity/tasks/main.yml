@@ -146,31 +146,26 @@
   timeout: 600
   failed_when: false
 
-- name: Install Stremio
-  block:
-    - name: Attempt Stremio installation
-      kewlfft.aur.aur:
-        name: stremio
-        use: "{{ aur_helper }}"
-        state: present
-      become: false
-      timeout: 600
-  rescue:
-    - ansible.builtin.debug:
-        msg: "Stremio installation failed - may require manual intervention or be incompatible"
+- name: Install Stremio via Flatpak
+  community.general.flatpak:
+    name: com.stremio.Stremio
+    state: present
+  become: false
+  failed_when: false
 
-- name: Install SmartTube Beta
-  block:
-    - name: Attempt SmartTube Beta installation
-      kewlfft.aur.aur:
-        name: smarttube-beta-bin
-        use: "{{ aur_helper }}"
-        state: present
-      become: false
-      timeout: 600
-  rescue:
-    - ansible.builtin.debug:
-        msg: "SmartTube Beta installation failed - may require manual intervention or be incompatible"
+- name: Install Flatseal (Flatpak permissions manager)
+  community.general.flatpak:
+    name: com.github.tchx84.Flatseal
+    state: present
+  become: false
+  failed_when: false
+
+- name: Install SmartTube via Flatpak
+  community.general.flatpak:
+    name: io.smarttube.app
+    state: present
+  become: false
+  failed_when: false
 
 - name: Clean stale AUR cache for parsec-bin
   ansible.builtin.shell: |

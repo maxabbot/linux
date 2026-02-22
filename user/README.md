@@ -25,6 +25,7 @@ user/
 ├── run_onchange_install-shell-deps.sh  # Auto-install oh-my-zsh, p10k, plugins
 ├── dot_zshrc                       # ~/.zshrc
 ├── dot_bashrc                      # ~/.bashrc
+├── dot_p10k.zsh                    # ~/.p10k.zsh (Powerlevel10k config)
 └── dot_config/
     ├── nvim/                       # ~/.config/nvim (IDE-like setup)
     │   ├── init.lua

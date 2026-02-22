@@ -46,6 +46,9 @@ plugins=(
 # Load oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
+# Load Powerlevel10k configuration
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
 # ============================================================================
 # Environment Variables
 # ============================================================================
@@ -202,6 +205,15 @@ alias yad='yarn add --dev'
 alias yr='yarn run'
 alias yt='yarn test'
 alias yb='yarn build'
+
+# ============================================================================
+# Aliases - Flatpak Applications
+# ============================================================================
+
+# Media & Entertainment
+alias stremio='flatpak run com.stremio.Stremio'
+alias smarttube='flatpak run io.smarttube.app'
+alias flatseal='flatpak run com.github.tchx84.Flatseal'
 
 # ============================================================================
 # Custom Functions

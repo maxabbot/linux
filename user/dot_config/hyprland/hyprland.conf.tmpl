@@ -17,12 +17,11 @@ monitor={{ .monitors.secondary }}
 exec-once = swww-daemon
 exec-once = swww img ~/.config/hyprland/wallpaper.jpg --transition-type wipe --transition-fps 60
 exec-once = waybar
-exec-once = dunst
+exec-once = swaync
 exec-once = /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec-once = swayidle -w timeout 300 'hyprlock' timeout 600 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on' before-sleep 'hyprlock'
 exec-once = wl-paste --type text --watch cliphist store
 exec-once = wl-paste --type image --watch cliphist store
-exec-once = swaync
 # Defer heavier services to background with small delay for faster perceived boot
 exec-once = sleep 0.5 && copyq --start-server &
 exec-once = sleep 1 && nm-applet --indicator &
@@ -139,6 +138,11 @@ windowrulev2 = immediate, class:^(steam_app_)(.*)$
 windowrulev2 = immediate, class:^(cs2)$
 windowrulev2 = immediate, class:^(dota2)$
 windowrulev2 = immediate, class:^(Minecraft)(.*)$
+
+# Gaming launcher rules
+windowrulev2 = fullscreen, class:^(steam)$,title:^(Steam Big Picture)$
+windowrulev2 = workspace 10, class:^(lutris)$
+windowrulev2 = workspace 10, class:^(steam)$
 
 # Float rules
 windowrulev2 = float, class:^(pavucontrol)$
@@ -282,6 +286,6 @@ bind = $mainMod, C, exec, cliphist list | fuzzel --dmenu | cliphist decode | wl-
 # Gaming Mode
 # ============================================================================
 
-# Toggle gaming mode (disable blur, animations for performance)
-bind = $mainMod, G, exec, hyprctl keyword decoration:blur:enabled 0; hyprctl keyword animations:enabled 0
-bind = $mainMod SHIFT, G, exec, hyprctl keyword decoration:blur:enabled 1; hyprctl keyword animations:enabled 1
+# Toggle gaming mode: kills bar/notifications, launches Lutris+Steam,
+# disables blur/animations. Press again to restore normal session.
+bind = $mainMod SHIFT, G, exec, ~/.config/hypr/gaming-toggle.sh

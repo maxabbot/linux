@@ -4,8 +4,8 @@
 # =============================================================================
 
 # Core NVIDIA driver stack
+# Note: Install nvidia-lts (matches linux-lts kernel), not nvidia (for linux)
 nvidia_driver_packages:
-  - nvidia
   - nvidia-lts
   - nvidia-utils
   - nvidia-settings

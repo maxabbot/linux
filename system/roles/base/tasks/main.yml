@@ -146,11 +146,11 @@
   when: (power_management | default('power-profiles-daemon')) in ['power-profiles-daemon', 'tlp']
   failed_when: false
 
-- name: Configure reflector for NZ mirrors
+- name: Configure reflector mirrors
   ansible.builtin.copy:
     dest: /etc/xdg/reflector/reflector.conf
     content: |
-      --country 'New Zealand,Australia'
+      --country '{{ reflector_countries }}'
       --protocol https
       --latest 10
       --sort rate

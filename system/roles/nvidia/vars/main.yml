@@ -1,7 +1,6 @@
 ---
 # =============================================================================
 # NVIDIA Role — Variables
-# Package lists derived from modules/nvidia.sh
 # =============================================================================
 
 # Core NVIDIA driver stack
@@ -25,8 +24,7 @@ nvidia_cuda_packages:
   - clinfo
 
 # AUR packages
-nvidia_aur_packages:
-  - goverlay
+nvidia_aur_packages: []
 
 # mkinitcpio NVIDIA modules
 nvidia_mkinitcpio_modules:

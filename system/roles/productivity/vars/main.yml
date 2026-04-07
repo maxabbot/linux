@@ -1,11 +1,12 @@
 ---
 # =============================================================================
 # Productivity Role — Variables
-# Package lists derived from modules/productivity.sh
 # =============================================================================
 
 # Desktop / Wayland compositors
 prod_desktop_packages:
+  - sddm
+  - sddm-kcm
   - hyprland
   - rofi
   - waybar
@@ -17,8 +18,6 @@ prod_desktop_packages:
   - slurp
   - hyprlock
   - fuzzel
-  - fastfetch
-  - starship
   - swayidle
   - nwg-look
 
@@ -31,9 +30,6 @@ prod_office_packages:
   - calibre
   - okular
   - pdfarranger
-
-# Browsers
-prod_browser_packages: []
 
 # Communication
 prod_communication_packages:
@@ -72,8 +68,6 @@ prod_media_packages:
 
 # Monitoring
 prod_monitoring_packages:
-  - btop
-  - htop
   - nvtop
   - plasma-systemmonitor
   - openrgb
@@ -94,9 +88,7 @@ prod_helper_packages:
   - redshift
   - flameshot
   - alacritty
-  - keepassxc
-  - blueman
-  - network-manager-applet
+  - pavucontrol
 
 # AUR — always installed
 prod_aur_packages:
@@ -129,7 +121,8 @@ prod_aur_secondary_browser_packages:
 prod_aur_comm_packages:
   - slack-desktop
   - discord
-  - zoom  - mattermost-desktop
+  - zoom
+  - mattermost-desktop
 # AUR — sync (gated)
 prod_aur_sync_packages:
   - dropbox
@@ -152,8 +145,6 @@ prod_aur_notes_packages:
 # AUR — media
 prod_aur_media_packages:
   - spotify-launcher
-  - stremio
-  - smarttube-beta-bin
 
 # AUR — misc
 prod_aur_misc_packages:

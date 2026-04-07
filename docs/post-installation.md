@@ -198,7 +198,7 @@ system/roles/<role>/vars/main.yml
 
 ### Toggling Features
 
-Edit `system/group_vars/all.yml` or your profile's group vars:
+Edit `system/inventory/group_vars/all.yml` or your profile's group vars:
 
 ```yaml
 enable_docker: true

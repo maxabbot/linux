@@ -15,12 +15,6 @@
     state: present
   become: true
 
-- name: Install browser packages
-  community.general.pacman:
-    name: "{{ prod_browser_packages }}"
-    state: present
-  become: true
-
 - name: Install communication packages
   community.general.pacman:
     name: "{{ prod_communication_packages }}"
@@ -167,6 +161,10 @@
   become: false
   failed_when: false
 
+# parsec-bin requires special handling: its AUR package ships a pre-built
+# binary that conflicts with cached source builds from previous failed attempts.
+# Clearing the cache first prevents "package already exists" errors, and
+# aur_only: true skips the dependency-resolution path that hits rate limits.
 - name: Clean stale AUR cache for parsec-bin
   ansible.builtin.shell: |
     rm -rf ~/.cache/yay/parsec-bin
@@ -230,5 +228,26 @@
     - pipewire.service
     - pipewire-pulse.service
     - wireplumber.service
+  become: false
+  failed_when: false
+
+# --- Display manager ---
+
+- name: Enable SDDM display manager
+  ansible.builtin.systemd:
+    name: sddm.service
+    enabled: true
+    state: started
+  become: true
+  failed_when: false
+
+# --- Syncthing (user-level) ---
+
+- name: Enable Syncthing user service
+  ansible.builtin.systemd:
+    name: "syncthing@{{ ansible_user_id }}.service"
+    scope: user
+    enabled: true
+    state: started
   become: false
   failed_when: false

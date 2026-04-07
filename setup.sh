@@ -179,6 +179,8 @@ run_system_playbook() {
       echo "  1) base   2) development   3) productivity   4) nvidia   5) gaming"
       echo ""
       read -rp "Roles: " roles_input
+      # Note: custom profile uses '-l minimal' as the inventory limit so that
+      # only the base group_vars apply; profile_roles is overridden via -e.
 
       for r in $roles_input; do
         case "$r" in
@@ -256,10 +258,13 @@ print_summary() {
 ${GREEN}✓${RESET} System configured with profile: ${BOLD}${PROFILE}${RESET}
 
 ${BOLD}Next steps:${RESET}
-  1. Reboot to load new kernel modules / drivers
-  2. Run ${CYAN}p10k configure${RESET} to customise your Zsh prompt
-  3. Open Neovim — plugins will auto-install on first launch
-  4. Run ${CYAN}:Mason${RESET} inside Neovim to verify LSP servers
+  1. Reboot to load new kernel modules / drivers$(
+  if [[ "$PROFILE" != "minimal" ]]; then
+    printf "\n  2. Run ${CYAN}p10k configure${RESET} to customise your Zsh prompt"
+    printf "\n  3. Open Neovim — plugins will auto-install on first launch"
+    printf "\n  4. Run ${CYAN}:Mason${RESET} inside Neovim to verify LSP servers"
+  fi
+)
 
 ${BOLD}Useful commands:${RESET}
   Re-run system config:  ${CYAN}ansible-playbook system/playbooks/site.yml -i system/inventory/hosts.yml --ask-become-pass${RESET}
@@ -285,6 +290,8 @@ main() {
     exit 0
   fi
 
+  # Locale must be configured before Ansible runs — Ansible itself can fail
+  # to initialise if en_US.UTF-8 is missing from the system.
   configure_locale
   install_prerequisites
   select_profile

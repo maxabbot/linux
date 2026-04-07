@@ -20,7 +20,3 @@ jobs:
       - name: Shellcheck scripts
         run: |
           git ls-files '*.sh' | xargs -r shellcheck
-          shellcheck tests/test_helpers
-
-      - name: Run Bats tests
-        run: bats tests

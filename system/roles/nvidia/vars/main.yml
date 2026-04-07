@@ -9,7 +9,6 @@ nvidia_driver_packages:
   - nvidia-settings
   - nvidia-prime
   - egl-wayland
-  - nv-codec-headers
   - opencl-nvidia
   - lib32-nvidia-utils
   - lib32-opencl-nvidia
@@ -21,9 +20,10 @@ nvidia_cuda_packages:
   - cudnn
   - clinfo
 
-# AUR packages (nvidia-lts driver)
+# AUR packages (nvidia-lts driver + headers)
 nvidia_aur_packages:
   - nvidia-lts
+  - nv-codec-headers
 
 # mkinitcpio NVIDIA modules
 nvidia_mkinitcpio_modules:

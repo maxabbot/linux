@@ -10,7 +10,7 @@ nvidia_driver_packages:
   - nvidia-settings
   - nvidia-prime
   - egl-wayland
-  - nv-codec-headers
+  - ffnvcodec-headers
   - opencl-nvidia
   - lib32-nvidia-utils
   - lib32-opencl-nvidia

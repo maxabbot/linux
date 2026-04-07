@@ -53,8 +53,6 @@ gaming_aur_packages:
   - vkbasalt
   - vkd3d-proton
   - dxvk-bin
-  - bottles
-  - jellyfin
 
 # AUR — controllers
 gaming_aur_controller_packages:
@@ -64,7 +62,6 @@ gaming_aur_controller_packages:
 # AUR — overlay / streaming
 gaming_aur_media_packages:
   - latencyflex
-  - sunshine-bin
 # AUR — Apollo (gated by install_apollo)
 gaming_aur_apollo_packages:
   - apollo-bin

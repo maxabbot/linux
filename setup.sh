@@ -111,7 +111,7 @@ install_prerequisites() {
   # Install Ansible Galaxy collections
   log_info "Installing Ansible Galaxy requirements..."
   # Explicitly set locale for ansible to avoid initialization errors
-  LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 ansible-galaxy collection install -r "${SCRIPT_DIR}/system/requirements.yml" --force
+  LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 ansible-galaxy collection install -r "${SCRIPT_DIR}/system/requirements.yml"
 
   log_success "Prerequisites installed."
 }

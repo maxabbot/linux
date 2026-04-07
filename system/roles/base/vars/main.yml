@@ -100,7 +100,6 @@ base_service_packages:
 base_security_packages:
   - ufw
   - lm_sensors
-  - fancontrol
   - clamav
   - sof-firmware
 

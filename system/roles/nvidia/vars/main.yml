@@ -10,20 +10,20 @@ nvidia_driver_packages:
   - nvidia-settings
   - nvidia-prime
   - egl-wayland
+  - nv-codec-headers
   - opencl-nvidia
   - lib32-nvidia-utils
   - lib32-opencl-nvidia
 
 # CUDA stack (gated by enable_cuda_stack) — official repos
 nvidia_cuda_packages:
-  - clinfo
-
-# AUR packages (headers + CUDA tools)
-nvidia_aur_packages:
-  - nv-codec-headers
   - cuda
   - cuda-tools
   - cudnn
+  - clinfo
+
+# AUR packages
+nvidia_aur_packages: []
 
 # mkinitcpio NVIDIA modules
 nvidia_mkinitcpio_modules:

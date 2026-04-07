@@ -47,6 +47,7 @@ base_filesystem_packages:
   - gparted
   - parted
   - snapper
+  - os-prober
 
 # Wayland / display / login
 base_display_packages:

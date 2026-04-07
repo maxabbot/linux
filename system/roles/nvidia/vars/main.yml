@@ -3,10 +3,8 @@
 # NVIDIA Role — Variables
 # =============================================================================
 
-# Core NVIDIA driver stack
-# Note: Install nvidia-lts (matches linux-lts kernel), not nvidia (for linux)
+# Core NVIDIA driver stack (official repos)
 nvidia_driver_packages:
-  - nvidia-lts
   - nvidia-utils
   - nvidia-settings
   - nvidia-prime
@@ -23,8 +21,9 @@ nvidia_cuda_packages:
   - cudnn
   - clinfo
 
-# AUR packages
-nvidia_aur_packages: []
+# AUR packages (nvidia-lts driver)
+nvidia_aur_packages:
+  - nvidia-lts
 
 # mkinitcpio NVIDIA modules
 nvidia_mkinitcpio_modules:

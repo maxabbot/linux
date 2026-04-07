@@ -13,17 +13,17 @@ nvidia_driver_packages:
   - lib32-nvidia-utils
   - lib32-opencl-nvidia
 
-# CUDA stack (gated by enable_cuda_stack)
+# CUDA stack (gated by enable_cuda_stack) — official repos
 nvidia_cuda_packages:
-  - cuda
-  - cuda-tools
-  - cudnn
   - clinfo
 
-# AUR packages (nvidia-lts driver + headers)
+# AUR packages (nvidia-lts driver + headers + CUDA tools)
 nvidia_aur_packages:
   - nvidia-lts
   - nv-codec-headers
+  - cuda
+  - cuda-tools
+  - cudnn
 
 # mkinitcpio NVIDIA modules
 nvidia_mkinitcpio_modules:

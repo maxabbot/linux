@@ -10,6 +10,7 @@ gaming_core_packages:
   - wine-staging
   - wine-gecko
   - wine-mono
+  - winetricks
 
 # Controllers
 gaming_controller_packages:
@@ -45,7 +46,6 @@ gaming_media_packages:
 gaming_aur_packages:
   - protonup-qt
   - protontricks
-  - winetricks-git
   - heroic-games-launcher-bin
   - bottles
   - itch-bin

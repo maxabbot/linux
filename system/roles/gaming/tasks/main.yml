@@ -52,28 +52,15 @@
     state: present
   become: true
 
-# --- AUR packages ---
+# --- AUR packages (batched) ---
 
-- name: Install AUR core gaming packages
+- name: Install AUR gaming packages
   kewlfft.aur.aur:
-    name: "{{ gaming_aur_packages }}"
+    name: "{{ gaming_aur_packages + gaming_aur_controller_packages + gaming_aur_media_packages }}"
     use: "{{ aur_helper }}"
     state: present
   become: false
-
-- name: Install AUR controller packages
-  kewlfft.aur.aur:
-    name: "{{ gaming_aur_controller_packages }}"
-    use: "{{ aur_helper }}"
-    state: present
-  become: false
-
-- name: Install AUR media / streaming packages
-  kewlfft.aur.aur:
-    name: "{{ gaming_aur_media_packages }}"
-    use: "{{ aur_helper }}"
-    state: present
-  become: false
+  when: (gaming_aur_packages + gaming_aur_controller_packages + gaming_aur_media_packages) | length > 0
 
 - name: Install Apollo
   kewlfft.aur.aur:

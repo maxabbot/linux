@@ -41,11 +41,7 @@ gaming_vulkan_packages:
 # Streaming / recording
 gaming_media_packages:
   - obs-studio
-  - dxvk
-  - bottles
-  - legendary
   - moonlight-qt
-  - jellyfin
 
 # AUR — core gaming
 gaming_aur_packages:
@@ -56,6 +52,10 @@ gaming_aur_packages:
   - goverlay
   - vkbasalt
   - vkd3d-proton
+  - dxvk-bin
+  - bottles
+  - legendary
+  - jellyfin
 
 # AUR — controllers
 gaming_aur_controller_packages:

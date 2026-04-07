@@ -23,7 +23,6 @@ gaming_performance_packages:
   - gamescope
   - mangohud
   - lib32-mangohud
-  - vkbasalt
   - vkd3d-proton
 
 # Vulkan / GPU tools
@@ -54,6 +53,7 @@ gaming_aur_packages:
   - legendary
   - dxvk-bin
   - goverlay
+  - vkbasalt
 
 # AUR — controllers
 gaming_aur_controller_packages:

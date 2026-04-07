@@ -5,6 +5,7 @@
 
 # Core NVIDIA driver stack (official repos)
 nvidia_driver_packages:
+  - nvidia-open-lts
   - nvidia-utils
   - nvidia-settings
   - nvidia-prime
@@ -17,9 +18,8 @@ nvidia_driver_packages:
 nvidia_cuda_packages:
   - clinfo
 
-# AUR packages (nvidia-lts driver + headers + CUDA tools)
+# AUR packages (headers + CUDA tools)
 nvidia_aur_packages:
-  - nvidia-lts
   - nv-codec-headers
   - cuda
   - cuda-tools

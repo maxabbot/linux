@@ -245,7 +245,7 @@
 
 - name: Enable Syncthing user service
   ansible.builtin.systemd:
-    name: "syncthing@{{ ansible_user_id }}.service"
+    name: "syncthing@{{ ansible_facts['user_id'] }}.service"
     scope: user
     enabled: true
     state: started

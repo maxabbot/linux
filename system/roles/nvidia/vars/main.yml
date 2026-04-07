@@ -18,7 +18,6 @@ nvidia_driver_packages:
 # CUDA stack (gated by enable_cuda_stack) — official repos
 nvidia_cuda_packages:
   - cuda
-  - cuda-tools
   - cudnn
   - clinfo
 

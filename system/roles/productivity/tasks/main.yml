@@ -218,6 +218,18 @@
   loop: "{{ prod_flatpak_apps }}"
   become: true
 
+# --- Services ---
+
+- name: Enable syncthing service
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    scope: user
+    enabled: true
+    state: started
+  loop: "{{ prod_services }}"
+  become: false
+  failed_when: false
+
 # --- PipeWire (user-level) ---
 
 - name: Enable PipeWire user services

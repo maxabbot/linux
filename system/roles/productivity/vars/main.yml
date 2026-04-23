@@ -129,7 +129,7 @@ prod_aur_secondary_browser_packages:
 prod_aur_comm_packages:
   - slack-desktop
   - discord
-  - zoom  - mattermost-desktop
+
 # AUR — sync (gated)
 prod_aur_sync_packages:
   - dropbox
@@ -148,12 +148,6 @@ prod_aur_notes_packages:
   - obsidian
   - joplin-appimage
   - standardnotes
-
-# AUR — media
-prod_aur_media_packages:
-  - spotify-launcher
-  - stremio
-  - smarttube-beta-bin
 
 # AUR — misc
 prod_aur_misc_packages:

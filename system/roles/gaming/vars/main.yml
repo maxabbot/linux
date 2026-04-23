@@ -72,7 +72,7 @@ gaming_aur_media_packages:
   - obs-vkcapture
   - latencyflex
   - moonlight-qt
-  - sunshine-bin  - jellyfin
+  - sunshine-bin
 # AUR — Apollo (gated by install_apollo)
 gaming_aur_apollo_packages:
   - apollo-bin

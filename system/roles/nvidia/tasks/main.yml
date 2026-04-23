@@ -34,6 +34,7 @@
     use: "{{ aur_helper }}"
     state: present
   become: false
+  when: nvidia_aur_packages | length > 0
 
 - name: Install nvidia-prime-run helper script
   ansible.builtin.copy:

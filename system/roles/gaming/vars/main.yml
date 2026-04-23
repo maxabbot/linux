@@ -1,7 +1,6 @@
 ---
 # =============================================================================
 # Gaming Role — Variables
-# Package lists derived from modules/gaming.sh
 # =============================================================================
 
 # Steam & Wine
@@ -11,6 +10,7 @@ gaming_core_packages:
   - wine-staging
   - wine-gecko
   - wine-mono
+  - winetricks
 
 # Controllers
 gaming_controller_packages:
@@ -24,8 +24,6 @@ gaming_performance_packages:
   - gamescope
   - mangohud
   - lib32-mangohud
-  - vkbasalt
-  - vkd3d-proton
 
 # Vulkan / GPU tools
 gaming_vulkan_packages:
@@ -43,23 +41,18 @@ gaming_vulkan_packages:
 # Streaming / recording
 gaming_media_packages:
   - obs-studio
-
-# Benchmark
-gaming_benchmark_packages:
-  - glmark2
-  - vkmark
+  - moonlight-qt
 
 # AUR — core gaming
 gaming_aur_packages:
   - protonup-qt
   - protontricks
-  - winetricks-git
   - heroic-games-launcher-bin
-  - bottles
   - itch-bin
-  - legendary
-  - dxvk-bin
   - goverlay
+  - vkbasalt
+  - vkd3d-proton
+  - dxvk-bin
 
 # AUR — controllers
 gaming_aur_controller_packages:
@@ -68,11 +61,8 @@ gaming_aur_controller_packages:
 
 # AUR — overlay / streaming
 gaming_aur_media_packages:
-  - obs-gstreamer
-  - obs-vkcapture
   - latencyflex
-  - moonlight-qt
-  - sunshine-bin
+
 # AUR — Apollo (gated by install_apollo)
 gaming_aur_apollo_packages:
   - apollo-bin

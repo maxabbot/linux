@@ -1,7 +1,6 @@
 ---
 # =============================================================================
 # Development Role — Variables
-# Package lists derived from modules/development.sh
 # =============================================================================
 
 # Language runtimes & compilers
@@ -25,7 +24,6 @@ dev_utility_packages:
   - kitty
   - direnv
   - starship
-  - zsh
   - helix
   - shellcheck
   - tig
@@ -71,13 +69,12 @@ dev_cloud_packages:
 # API tools (official repos only)
 dev_api_packages:
   - httpie
-  - jq
 
 # Jupyter
 dev_jupyter_packages:
   - jupyter-notebook
 
-# Mathematics / data science (pip packages, installed --user)
+# Mathematics / data science (pacman packages, python-* naming)
 dev_pip_packages:
   - python-matplotlib
   - python-numpy

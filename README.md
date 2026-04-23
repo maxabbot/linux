@@ -106,23 +106,24 @@ See [user/README.md](user/README.md) for template variables and customisation.
 
 ## Feature toggles
 
-Override defaults in `system/group_vars/all.yml` or per-profile in `system/group_vars/home_desktop.yml` / `work_laptop.yml`:
+Override defaults in `system/inventory/group_vars/all.yml` or per-profile in `system/inventory/group_vars/home_desktop.yml` / `work_laptop.yml`:
 
-| Variable | Default | Effect |
-|----------|---------|--------|
-| `enable_docker` | `false` | Enable Docker daemon and add user to docker group |
-| `enable_libvirt` | `false` | Enable libvirtd/KVM virtualisation |
-| `enable_database_servers` | `false` | Install PostgreSQL, MariaDB, Redis, SQLite |
-| `enable_gui_db_clients` | `false` | Install DBeaver, pgAdmin, litecli |
-| `enable_data_platforms` | `false` | Install Airflow, Spark, DuckDB |
-| `enable_cuda_stack` | `false` | Install CUDA/cuDNN alongside NVIDIA drivers |
-| `enable_creative_suite` | `false` | Install GIMP, Krita, Inkscape, Kdenlive |
-| `enable_streaming_tools` | `false` | Install streaming/remote desktop tools |
-| `enable_secondary_browsers` | `false` | Install Brave, Zen alongside Firefox |
-| `enable_sync_clients` | `false` | Install Syncthing, Nextcloud, Dropbox |
-| `enable_gufw` | `false` | Install the GUFW firewall UI |
-| `install_apollo` | `false` | Install Apollo streaming client |
-| `power_management` | `power-profiles-daemon` | Choose `tlp` or `power-profiles-daemon` |
+| Variable | Default | home_desktop | work_laptop | Effect |
+|----------|---------|:---:|:---:|--------|
+| `enable_docker` | `false` | ✓ | ✓ | Enable Docker daemon and add user to docker group |
+| `enable_libvirt` | `false` | | | Enable libvirtd/KVM virtualisation |
+| `enable_database_servers` | `false` | ✓ | ✓ | Install PostgreSQL, MariaDB, Redis, SQLite |
+| `enable_gui_db_clients` | `false` | ✓ | ✓ | Install DBeaver, pgAdmin, litecli |
+| `enable_data_platforms` | `false` | | | Install Airflow, Spark, DuckDB |
+| `enable_cuda_stack` | `false` | ✓ | | Install CUDA/cuDNN alongside NVIDIA drivers |
+| `enable_creative_suite` | `false` | ✓ | | Install GIMP, Krita, Inkscape, Kdenlive |
+| `enable_streaming_tools` | `false` | | | Install streaming/remote desktop tools |
+| `enable_secondary_browsers` | `false` | | | Install Brave, Zen alongside Firefox |
+| `enable_sync_clients` | `false` | | | Install Syncthing, Nextcloud, Dropbox |
+| `enable_gufw` | `false` | | | Install the GUFW firewall UI |
+| `install_apollo` | `false` | | | Install Apollo streaming client |
+| `power_management` | `power-profiles-daemon` | | `tlp` | Choose `tlp` or `power-profiles-daemon` |
+| `reflector_countries` | `'New Zealand,Australia'` | | | Countries for pacman mirror selection |
 
 ## Ansible roles
 
@@ -153,8 +154,6 @@ Dotfiles are managed with [Chezmoi](https://www.chezmoi.io/) and include:
 | [system/README.md](system/README.md) | Layer 2 — Ansible roles and playbooks |
 | [user/README.md](user/README.md) | Layer 3 — Chezmoi dotfiles |
 | [docs/post-installation.md](docs/post-installation.md) | Post-install checklist |
-| [docs/virtualbox.md](docs/virtualbox.md) | VirtualBox walkthrough |
-| [docs/guides/portable-usb.md](docs/guides/portable-usb.md) | Portable USB deployment |
 
 ## Contributing
 

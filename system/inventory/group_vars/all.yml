@@ -10,12 +10,10 @@ power_management: power-profiles-daemon
 
 # --- Feature Toggles ---
 enable_gufw: false
-enable_docker: false
 enable_libvirt: false
 enable_data_platforms: false
 enable_database_servers: false
 enable_gui_db_clients: false
-enable_sync_clients: false
 enable_creative_suite: false
 enable_streaming_tools: false
 enable_secondary_browsers: false

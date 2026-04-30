@@ -18,21 +18,18 @@ dev_language_packages:
 
 # Development utilities
 dev_utility_packages:
-  - neovim
   - kitty
   - direnv
   - starship
   - helix
+  - zed
+  - sqlite
   - shellcheck
   - tig
   - imagemagick
 
 # Database servers (gated by enable_database_servers)
-dev_database_packages:
-  - postgresql
-  - mariadb
-  - redis
-  - sqlite
+dev_database_packages: []
 
 # Database CLI clients (gated by enable_gui_db_clients)
 dev_db_cli_packages:
@@ -42,11 +39,6 @@ dev_db_cli_packages:
 dev_container_packages:
   - podman
   - podman-compose
-
-# Docker tools (gated by enable_docker)
-dev_docker_packages:
-  - docker
-  - docker-compose
 
 # Virtualisation (gated by enable_libvirt)
 dev_libvirt_packages:
@@ -63,13 +55,9 @@ dev_cloud_packages:
   - opentofu
   - ansible
 
-# API tools (official repos only)
+# API tools
 dev_api_packages:
-  - httpie
-
-# Jupyter
-dev_jupyter_packages:
-  - jupyter-notebook
+  - curlie
 
 # Data science packages (pacman python-* packages, not pip)
 dev_python_packages:
@@ -83,16 +71,11 @@ dev_python_packages:
 dev_aur_packages:
   - visual-studio-code-bin
   - nvm
-  - sdkman-cli
-  - insomnia-bin
-  - postman-bin
-  - wiremock-standalone
-  - oh-my-zsh-git
+  - bruno-bin
+  - antidote
 
 # AUR — cloud / infrastructure tools
 dev_aur_cloud_packages:
-  - kind
-  - minikube
   - aws-cli-v2
   - azure-cli
   - google-cloud-sdk
@@ -105,21 +88,17 @@ dev_aur_database_packages:
 # AUR — GUI database clients (gated by enable_gui_db_clients)
 dev_aur_db_client_packages:
   - dbeaver
+  - beekeeper-studio-appimage
   - mycli
   - litecli
 
 # AUR — data platform tools (gated by enable_data_platforms)
 dev_aur_data_platform_packages:
-  - apache-airflow
-  - apache-spark
   - duckdb-bin
 
 # Services to enable
 dev_services:
   - sshd.service
-
-dev_docker_services:
-  - docker.service
 
 dev_libvirt_services:
   - libvirtd.service

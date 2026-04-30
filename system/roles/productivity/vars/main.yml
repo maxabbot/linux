@@ -7,12 +7,10 @@
 prod_desktop_packages:
   - sddm
   - hyprland
-  - rofi
   - waybar
   - xdg-desktop-portal-hyprland
   - swaync
   - gammastep
-  - copyq
   - grim
   - slurp
   - hyprlock
@@ -35,7 +33,6 @@ prod_office_packages:
   - zathura
   - zathura-pdf-mupdf
   - calibre
-  - okular
   - pdfarranger
 
 # Communication
@@ -46,8 +43,8 @@ prod_communication_packages:
 # File managers
 prod_filemanager_packages:
   - thunar
-  - dolphin
-  - ark
+  - thunar-archive-plugin
+  - file-roller
 
 # Cloud / sync
 prod_sync_packages:
@@ -59,25 +56,21 @@ prod_creative_packages:
   - gimp
   - inkscape
   - krita
-  - kdenlive
 
-# Password / notes
+# Password managers
 prod_notes_packages:
-  - keepassxc
   - bitwarden
-  - zim
 
 # Media players
 prod_media_packages:
   - vlc
   - mpv
-  - gthumb
+  - imv
 
 # Monitoring
 prod_monitoring_packages:
   - nvtop
   - openrgb
-  - corectrl
   - glances
   - pacman-contrib
 
@@ -90,8 +83,8 @@ prod_security_packages:
 prod_helper_packages:
   - kvantum
   - papirus-icon-theme
-  - alacritty
   - pavucontrol
+  - foot
 
 # AUR — always installed
 prod_aur_packages:
@@ -100,6 +93,7 @@ prod_aur_packages:
   - grimblast-git
   - mpvpaper
   - wlogout
+  - yazi
   - catppuccin-gtk-theme-mocha
   - catppuccin-cursors-mocha-dark-cursors
 
@@ -107,8 +101,6 @@ prod_aur_packages:
 prod_aur_office_packages:
   - masterpdfeditor-free
   - onlyoffice-bin
-  - logseq-desktop-bin
-  - zotero-bin
 
 # AUR — browsers
 prod_aur_browser_packages:
@@ -116,7 +108,6 @@ prod_aur_browser_packages:
 
 # AUR — secondary browsers (gated)
 prod_aur_secondary_browser_packages:
-  - brave-bin
   - zen-browser-bin
 
 # AUR — communication
@@ -124,30 +115,20 @@ prod_aur_comm_packages:
   - slack-desktop
   - discord
   - zoom
-  - mattermost-desktop
 
-# AUR — sync (gated)
-prod_aur_sync_packages:
-  - dropbox
-  - google-drive-ocamlfuse
-  - mega-cmd-bin
-
-# AUR — streaming (gated)
+# AUR — streaming / recording / editing (gated)
 prod_aur_streaming_packages:
   - shotcut
+  - losslesscut-bin
   - rustdesk-bin
-  - anydesk-bin
   - gpu-screen-recorder
 
 # AUR — notes
 prod_aur_notes_packages:
   - obsidian
-  - joplin-appimage
-  - standardnotes-desktop-bin
 
 # AUR — misc
 prod_aur_misc_packages:
-  - parsec-bin
   - syncthingtray
 
 # Flatpak apps

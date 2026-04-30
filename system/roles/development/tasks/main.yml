@@ -21,30 +21,6 @@
     state: present
   become: true
 
-- name: Install Docker
-  community.general.pacman:
-    name: "{{ dev_docker_packages }}"
-    state: present
-  become: true
-  when: enable_docker | bool
-
-- name: Enable Docker service
-  ansible.builtin.systemd:
-    name: "{{ item }}"
-    enabled: true
-    state: started
-  loop: "{{ dev_docker_services }}"
-  become: true
-  when: enable_docker | bool
-
-- name: Add user to docker group
-  ansible.builtin.user:
-    name: "{{ ansible_facts['user_id'] }}"
-    groups: docker
-    append: true
-  become: true
-  when: enable_docker | bool
-
 - name: Install libvirt / QEMU
   community.general.pacman:
     name: "{{ dev_libvirt_packages }}"
@@ -92,12 +68,6 @@
 - name: Install API tools
   community.general.pacman:
     name: "{{ dev_api_packages }}"
-    state: present
-  become: true
-
-- name: Install Jupyter
-  community.general.pacman:
-    name: "{{ dev_jupyter_packages }}"
     state: present
   become: true
 

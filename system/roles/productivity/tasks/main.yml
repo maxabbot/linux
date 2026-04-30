@@ -9,6 +9,12 @@
     state: present
   become: true
 
+- name: Install PipeWire audio stack
+  community.general.pacman:
+    name: "{{ prod_audio_packages }}"
+    state: present
+  become: true
+
 - name: Install office packages
   community.general.pacman:
     name: "{{ prod_office_packages }}"

@@ -83,7 +83,6 @@ base_cli_packages:
 # Fonts
 base_font_packages:
   - ttf-firacode-nerd
-  - ttf-jetbrains-mono
   - ttf-jetbrains-mono-nerd
   - noto-fonts-emoji
 
@@ -107,6 +106,7 @@ base_security_packages:
 # Kernel
 base_kernel_packages:
   - linux-lts
+  - linux-lts-headers
   - dkms
 
 # Power management package map

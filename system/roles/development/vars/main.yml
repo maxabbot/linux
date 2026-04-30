@@ -8,8 +8,6 @@ dev_language_packages:
   - python
   - python-pip
   - python-virtualenv
-  - nodejs
-  - npm
   - go
   - rustup
   - jdk-openjdk
@@ -62,7 +60,6 @@ dev_cloud_packages:
   - kubectl
   - kubectx
   - helm
-  - terraform
   - opentofu
   - ansible
 
@@ -74,8 +71,8 @@ dev_api_packages:
 dev_jupyter_packages:
   - jupyter-notebook
 
-# Mathematics / data science (pacman packages, python-* naming)
-dev_pip_packages:
+# Data science packages (pacman python-* packages, not pip)
+dev_python_packages:
   - python-matplotlib
   - python-numpy
   - python-pandas
@@ -116,8 +113,6 @@ dev_aur_data_platform_packages:
   - apache-airflow
   - apache-spark
   - duckdb-bin
-  - rapidsai
-  - ferret
 
 # Services to enable
 dev_services:

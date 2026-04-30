@@ -21,6 +21,8 @@ enable_streaming_tools: false
 enable_secondary_browsers: false
 enable_cuda_stack: false
 install_apollo: false
+enable_extra_gpu_vendors: false
+enable_wine_extras: false
 
 # --- Mirrors ---
 reflector_countries: 'New Zealand,Australia'

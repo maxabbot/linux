@@ -6,7 +6,6 @@
 # Desktop / Wayland compositors
 prod_desktop_packages:
   - sddm
-  - sddm-kcm
   - hyprland
   - rofi
   - waybar
@@ -20,6 +19,14 @@ prod_desktop_packages:
   - fuzzel
   - swayidle
   - nwg-look
+
+# Audio (PipeWire stack)
+prod_audio_packages:
+  - pipewire
+  - pipewire-alsa
+  - pipewire-pulse
+  - pipewire-jack
+  - wireplumber
 
 # Office / documents
 prod_office_packages:
@@ -69,7 +76,6 @@ prod_media_packages:
 # Monitoring
 prod_monitoring_packages:
   - nvtop
-  - plasma-systemmonitor
   - openrgb
   - corectrl
   - glances
@@ -84,9 +90,6 @@ prod_security_packages:
 prod_helper_packages:
   - kvantum
   - papirus-icon-theme
-  - kwalletmanager
-  - redshift
-  - flameshot
   - alacritty
   - pavucontrol
 
@@ -96,7 +99,6 @@ prod_aur_packages:
   - cliphist
   - grimblast-git
   - mpvpaper
-  - waybar-hyprland-git
   - wlogout
   - catppuccin-gtk-theme-mocha
   - catppuccin-cursors-mocha-dark-cursors
@@ -141,11 +143,7 @@ prod_aur_streaming_packages:
 prod_aur_notes_packages:
   - obsidian
   - joplin-appimage
-  - standardnotes
-
-# AUR — media
-prod_aur_media_packages:
-  - spotify-launcher
+  - standardnotes-desktop-bin
 
 # AUR — misc
 prod_aur_misc_packages:

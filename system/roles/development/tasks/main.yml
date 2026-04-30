@@ -103,7 +103,7 @@
 
 - name: Install Python data science packages
   community.general.pacman:
-    name: "{{ dev_pip_packages }}"
+    name: "{{ dev_python_packages }}"
     state: present
   become: true
 

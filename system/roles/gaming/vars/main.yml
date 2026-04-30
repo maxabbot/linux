@@ -15,7 +15,6 @@ gaming_core_packages:
 # Controllers
 gaming_controller_packages:
   - joyutils
-  - xorg-xinput
 
 # Performance / compositors
 gaming_performance_packages:
@@ -25,18 +24,21 @@ gaming_performance_packages:
   - mangohud
   - lib32-mangohud
 
-# Vulkan / GPU tools
+# Vulkan / GPU tools (NVIDIA-safe subset)
 gaming_vulkan_packages:
   - vulkan-icd-loader
   - vulkan-tools
   - vulkan-validation-layers
   - lib32-vulkan-icd-loader
-  - lib32-vulkan-intel
-  - lib32-vulkan-radeon
   - mesa-utils
   - lib32-mesa
   - glmark2
   - vkmark
+
+# Vulkan ICDs for non-NVIDIA GPUs (gated by enable_extra_gpu_vendors)
+gaming_extra_gpu_packages:
+  - lib32-vulkan-intel
+  - lib32-vulkan-radeon
 
 # Streaming / recording
 gaming_media_packages:
@@ -51,17 +53,20 @@ gaming_aur_packages:
   - itch-bin
   - goverlay
   - vkbasalt
+
+# AUR — Wine translation layers (gated by enable_wine_extras)
+# Proton bundles its own versions; only needed for Lutris/Heroic native-Wine prefixes
+gaming_aur_wine_packages:
   - vkd3d-proton
   - dxvk-bin
 
 # AUR — controllers
 gaming_aur_controller_packages:
   - xpadneo-dkms
-  - ds4drv
 
 # AUR — overlay / streaming
 gaming_aur_media_packages:
-  - latencyflex
+  - latencyflex-bin
 
 # AUR — Apollo (gated by install_apollo)
 gaming_aur_apollo_packages:

@@ -46,6 +46,13 @@
     state: present
   become: true
 
+- name: Install extra GPU vendor Vulkan ICDs
+  community.general.pacman:
+    name: "{{ gaming_extra_gpu_packages }}"
+    state: present
+  become: true
+  when: enable_extra_gpu_vendors | default(false) | bool
+
 - name: Install streaming / recording packages
   community.general.pacman:
     name: "{{ gaming_media_packages }}"
@@ -61,6 +68,14 @@
     state: present
   become: false
   when: (gaming_aur_packages + gaming_aur_controller_packages + gaming_aur_media_packages) | length > 0
+
+- name: Install Wine translation layer packages
+  kewlfft.aur.aur:
+    name: "{{ gaming_aur_wine_packages }}"
+    use: "{{ aur_helper }}"
+    state: present
+  become: false
+  when: enable_wine_extras | default(false) | bool
 
 - name: Install Apollo
   kewlfft.aur.aur:

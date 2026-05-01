@@ -75,6 +75,8 @@ base_cli_packages:
   - tmux
   - fastfetch
   - btop
+  - git-delta
+  - capitaine-cursors
   - reflector
 
 # Fonts

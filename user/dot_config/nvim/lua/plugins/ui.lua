@@ -5,25 +5,16 @@
 return {
   -- Color scheme
   {
-    'catppuccin/nvim',
-    name = 'catppuccin',
+    'sainnhe/gruvbox-material',
     priority = 1000,
     config = function()
-      require('catppuccin').setup({
-        flavour = 'mocha',
-        transparent_background = false,
-        term_colors = true,
-        integrations = {
-          cmp = true,
-          gitsigns = true,
-          nvimtree = true,
-          telescope = true,
-          treesitter = true,
-          mason = true,
-          which_key = true,
-        },
-      })
-      vim.cmd.colorscheme('catppuccin')
+      vim.g.gruvbox_material_background           = 'medium'
+      vim.g.gruvbox_material_foreground           = 'material'
+      vim.g.gruvbox_material_better_performance   = 1
+      vim.g.gruvbox_material_enable_italic        = 1
+      vim.g.gruvbox_material_enable_bold          = 1
+      vim.g.gruvbox_material_diagnostic_text_highlight = 1
+      vim.cmd.colorscheme('gruvbox-material')
     end,
   },
 
@@ -104,7 +95,7 @@ return {
     config = function()
       require('lualine').setup({
         options = {
-          theme = 'catppuccin',
+          theme = 'auto',
           component_separators = { left = '', right = '' },
           section_separators = { left = '', right = '' },
         },

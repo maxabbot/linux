@@ -94,8 +94,7 @@ prod_aur_packages:
   - mpvpaper
   - wlogout
   - yazi
-  - catppuccin-gtk-theme-mocha
-  - catppuccin-cursors-mocha-dark-cursors
+  - gruvbox-material-gtk
 
 # AUR — office
 prod_aur_office_packages:

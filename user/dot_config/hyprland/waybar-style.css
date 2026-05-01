@@ -1,5 +1,5 @@
 /* ============================================================================
- * Waybar Style - Catppuccin Mocha Theme
+ * Waybar Style — Gruvbox Material Dark (Hyprland)
  * ============================================================================ */
 
 * {
@@ -11,8 +11,8 @@
 }
 
 window#waybar {
-  background: rgba(30, 30, 46, 0.9);
-  color: #cdd6f4;
+  background: rgba(40, 40, 40, 0.9);
+  color: #d4be98;
 }
 
 #workspaces {
@@ -24,28 +24,28 @@ window#waybar {
 #workspaces button {
   padding: 0px 10px;
   background: transparent;
-  color: #6c7086;
+  color: #7c6f64;
   border-bottom: 3px solid transparent;
 }
 
 #workspaces button.active {
-  color: #89b4fa;
-  border-bottom: 3px solid #89b4fa;
+  color: #7daea3;
+  border-bottom: 3px solid #7daea3;
 }
 
 #workspaces button.urgent {
-  color: #f38ba8;
-  border-bottom: 3px solid #f38ba8;
+  color: #ea6962;
+  border-bottom: 3px solid #ea6962;
 }
 
 #workspaces button:hover {
-  background: rgba(49, 50, 68, 0.5);
-  color: #cdd6f4;
+  background: rgba(60, 56, 54, 0.5);
+  color: #d4be98;
 }
 
 #window {
   padding: 0 10px;
-  color: #cdd6f4;
+  color: #d4be98;
   font-weight: bold;
 }
 
@@ -60,69 +60,69 @@ window#waybar {
 #idle_inhibitor {
   padding: 0 10px;
   margin: 5px 0px;
-  background: #313244;
+  background: #3c3836;
   border-radius: 8px;
 }
 
 #clock {
-  color: #89b4fa;
+  color: #d8a657;
   font-weight: bold;
 }
 
 #battery {
-  color: #a6e3a1;
+  color: #a9b665;
 }
 
 #battery.charging {
-  color: #a6e3a1;
+  color: #a9b665;
 }
 
 #battery.warning:not(.charging) {
-  color: #f9e2af;
+  color: #d8a657;
 }
 
 #battery.critical:not(.charging) {
-  color: #f38ba8;
+  color: #ea6962;
   animation: blink 1s linear infinite;
 }
 
 @keyframes blink {
   to {
-    color: #1e1e2e;
+    color: #282828;
   }
 }
 
 #cpu {
-  color: #f5c2e7;
+  color: #d3869b;
 }
 
 #memory {
-  color: #cba6f7;
+  color: #7daea3;
 }
 
 #temperature {
-  color: #fab387;
+  color: #e78a4e;
 }
 
 #temperature.critical {
-  color: #f38ba8;
+  color: #ea6962;
   animation: blink 1s linear infinite;
 }
 
 #network {
-  color: #94e2d5;
+  color: #89b482;
 }
 
 #network.disconnected {
-  color: #f38ba8;
+  color: #ea6962;
 }
 
 #pulseaudio {
-  color: #f9e2af;
+  color: #d8a657;
 }
 
 #pulseaudio.muted {
-  color: #6c7086;
+  color: #7c6f64;
 }
 
 #tray {
@@ -138,19 +138,19 @@ window#waybar {
 }
 
 #idle_inhibitor {
-  color: #cdd6f4;
+  color: #d4be98;
 }
 
 #idle_inhibitor.activated {
-  color: #a6e3a1;
+  color: #a9b665;
 }
 
 tooltip {
-  background: #1e1e2e;
-  border: 1px solid #89b4fa;
+  background: #282828;
+  border: 1px solid #7daea3;
   border-radius: 8px;
 }
 
 tooltip label {
-  color: #cdd6f4;
+  color: #d4be98;
 }

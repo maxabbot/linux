@@ -191,6 +191,15 @@
   loop: "{{ prod_flatpak_apps }}"
   become: true
 
+# --- User directories ---
+
+- name: Ensure Screenshots directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/Pictures/Screenshots"
+    state: directory
+    mode: '0755'
+  become: false
+
 # --- Services ---
 
 - name: Enable syncthing service

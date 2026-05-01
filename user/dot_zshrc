@@ -53,6 +53,23 @@ export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export ARCHFLAGS="-arch x86_64"
 
+# bat — syntax highlighting pager
+export BAT_THEME="gruvbox-dark"
+export BAT_PAGER="less -RF"
+alias cat='bat --paging=never'
+alias less='bat --paging=always'
+
+# fzf — Gruvbox Material Dark colors
+export FZF_DEFAULT_OPTS=" \
+  --color=bg+:#3c3836,bg:#282828,spinner:#d8a657,hl:#ea6962 \
+  --color=fg:#d4be98,header:#ea6962,info:#d3869b,pointer:#d8a657 \
+  --color=marker:#7daea3,fg+:#d4be98,prompt:#d3869b,hl+:#ea6962 \
+  --color=selected-bg:#504945 \
+  --multi --height 40% --border rounded"
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
+
 # ============================================================================
 # Language-Specific Configurations
 # ============================================================================
@@ -82,14 +99,18 @@ export PATH="$HOME/.local/bin:$HOME/bin:$CARGO_HOME/bin:$PATH"
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
-alias l='ls -lah'
-alias la='ls -lAh'
-alias ll='ls -lh'
-alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias df='df -h'
 alias du='du -h'
 alias free='free -h'
+
+# eza (modern ls replacement)
+alias ls='eza --color=always --group-directories-first --icons'
+alias ll='eza -la --color=always --group-directories-first --icons --git'
+alias la='eza -a --color=always --group-directories-first --icons'
+alias l='eza -la --color=always --group-directories-first --icons --git'
+alias lt='eza -aT --color=always --group-directories-first --icons --level=2'
+alias l.='eza -a --color=always --group-directories-first --icons | grep "^\."'
 
 # Editor
 alias v='hx'

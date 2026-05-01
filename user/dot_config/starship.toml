@@ -1,33 +1,33 @@
 # ============================================================================
-# Starship Prompt — Catppuccin Mocha
+# Starship Prompt — Gruvbox Material Dark
 # https://starship.rs/config/
 # ============================================================================
 
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
-[](#1e1e2e)\
+[](#282828)\
 $os\
 $username\
-[](bg:#313244 fg:#1e1e2e)\
+[](bg:#3c3836 fg:#282828)\
 $directory\
-[](fg:#313244 bg:#45475a)\
+[](fg:#3c3836 bg:#504945)\
 $git_branch\
 $git_status\
-[](fg:#45475a bg:#585b70)\
+[](fg:#504945 bg:#665c54)\
 $python\
 $nodejs\
 $rust\
 $golang\
 $java\
-[](fg:#585b70 bg:#1e1e2e)\
+[](fg:#665c54 bg:#282828)\
 $time\
-[ ](fg:#1e1e2e)\
+[ ](fg:#282828)\
 \n$character"""
 
 [os]
 disabled = false
-style = "bg:#1e1e2e fg:#cba6f7"
+style = "bg:#282828 fg:#d3869b"
 
 [os.symbols]
 Arch = " "
@@ -40,13 +40,13 @@ Windows = " "
 
 [username]
 show_always = true
-style_user = "bg:#1e1e2e fg:#cdd6f4"
-style_root = "bg:#1e1e2e fg:#f38ba8"
+style_user = "bg:#282828 fg:#d4be98"
+style_root = "bg:#282828 fg:#ea6962"
 format = '[$user ]($style)'
 disabled = false
 
 [directory]
-style = "bg:#313244 fg:#89b4fa"
+style = "bg:#3c3836 fg:#7daea3"
 format = "[ $path ]($style)"
 truncation_length = 3
 truncation_symbol = "…/"
@@ -62,11 +62,11 @@ truncation_symbol = "…/"
 
 [git_branch]
 symbol = ""
-style = "bg:#45475a fg:#a6e3a1"
+style = "bg:#504945 fg:#a9b665"
 format = '[ $symbol $branch ]($style)'
 
 [git_status]
-style = "bg:#45475a fg:#f38ba8"
+style = "bg:#504945 fg:#ea6962"
 format = '[$all_status$ahead_behind ]($style)'
 conflicted = "⚡"
 ahead = "⇡${count}"
@@ -82,36 +82,36 @@ deleted = "✘"
 
 [python]
 symbol = ""
-style = "bg:#585b70 fg:#f9e2af"
+style = "bg:#665c54 fg:#d8a657"
 format = '[ $symbol ($version) ]($style)'
 
 [nodejs]
 symbol = ""
-style = "bg:#585b70 fg:#a6e3a1"
+style = "bg:#665c54 fg:#a9b665"
 format = '[ $symbol ($version) ]($style)'
 
 [rust]
 symbol = ""
-style = "bg:#585b70 fg:#fab387"
+style = "bg:#665c54 fg:#e78a4e"
 format = '[ $symbol ($version) ]($style)'
 
 [golang]
 symbol = ""
-style = "bg:#585b70 fg:#74c7ec"
+style = "bg:#665c54 fg:#89b482"
 format = '[ $symbol ($version) ]($style)'
 
 [java]
 symbol = ""
-style = "bg:#585b70 fg:#f38ba8"
+style = "bg:#665c54 fg:#ea6962"
 format = '[ $symbol ($version) ]($style)'
 
 [time]
 disabled = false
 time_format = "%H:%M"
-style = "bg:#1e1e2e fg:#6c7086"
+style = "bg:#282828 fg:#7c6f64"
 format = '[ 󰥔 $time ]($style)'
 
 [character]
-success_symbol = '[❯](bold fg:#a6e3a1)'
-error_symbol = '[❯](bold fg:#f38ba8)'
-vimcmd_symbol = '[❮](bold fg:#cba6f7)'
+success_symbol = '[❯](bold fg:#a9b665)'
+error_symbol = '[❯](bold fg:#ea6962)'
+vimcmd_symbol = '[❮](bold fg:#d3869b)'

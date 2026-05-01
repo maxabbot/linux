@@ -1,16 +1,21 @@
 #!/bin/bash
-# Install global npm tools via nvm.
-# chezmoi re-runs this when the file content changes — bump the hash below to upgrade.
-# hash: 1
+# Install global npm tools via mise-managed node.
+# chezmoi re-runs this when the file content changes — bump the hash to upgrade.
+# hash: 2
 
 set -euo pipefail
 
-export NVM_DIR="$HOME/.nvm"
-# shellcheck source=/dev/null
-[[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
+# Activate mise to get its node/npm in PATH
+if command -v mise &>/dev/null; then
+  eval "$(mise activate bash)"
+  mise install node 2>/dev/null || true
+else
+  echo "mise not found — install it first (AUR: mise-bin)"
+  exit 1
+fi
 
 if ! command -v npm &>/dev/null; then
-  echo "npm not available — run: nvm install --lts"
+  echo "npm not available after mise activation"
   exit 1
 fi
 

@@ -164,3 +164,39 @@
   ansible.builtin.command: xdg-user-dirs-update
   changed_when: false
   become: false
+
+# --- Snapper BTRFS Snapshots ---
+
+- name: Create snapper root configuration
+  ansible.builtin.command: snapper -c root create-config /
+  args:
+    creates: /etc/snapper/configs/root
+  become: true
+  when: enable_btrfs_snapshots | default(false) | bool
+
+- name: Configure snapper timeline limits
+  ansible.builtin.lineinfile:
+    path: /etc/snapper/configs/root
+    regexp: "^{{ item.key }}="
+    line: "{{ item.key }}=\"{{ item.value }}\""
+  loop:
+    - { key: TIMELINE_MIN_AGE,       value: '1800' }
+    - { key: TIMELINE_LIMIT_HOURLY,  value: '5' }
+    - { key: TIMELINE_LIMIT_DAILY,   value: '7' }
+    - { key: TIMELINE_LIMIT_WEEKLY,  value: '0' }
+    - { key: TIMELINE_LIMIT_MONTHLY, value: '0' }
+    - { key: TIMELINE_LIMIT_YEARLY,  value: '0' }
+  become: true
+  when: enable_btrfs_snapshots | default(false) | bool
+
+- name: Enable snapper timers
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  loop:
+    - snapper-timeline.timer
+    - snapper-cleanup.timer
+  become: true
+  when: enable_btrfs_snapshots | default(false) | bool
+  failed_when: false

@@ -6,17 +6,45 @@ on:
   pull_request:
 
 jobs:
-  lint-and-test:
+  shellcheck:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y shellcheck bats
+      - name: Install shellcheck
+        run: sudo apt-get install -y shellcheck
 
       - name: Shellcheck scripts
+        run: git ls-files '*.sh' | xargs -r shellcheck
+
+  ansible-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Ansible + ansible-lint
+        run: pip install ansible ansible-lint
+
+      - name: Install Galaxy collections
+        run: ansible-galaxy collection install -r system/requirements.yml
+
+      - name: Lint playbooks
         run: |
-          git ls-files '*.sh' | xargs -r shellcheck
+          cd system
+          ansible-lint --profile=basic --exclude roles/aur playbooks/site.yml
+
+  bats:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install bats
+        run: sudo apt-get install -y bats
+
+      - name: Run bats tests
+        run: |
+          if compgen -G "tests/*.bats" > /dev/null; then
+            bats tests/
+          else
+            echo "No bats tests found — skipping."
+          fi

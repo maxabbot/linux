@@ -79,10 +79,10 @@ export CARGO_HOME="$HOME/.cargo"
 export RUSTUP_HOME="$HOME/.rustup"
 [[ -f "$CARGO_HOME/env" ]] && source "$CARGO_HOME/env"
 
-# Node.js (nvm)
-export NVM_DIR="$HOME/.nvm"
-[[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
-[[ -s "$NVM_DIR/bash_completion" ]] && source "$NVM_DIR/bash_completion"
+# mise (universal version manager — node, python, etc.)
+if command -v mise &>/dev/null; then
+  eval "$(mise activate zsh)"
+fi
 
 # Go
 export GOPATH="$HOME/go"
@@ -261,6 +261,9 @@ fi
 # ============================================================================
 # Tool Integrations
 # ============================================================================
+
+# tmux-sessionizer — CTRL-f from anywhere in the shell
+bindkey -s '^f' 'tmux-sessionizer\n'
 
 # zoxide (better cd)
 if command -v zoxide &>/dev/null; then

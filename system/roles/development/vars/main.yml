@@ -70,7 +70,7 @@ dev_python_packages:
 # AUR packages — always installed
 dev_aur_packages:
   - visual-studio-code-bin
-  - nvm
+  - mise-bin
   - bruno-bin
   - antidote
 

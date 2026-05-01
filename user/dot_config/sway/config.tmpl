@@ -26,6 +26,7 @@ output {{ .monitors.secondary }}
 # Startup applications
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 exec dunst &
+exec gammastep &
 # Defer heavier services to background with small delay for faster perceived boot
 exec sleep 0.5 && copyq --start-server &
 exec sleep 1 && nm-applet --indicator &

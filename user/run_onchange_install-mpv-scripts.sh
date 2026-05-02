@@ -1,7 +1,7 @@
 #!/bin/bash
 # Download mpv scripts: uosc (UI), thumbfast (thumbnail scrubber), sponsorblock.
 # chezmoi re-runs this when the file content changes — bump the hash to update.
-# hash: 2
+# hash: 3
 
 set -uo pipefail
 
@@ -35,7 +35,7 @@ fi
 echo "Installing sponsorblock..."
 if curl -fsSL "https://raw.githubusercontent.com/po5/mpv_sponsorblock/master/sponsorblock.lua" \
     -o "$SCRIPTS_DIR/sponsorblock.lua" && \
-   curl -fsSL "https://raw.githubusercontent.com/po5/mpv_sponsorblock/master/sponsorblock_shared.lua" \
+   curl -fsSL "https://raw.githubusercontent.com/po5/mpv_sponsorblock/master/sponsorblock_shared/main.lua" \
     -o "$SCRIPTS_DIR/sponsorblock_shared.lua"; then
   echo "sponsorblock installed."
 else

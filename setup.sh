@@ -260,7 +260,7 @@ ${GREEN}✓${RESET} System configured with profile: ${BOLD}${PROFILE}${RESET}
 ${BOLD}Next steps:${RESET}
   1. Reboot to load new kernel modules / drivers$(
   if [[ "$PROFILE" != "minimal" ]]; then
-    printf "\n  2. Run ${CYAN}p10k configure${RESET} to customise your Zsh prompt"
+    printf "\n  2. Open a new terminal — Starship prompt loads automatically"
     printf "\n  3. Open Neovim — plugins will auto-install on first launch"
     printf "\n  4. Run ${CYAN}:Mason${RESET} inside Neovim to verify LSP servers"
   fi

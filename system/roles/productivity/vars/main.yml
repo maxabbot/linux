@@ -136,4 +136,4 @@ prod_flatpak_apps:
 
 # Services
 prod_services:
-  - syncthing@{{ ansible_user_id }}.service
+  - syncthing@{{ local_user }}.service

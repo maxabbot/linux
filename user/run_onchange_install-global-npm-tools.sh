@@ -6,13 +6,15 @@
 set -euo pipefail
 
 # Activate mise to get its node/npm in PATH
-if command -v mise &>/dev/null; then
-  eval "$(mise activate bash)"
-  mise install node 2>/dev/null || true
-else
-  echo "mise not found — install it first (AUR: mise-bin)"
-  exit 1
+MISE_BIN="${MISE_BIN:-$(command -v mise 2>/dev/null || echo /usr/bin/mise)}"
+
+if [[ ! -x "$MISE_BIN" ]]; then
+  echo "mise not found — skipping npm tools (re-run 'chezmoi apply' after mise is installed)"
+  exit 0
 fi
+
+eval "$("$MISE_BIN" activate bash)"
+"$MISE_BIN" install node 2>/dev/null || true
 
 if ! command -v npm &>/dev/null; then
   echo "npm not available after mise activation"

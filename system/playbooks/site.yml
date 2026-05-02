@@ -20,6 +20,23 @@
       changed_when: false
       tags: [always]
 
+    - name: Detect packages blocking upgrade (soname conflicts)
+      ansible.builtin.shell: |
+        pacman -Syu --print 2>&1 | grep -oP "required by \K\S+" | sort -u
+      become: true
+      register: blocking_pkgs
+      changed_when: false
+      failed_when: false
+      tags: [always]
+
+    - name: Remove packages with dep conflicts to unblock upgrade
+      ansible.builtin.command: >-
+        pacman -Rdd --noconfirm
+        {{ blocking_pkgs.stdout_lines | select('ne', '') | join(' ') }}
+      become: true
+      when: (blocking_pkgs.stdout_lines | select('ne', '') | list) | length > 0
+      tags: [always]
+
     - name: Update system packages (with AUR helper)
       ansible.builtin.command: yay -Syu --noconfirm --answerdiff=None --answeredit=None
       become: false

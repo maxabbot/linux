@@ -27,7 +27,6 @@ dev_utility_packages:
   - shellcheck
   - tig
   - imagemagick
-  - zsh-antidote
 
 # Database servers (gated by enable_database_servers)
 dev_database_packages: []

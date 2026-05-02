@@ -110,13 +110,13 @@ Override defaults in `system/inventory/group_vars/all.yml` or per-profile in `sy
 
 | Variable | Default | home_desktop | work_laptop | Effect |
 |----------|---------|:---:|:---:|--------|
-| `enable_docker` | `false` | ✓ | ✓ | Enable Docker daemon and add user to docker group |
+| `enable_docker` | `false` | | ✓ | Enable Docker daemon and add user to docker group |
 | `enable_libvirt` | `false` | | | Enable libvirtd/KVM virtualisation |
 | `enable_database_servers` | `false` | ✓ | ✓ | Install PostgreSQL, MariaDB, Redis, SQLite |
 | `enable_gui_db_clients` | `false` | ✓ | ✓ | Install DBeaver, pgAdmin, litecli |
 | `enable_data_platforms` | `false` | | | Install Airflow, Spark, DuckDB |
 | `enable_cuda_stack` | `false` | ✓ | | Install CUDA/cuDNN alongside NVIDIA drivers |
-| `enable_creative_suite` | `false` | ✓ | | Install GIMP, Krita, Inkscape, Kdenlive |
+| `enable_creative_suite` | `false` | ✓ | | Install GIMP, Krita, Inkscape |
 | `enable_streaming_tools` | `false` | | | Install streaming/remote desktop tools |
 | `enable_secondary_browsers` | `false` | | | Install Brave, Zen alongside Firefox |
 | `enable_sync_clients` | `false` | | | Install Syncthing, Nextcloud, Dropbox |
@@ -140,7 +140,7 @@ Override defaults in `system/inventory/group_vars/all.yml` or per-profile in `sy
 
 Dotfiles are managed with [Chezmoi](https://www.chezmoi.io/) and include:
 
-- **Shell** — Zsh (oh-my-zsh + Powerlevel10k) with Bash fallback
+- **Shell** — Zsh (Antidote + Powerlevel10k) with Bash fallback
 - **Editor** — Neovim (lazy.nvim, LSP, Mason, Treesitter, Telescope)
 - **WMs** — Hyprland + Sway (with templated monitor configs)
 - **Theme** — Catppuccin Mocha everywhere
@@ -154,6 +154,7 @@ Dotfiles are managed with [Chezmoi](https://www.chezmoi.io/) and include:
 | [system/README.md](system/README.md) | Layer 2 — Ansible roles and playbooks |
 | [user/README.md](user/README.md) | Layer 3 — Chezmoi dotfiles |
 | [docs/post-installation.md](docs/post-installation.md) | Post-install checklist |
+| [docs/SHORTCUTS.md](docs/SHORTCUTS.md) | Keyboard shortcuts and shell aliases reference |
 
 ## Contributing
 

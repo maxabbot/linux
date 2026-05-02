@@ -65,13 +65,13 @@ Override in `group_vars/all.yml` or per-profile:
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `power_management` | `power-profiles-daemon` | `power-profiles-daemon` or `tlp` |
-| `enable_docker` | `true` | Install Docker + docker-compose |
+| `enable_docker` | `false` | Install Docker + docker-compose |
 | `enable_libvirt` | `false` | Install QEMU/KVM + virt-manager |
 | `enable_database_servers` | `false` | PostgreSQL, MariaDB, Redis, SQLite |
 | `enable_gui_db_clients` | `false` | DBeaver, pgcli, mycli, litecli |
 | `enable_data_platforms` | `false` | Airflow, Spark, DuckDB |
 | `enable_cuda_stack` | `false` | CUDA, cuDNN (nvidia role) |
-| `enable_creative_suite` | `false` | GIMP, Inkscape, Krita, Kdenlive |
+| `enable_creative_suite` | `false` | GIMP, Inkscape, Krita |
 | `enable_streaming_tools` | `false` | Shotcut, RustDesk, AnyDesk |
 | `enable_secondary_browsers` | `false` | Brave, Zen Browser |
 | `enable_sync_clients` | `false` | Dropbox, Google Drive, MEGA |

@@ -52,8 +52,8 @@ If Chezmoi applied the dotfiles, Zsh is already your default shell. On first lau
 # Powerlevel10k will auto-run its configuration wizard
 p10k configure
 
-# Verify plugins loaded
-omz plugin list
+# Verify plugins loaded (managed by Antidote)
+antidote list
 ```
 
 If you skipped Chezmoi, apply dotfiles manually:
@@ -73,7 +73,7 @@ nvim
 Then inside Neovim:
 
 - `:Lazy` — verify all plugins installed
-- `:Mason` — verify LSP servers (pyright, rust-analyzer, ts_ls, bashls, lua_ls)
+- `:Mason` — verify LSP servers (pyright, rust-analyzer, tsserver, bashls, lua_ls)
 - `:checkhealth` — diagnose any issues
 
 ## 6. Window Manager
@@ -86,7 +86,7 @@ Hyprland
 
 Key bindings (Super = Mod key):
 - `Super + Return` — Terminal (kitty)
-- `Super + D` — App launcher (rofi)
+- `Super + D` — App launcher (fuzzel)
 - `Super + Q` — Close window
 - `Super + 1-9` — Switch workspace
 
@@ -136,7 +136,8 @@ chezmoi apply
 - Test controller with `evtest`
 
 ### Creative (if enabled)
-- GIMP, Krita, Inkscape, Kdenlive are ready to use
+
+- GIMP, Krita, Inkscape are ready to use
 
 ## 8. Test Hardware
 

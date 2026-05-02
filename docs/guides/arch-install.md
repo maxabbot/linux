@@ -232,7 +232,7 @@ p10k configure
 nvim
 # lazy.nvim auto-installs all plugins on first launch
 # Inside Neovim:
-# :Mason   — verify LSP servers installed (pyright, rust-analyzer, ts_ls, bashls, lua_ls)
+# :Mason   — verify LSP servers installed (pyright, rust-analyzer, tsserver, bashls, lua_ls)
 # :Lazy    — confirm plugins
 # :checkhealth — diagnose issues
 ```

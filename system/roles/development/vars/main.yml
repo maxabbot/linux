@@ -73,6 +73,7 @@ dev_aur_packages:
   - mise-bin
   - bruno-bin
   - antidote
+  - python-marimo
 
 # AUR — cloud / infrastructure tools
 dev_aur_cloud_packages:

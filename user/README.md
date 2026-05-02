@@ -22,7 +22,7 @@ The top-level `setup.sh` offers to apply dotfiles automatically after system con
 ```
 user/
 ├── .chezmoi.toml.tmpl              # Machine-specific template variables
-├── run_onchange_install-shell-deps.sh  # Auto-install oh-my-zsh, p10k, plugins
+├── run_onchange_install-shell-deps.sh  # Sets default shell to zsh
 ├── dot_zshrc                       # ~/.zshrc
 ├── dot_bashrc                      # ~/.bashrc
 ├── dot_p10k.zsh                    # ~/.p10k.zsh (Powerlevel10k config)
@@ -79,7 +79,7 @@ All configs use the **Catppuccin Mocha** color scheme:
 
 ## Shell Features
 
-- **Zsh**: oh-my-zsh + Powerlevel10k + 25 plugins + autosuggestions/syntax-highlighting
+- **Zsh**: Antidote + Powerlevel10k + autosuggestions/syntax-highlighting
 - **Bash**: Git-aware prompt, colored man pages, same aliases/functions
 - Shared aliases for: pacman, git, docker, python, rust, node/npm/yarn
 - Custom functions: `mkcd`, `extract`, `sysup`, `mkvenv`, `serve`, `dclean`

@@ -27,6 +27,7 @@ dev_utility_packages:
   - shellcheck
   - tig
   - imagemagick
+  - zsh-antidote
 
 # Database servers (gated by enable_database_servers)
 dev_database_packages: []
@@ -72,7 +73,6 @@ dev_aur_packages:
   - visual-studio-code-bin
   - mise-bin
   - bruno-bin
-  - antidote
   - python-marimo
 
 # AUR — cloud / infrastructure tools

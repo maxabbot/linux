@@ -274,6 +274,65 @@ ${BOLD}Useful commands:${RESET}
 EOF
 }
 
+# ─── Windows Dual-Boot Detection ─────────────────────────────────────────────
+
+configure_dualboot() {
+  # Check for Windows EFI entry or Microsoft EFI directory
+  local windows_found=false
+  if [[ -d /boot/efi/EFI/Microsoft ]] || \
+     (command -v efibootmgr &>/dev/null && efibootmgr 2>/dev/null | grep -qi "windows"); then
+    windows_found=true
+  fi
+
+  if ! $windows_found; then
+    return 0
+  fi
+
+  log_header "Windows Dual-Boot Detected"
+
+  cat <<EOF
+A Windows installation was found. Recommended dual-boot setup:
+  ${BOLD}1)${RESET} Configure GRUB to show Windows in the boot menu
+  ${BOLD}2)${RESET} Set hardware clock to local time (avoids Windows time skew)
+  ${BOLD}3)${RESET} Install ntfs-3g for read/write access to Windows partitions
+
+${YELLOW}[ACTION REQUIRED]${RESET} Disable Fast Startup in Windows before rebooting:
+  Settings → System → Power & Sleep → Additional power settings
+  → Choose what the power buttons do → Turn off fast startup
+
+EOF
+
+  read -rp "Apply dual-boot configuration? [Y/n] " choice
+  if [[ "${choice,,}" == "n" ]]; then
+    log_info "Skipping dual-boot configuration."
+    return 0
+  fi
+
+  # Install os-prober and ntfs-3g
+  log_info "Installing os-prober and ntfs-3g..."
+  sudo pacman -S --noconfirm --needed os-prober ntfs-3g
+
+  # Enable os-prober in GRUB (disabled by default since Arch switched it off)
+  if ! grep -q "^GRUB_DISABLE_OS_PROBER=false" /etc/default/grub; then
+    log_info "Enabling os-prober in /etc/default/grub..."
+    if grep -q "GRUB_DISABLE_OS_PROBER" /etc/default/grub; then
+      sudo sed -i 's/^#\?GRUB_DISABLE_OS_PROBER=.*/GRUB_DISABLE_OS_PROBER=false/' /etc/default/grub
+    else
+      echo "GRUB_DISABLE_OS_PROBER=false" | sudo tee -a /etc/default/grub >/dev/null
+    fi
+  fi
+
+  # Regenerate GRUB config
+  log_info "Regenerating GRUB config..."
+  sudo grub-mkconfig -o /boot/grub/grub.cfg
+
+  # Set RTC to local time so Windows and Linux agree on the clock
+  log_info "Setting hardware clock to local time..."
+  sudo timedatectl set-local-rtc 1 --adjust-system-clock
+
+  log_success "Dual-boot configured. Remember to disable Fast Startup in Windows."
+}
+
 # ─── Main ─────────────────────────────────────────────────────────────────────
 
 main() {
@@ -294,6 +353,7 @@ main() {
   # to initialise if en_US.UTF-8 is missing from the system.
   configure_locale
   install_prerequisites
+  configure_dualboot
   select_profile
   run_system_playbook
   apply_dotfiles

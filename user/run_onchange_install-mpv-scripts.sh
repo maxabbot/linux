@@ -1,27 +1,47 @@
 #!/bin/bash
 # Download mpv scripts: uosc (UI), thumbfast (thumbnail scrubber), sponsorblock.
 # chezmoi re-runs this when the file content changes — bump the hash to update.
-# hash: 1
+# hash: 2
 
-set -euo pipefail
+set -uo pipefail
 
 SCRIPTS_DIR="$HOME/.config/mpv/scripts"
 OPTS_DIR="$HOME/.config/mpv/script-opts"
 mkdir -p "$SCRIPTS_DIR" "$OPTS_DIR"
 
+FAILED=()
+
 echo "Installing uosc..."
-curl -fsSL "https://github.com/tomasklaen/uosc/releases/latest/download/uosc.tar.gz" \
-  | tar -xzf - -C "$HOME/.config/mpv/" --overwrite
+UOSC_URL="https://github.com/tomasklaen/uosc/releases/latest/download/uosc.zip"
+UOSC_TMP="$(mktemp /tmp/uosc.XXXXXX.zip)"
+if curl -fsSL "$UOSC_URL" -o "$UOSC_TMP" && unzip -o -q "$UOSC_TMP" -d "$HOME/.config/mpv/"; then
+  rm -f "$UOSC_TMP"
+  echo "uosc installed."
+else
+  rm -f "$UOSC_TMP"
+  echo "WARNING: uosc download failed — check the release URL and re-run 'chezmoi apply'"
+  FAILED+=("uosc ($UOSC_URL)")
+fi
 
 echo "Installing thumbfast..."
-curl -fsSL "https://raw.githubusercontent.com/po5/thumbfast/master/thumbfast.lua" \
-  -o "$SCRIPTS_DIR/thumbfast.lua"
+if curl -fsSL "https://raw.githubusercontent.com/po5/thumbfast/master/thumbfast.lua" \
+    -o "$SCRIPTS_DIR/thumbfast.lua"; then
+  echo "thumbfast installed."
+else
+  echo "WARNING: thumbfast download failed"
+  FAILED+=("thumbfast")
+fi
 
 echo "Installing sponsorblock..."
-curl -fsSL "https://raw.githubusercontent.com/po5/mpv_sponsorblock/master/sponsorblock.lua" \
-  -o "$SCRIPTS_DIR/sponsorblock.lua"
-curl -fsSL "https://raw.githubusercontent.com/po5/mpv_sponsorblock/master/sponsorblock_shared.lua" \
-  -o "$SCRIPTS_DIR/sponsorblock_shared.lua"
+if curl -fsSL "https://raw.githubusercontent.com/po5/mpv_sponsorblock/master/sponsorblock.lua" \
+    -o "$SCRIPTS_DIR/sponsorblock.lua" && \
+   curl -fsSL "https://raw.githubusercontent.com/po5/mpv_sponsorblock/master/sponsorblock_shared.lua" \
+    -o "$SCRIPTS_DIR/sponsorblock_shared.lua"; then
+  echo "sponsorblock installed."
+else
+  echo "WARNING: sponsorblock download failed"
+  FAILED+=("sponsorblock")
+fi
 
 # Write uosc config (overrides the default from the tarball)
 cat > "$OPTS_DIR/uosc.conf" << 'EOF'
@@ -62,4 +82,11 @@ thumbnail=yes
 thumbnail_max_height=200
 EOF
 
-echo "mpv scripts installed."
+if [[ ${#FAILED[@]} -gt 0 ]]; then
+  echo ""
+  echo "mpv scripts partially installed. Failed downloads:"
+  printf '  - %s\n' "${FAILED[@]}"
+  echo "Re-run 'chezmoi apply' to retry."
+else
+  echo "mpv scripts installed."
+fi

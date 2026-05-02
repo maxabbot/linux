@@ -195,11 +195,11 @@
 
 - name: Ensure Screenshots directory exists
   ansible.builtin.file:
-    path: "~{{ ansible_user }}/Pictures/Screenshots"
+    path: "~{{ local_user }}/Pictures/Screenshots"
     state: directory
     mode: '0755'
   become: true
-  become_user: "{{ ansible_user }}"
+  become_user: "{{ local_user }}"
 
 # --- Services ---
 

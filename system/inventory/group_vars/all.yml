@@ -33,5 +33,9 @@ aur_helper: yay
 dotfiles_method: chezmoi          # chezmoi | bare | none
 dotfiles_repo: ""                 # set to your dotfiles repo URL
 
+# --- Local user (the non-root user running ansible-playbook) ---
+# ansible_user is unset for local connections; USER is the controller process owner
+local_user: "{{ lookup('env', 'USER') }}"
+
 # --- Security ---
 run_security_audit: false

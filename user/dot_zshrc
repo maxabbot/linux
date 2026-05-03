@@ -18,15 +18,15 @@ setopt HIST_SAVE_NO_DUPS
 setopt SHARE_HISTORY
 
 # ============================================================================
+# Completion
+# ============================================================================
+autoload -Uz compinit && compinit
+
+# ============================================================================
 # Antidote
 # ============================================================================
 source "${ZDOTDIR:-$HOME}/.antidote/antidote.zsh"
 antidote load
-
-# ============================================================================
-# Completion
-# ============================================================================
-autoload -Uz compinit && compinit
 
 zstyle ':completion:*' menu select
 zstyle ':completion:*' group-name ''
@@ -44,6 +44,18 @@ bindkey '^[[H' beginning-of-line
 bindkey '^[[F' end-of-line
 bindkey '^[[3~' delete-char
 
+# ESC-ESC to prepend/remove sudo
+sudo-command-line() {
+  [[ -z $BUFFER ]] && zle up-history
+  if [[ $BUFFER == sudo\ * ]]; then
+    LBUFFER="${LBUFFER#sudo }"
+  else
+    LBUFFER="sudo $LBUFFER"
+  fi
+}
+zle -N sudo-command-line
+bindkey '\e\e' sudo-command-line
+
 # ============================================================================
 # Environment Variables
 # ============================================================================
@@ -52,6 +64,9 @@ export VISUAL='hx'
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export ARCHFLAGS="-arch x86_64"
+
+# colored man pages
+export MANPAGER="less -R --use-color -Dd+r -Du+b"
 
 # bat — syntax highlighting pager
 export BAT_THEME="gruvbox-dark"
@@ -251,6 +266,9 @@ sysup() {
 
 dclean() { podman system prune -af --volumes; }
 
+copypath() { print -n "${1:-$PWD}" | wl-copy && echo "Copied: ${1:-$PWD}"; }
+copyfile() { wl-copy < "$1" && echo "Copied: $1"; }
+
 if command -v fzf &>/dev/null; then
   fcd() {
     local dir
@@ -277,6 +295,15 @@ command -v direnv &>/dev/null && eval "$(direnv hook zsh)"
 # fzf
 [[ -f /usr/share/fzf/key-bindings.zsh ]] && source /usr/share/fzf/key-bindings.zsh
 [[ -f /usr/share/fzf/completion.zsh ]]   && source /usr/share/fzf/completion.zsh
+
+# kubectl completions
+command -v kubectl &>/dev/null && source <(kubectl completion zsh)
+
+# pip completions
+command -v pip &>/dev/null && eval "$(pip completion --zsh)" 2>/dev/null
+
+# command-not-found — suggests packages via pkgfile (requires pkgfile + pkgfile -u)
+[[ -f /usr/share/doc/pkgfile/command-not-found.zsh ]] && source /usr/share/doc/pkgfile/command-not-found.zsh
 
 # Starship prompt — config: ~/.config/starship.toml (Catppuccin Mocha)
 command -v starship &>/dev/null && eval "$(starship init zsh)"
